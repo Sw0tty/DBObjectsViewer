@@ -97,7 +97,7 @@
   <ItemGroup>
     <Compile Include="DBConnectors\PostrgeConnector\PostgreBaseConnector.cs" />
     <Compile Include="DBConnectors\PostrgeConnector\PostgreDBConnector.cs" />
-    <Compile Include="DBConnectors\PostrgeConnector\SQLAdaptres.cs" />
+    <Compile Include="DBConnectors\PostrgeConnector\PostgreAdaptres.cs" />
     <Compile Include="DBConnectors\SQLConnector\SQLBaseConnector.cs" />
     <Compile Include="DBRequests\PostgreRequests.cs" />
     <Compile Include="Form1.cs">
