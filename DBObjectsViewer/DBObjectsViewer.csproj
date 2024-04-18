@@ -157,6 +157,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="TestData\sql_test_data.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

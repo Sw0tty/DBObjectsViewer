@@ -86,3 +86,5 @@ C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.csproj.Co
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.exe
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.pdb
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.TableTemplateForm.resources
+D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.TableTemplateForm.resources
+D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.WordPageTemplate.resources

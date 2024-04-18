@@ -9,6 +9,7 @@ namespace DBObjectsViewer
 {
     internal class Node
     {
+        // -1 == MAX
             /* SQLDBConnector sqlConnector = new SQLDBConnector("(local)\\SQL2022", "211", "sa", "123");
      sqlConnector.OpenConnection();
      MessageBox.Show(sqlConnector.tableColumnsInfo().ToString());

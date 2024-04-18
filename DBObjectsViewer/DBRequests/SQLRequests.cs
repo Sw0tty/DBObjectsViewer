@@ -23,5 +23,15 @@ namespace DBObjectsViewer
                    "from sys.objects t inner join sys.indexes i on t.object_id = i.object_id cross apply (select col.[name] + ', ' from sys.index_columns ic inner join sys.columns col on ic.object_id = col.object_id and ic.column_id = col.column_id where ic.object_id = t.object_id and ic.index_id = i.index_id order by key_ordinal for xml path ('') ) D (column_names) " +
                    $"where t.is_ms_shipped <> 1 and index_id > 0 and t.[name] = '{tableName}' order by i.[name]";
         }
+
+        public static string SelectForeignKeysInfoRequest(string tableName)
+        {
+            // COL_NAME(fk_c.parent_object_id, fk_c.parent_column_id) через какую колонку используется
+            // name наименование ключа
+            // OBJECT_NAME (fk.referenced_object_id) на какую ттаблицу ссылается
+            return "SELECT COL_NAME(fk_c.parent_object_id, fk_c.parent_column_id), name, OBJECT_NAME (fk.referenced_object_id) " +
+                   "FROM sys.foreign_keys AS fk INNER JOIN sys.foreign_key_columns AS fk_c ON fk.object_id = fk_c.constraint_object_id " +
+                   $"WHERE OBJECT_NAME(fk.parent_object_id) = '{tableName}';";
+        }
     }
 }
