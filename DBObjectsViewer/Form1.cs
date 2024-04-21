@@ -13,12 +13,12 @@ using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
 using Microsoft.Win32;
 using System.Diagnostics.Tracing;
-using RandomGame;
 using System.Reflection.Emit;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using DBObjectsViewer.Forms;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using System.Collections;
 
 namespace DBObjectsViewer
 {
@@ -28,6 +28,7 @@ namespace DBObjectsViewer
         {
             InitializeComponent();
             JSONWorker.LoadJson();
+            JSONWorker.LoadTestData();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -50,126 +51,126 @@ namespace DBObjectsViewer
         {
             backgroundWorker1.RunWorkerAsync();
 
-
-/*
-            string tableName = "tblFUND";
-            List<string> columns = new List<string>() { "IS_NULLABLE", "COLUMN_NAME", "DATA_TYPE", "CHARACTER_MAXIMUM_LENGTH" };
-
-            int startCol = 1;
-            int endCol = 3;
-            //SQLDBConnector sqlConnector = new SQLDBConnector(@"(local)\SQLEXPRESS2022", "5009_d", "sa", "123"); // Home string
-            SQLDBConnector sqlConnector = new SQLDBConnector(@"(local)\SQL2022", "220", "sa", "123"); // Home string
-            sqlConnector.OpenConnection();
-            List<Dictionary<string, string>> tableColumnsInfo = sqlConnector.ReturnTableColumnsInfo(tableName, columns);
-            sqlConnector.CloseConnection();
-
-
-            Word.Application wordApp = new Word.Application();
-
-*//*            // Устанавливаем текущую программу как программу по умолчанию для открытия файлов Word
-            RegistryKey regKey = Registry.ClassesRoot.OpenSubKey("Word.Document.12\\shell\\Open\\command", true);
-            if (regKey != null)
-            {
-                regKey.SetValue("", "\"" + System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName + "\" \"%1\"");
-                regKey.Close();
-            }*//*
-
-            //wordApp.Visible = true;
-            Word.Document doc = wordApp.Documents.Add();
-            Word.Table table = null;
-            wordApp.Visible = true;
-
-            List<string> title = new List<string>() { "Признак обяз. поля", "Атрибут", "Тип данных", "Описание строки", "Содержит FK ключ" };
-
-            try
-            {
-                table = doc.Tables.Add(doc.Range(0, 0), 2, title.Count);
-            }
-            catch (Exception)
-            {
-                wordApp.Visible = true;
-                MessageBox.Show("Укажите 'не показывать' и попробуйте снова", "Ошибка всплывающего окна", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            if (table != null)
-            {
-                Object emptyRow = System.Reflection.Missing.Value;
-
-
-                // Заполнение таблицы данными
-                for (int rowTitle = 1; rowTitle <= title.Count; rowTitle++)
-                {
-                    table.Cell(1, rowTitle).Range.Text = title[rowTitle - 1];
-                    table.Cell(1, rowTitle).Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter; // Aligment in cell
-                    table.Cell(1, rowTitle).Range.ParagraphFormat.SpaceAfter = 0.0F; // 0 space
-                    table.Cell(1, rowTitle).Range.Font.Bold = 1;
-                    table.Cell(1, rowTitle).Range.Font.Name = "Times New Roman";
-                    table.Cell(1, rowTitle).Range.Font.Size = 12;
-                    MakeCellBorder(table, 1, rowTitle);
-                }
-
-                List<string> keys = new List<string>();
-                foreach (string key in tableColumnsInfo[0].Keys)
-                {
-                    keys.Add(key);
-                }
-
-                for (int row = 2; row <= tableColumnsInfo.Count + 1; row++)
-                {
-
-                    Dictionary<string, string> columnData = tableColumnsInfo[row - 2];
-                    for (int col = 1; col <= title.Count; col++)
-                    {
-                        if (col >= startCol && col <= endCol)
-                        {
-                            string cellData = columnData[keys[col - 1]].Replace("\'", string.Empty);
-                            if (cellData == "NO" || cellData == "YES")
-                            {
-                                cellData = cellData == "NO" ? "*" : "";
-                            }
-                            if (col == endCol)
-                            {
-                                string maxLen = columnData[keys[col]].Replace("\'", string.Empty);
-                                if (maxLen == "-1")
-                                {
-                                    cellData = $"{cellData}(MAX)";
-                                }
-                                else if (maxLen == "null")
-                                {
-                                    cellData = $"{cellData}";
-                                }
-                                else if (maxLen == "")
-                                {
-                                    cellData = $"{cellData}";
-                                }
-                                else
-                                {
-                                    cellData = $"{cellData}({maxLen})";
-                                }
-                                
-                            }
-                            table.Cell(row, col).Range.Text = cellData;
-                        }
-                        MakeCellBorder(table, row, col);
-                    }
-                    if (row != title.Count)
-                        table.Rows.Add(ref emptyRow);
-                }
-
-
-                // Сохранение документа
-                //string filePath = @"C:\Users\Swotty\Desktop\test.docx"; // Home path
-                string filePath = @"C:\Users\Егор\Desktop\test.docx"; // Work path
-                doc.SaveAs2(filePath);
-
-                // Закрытие документа и Word
-                doc.Close();
-                wordApp.Quit();
-
-                //Console.WriteLine("Документ успешно сохранен по пути: " + filePath);
-            }*/
-
             
+            /*
+                        string tableName = "tblFUND";
+                        List<string> columns = new List<string>() { "IS_NULLABLE", "COLUMN_NAME", "DATA_TYPE", "CHARACTER_MAXIMUM_LENGTH" };
+
+                        int startCol = 1;
+                        int endCol = 3;
+                        //SQLDBConnector sqlConnector = new SQLDBConnector(@"(local)\SQLEXPRESS2022", "5009_d", "sa", "123"); // Home string
+                        SQLDBConnector sqlConnector = new SQLDBConnector(@"(local)\SQL2022", "220", "sa", "123"); // Home string
+                        sqlConnector.OpenConnection();
+                        List<Dictionary<string, string>> tableColumnsInfo = sqlConnector.ReturnTableColumnsInfo(tableName, columns);
+                        sqlConnector.CloseConnection();
+
+
+                        Word.Application wordApp = new Word.Application();
+
+            *//*            // Устанавливаем текущую программу как программу по умолчанию для открытия файлов Word
+                        RegistryKey regKey = Registry.ClassesRoot.OpenSubKey("Word.Document.12\\shell\\Open\\command", true);
+                        if (regKey != null)
+                        {
+                            regKey.SetValue("", "\"" + System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName + "\" \"%1\"");
+                            regKey.Close();
+                        }*//*
+
+                        //wordApp.Visible = true;
+                        Word.Document doc = wordApp.Documents.Add();
+                        Word.Table table = null;
+                        wordApp.Visible = true;
+
+                        List<string> title = new List<string>() { "Признак обяз. поля", "Атрибут", "Тип данных", "Описание строки", "Содержит FK ключ" };
+
+                        try
+                        {
+                            table = doc.Tables.Add(doc.Range(0, 0), 2, title.Count);
+                        }
+                        catch (Exception)
+                        {
+                            wordApp.Visible = true;
+                            MessageBox.Show("Укажите 'не показывать' и попробуйте снова", "Ошибка всплывающего окна", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+
+                        if (table != null)
+                        {
+                            Object emptyRow = System.Reflection.Missing.Value;
+
+
+                            // Заполнение таблицы данными
+                            for (int rowTitle = 1; rowTitle <= title.Count; rowTitle++)
+                            {
+                                table.Cell(1, rowTitle).Range.Text = title[rowTitle - 1];
+                                table.Cell(1, rowTitle).Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter; // Aligment in cell
+                                table.Cell(1, rowTitle).Range.ParagraphFormat.SpaceAfter = 0.0F; // 0 space
+                                table.Cell(1, rowTitle).Range.Font.Bold = 1;
+                                table.Cell(1, rowTitle).Range.Font.Name = "Times New Roman";
+                                table.Cell(1, rowTitle).Range.Font.Size = 12;
+                                MakeCellBorder(table, 1, rowTitle);
+                            }
+
+                            List<string> keys = new List<string>();
+                            foreach (string key in tableColumnsInfo[0].Keys)
+                            {
+                                keys.Add(key);
+                            }
+
+                            for (int row = 2; row <= tableColumnsInfo.Count + 1; row++)
+                            {
+
+                                Dictionary<string, string> columnData = tableColumnsInfo[row - 2];
+                                for (int col = 1; col <= title.Count; col++)
+                                {
+                                    if (col >= startCol && col <= endCol)
+                                    {
+                                        string cellData = columnData[keys[col - 1]].Replace("\'", string.Empty);
+                                        if (cellData == "NO" || cellData == "YES")
+                                        {
+                                            cellData = cellData == "NO" ? "*" : "";
+                                        }
+                                        if (col == endCol)
+                                        {
+                                            string maxLen = columnData[keys[col]].Replace("\'", string.Empty);
+                                            if (maxLen == "-1")
+                                            {
+                                                cellData = $"{cellData}(MAX)";
+                                            }
+                                            else if (maxLen == "null")
+                                            {
+                                                cellData = $"{cellData}";
+                                            }
+                                            else if (maxLen == "")
+                                            {
+                                                cellData = $"{cellData}";
+                                            }
+                                            else
+                                            {
+                                                cellData = $"{cellData}({maxLen})";
+                                            }
+
+                                        }
+                                        table.Cell(row, col).Range.Text = cellData;
+                                    }
+                                    MakeCellBorder(table, row, col);
+                                }
+                                if (row != title.Count)
+                                    table.Rows.Add(ref emptyRow);
+                            }
+
+
+                            // Сохранение документа
+                            //string filePath = @"C:\Users\Swotty\Desktop\test.docx"; // Home path
+                            string filePath = @"C:\Users\Егор\Desktop\test.docx"; // Work path
+                            doc.SaveAs2(filePath);
+
+                            // Закрытие документа и Word
+                            doc.Close();
+                            wordApp.Quit();
+
+                            //Console.WriteLine("Документ успешно сохранен по пути: " + filePath);
+                        }*/
+
+
 
         }
 

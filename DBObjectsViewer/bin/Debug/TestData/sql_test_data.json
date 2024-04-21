@@ -1,0 +1,56 @@
+{
+  "field1": {
+    "AtributeName": "ID",
+    "DataType": "uniqueidentifier",
+    "MaxLength": 0,
+    "Required": true
+  },
+  "field2": {
+    "AtributeName": "CreationDateTime",
+    "DataType": "smalldatetime",
+    "MaxLength": 0,
+    "Required": true
+  },
+  "field3": {
+    "AtributeName": "Type",
+    "DataType": "int",
+    "MaxLength": 0,
+    "Required": false
+  },
+  "field4": {
+    "AtributeName": "Name",
+    "DataType": "varchar",
+    "MaxLength": 50,
+    "Required": false
+  },
+  "field5": {
+    "AtributeName": "FullName",
+    "DataType": "varchar",
+    "MaxLength": -1,
+    "Required": false
+  },
+  "field6": {
+    "AtributeName": "SmallValue",
+    "DataType": "bit",
+    "MaxLength": 0,
+    "Required": true
+  },
+  "field7": {
+    "AtributeName": "NameOf",
+    "DataType": "nvarchar",
+    "MaxLength": 255,
+    "Required": true
+  },
+  "field8": {
+    "AtributeName": "DateTimeInvite",
+    "DataType": "datetime",
+    "MaxLength": 0,
+    "Required": true
+  },
+  "field9": {
+    "AtributeName": "ClassLittera",
+    "DataType": "char",
+    "MaxLenght": 1,
+    "Required": true
+  }
+}

@@ -18,6 +18,8 @@ namespace DBObjectsViewer.Forms
         public TableTemplateForm(Dictionary<string, dynamic> tableTemplateParams)
         {
             InitializeComponent();
+            LoadTableTemplate();
+
             StartParams = DeepClone(tableTemplateParams);
             MiddleParams = new Dictionary<string, dynamic>(tableTemplateParams);
 
@@ -50,6 +52,39 @@ namespace DBObjectsViewer.Forms
                 stream.Seek(0, SeekOrigin.Begin);
                 return (T)formatter.Deserialize(stream);
             }
+        }
+
+        private void LoadTableTemplate()
+        {
+            List<string> list = JSONWorker.TableTemplateData["TABLE_TITLE"];
+            Dictionary<string, SQLFieldParams> testData = JSONWorker.SQLTestData;
+            List<string> keys = new List<string>();
+
+            foreach(string key in testData.Keys)
+            {
+                keys.Add(key);
+            }
+
+            dataGridView1.RowCount = testData.Count;
+            dataGridView1.ColumnCount = list.Count;
+
+            
+            for (int d = 0; d < list.Count; d++)
+                dataGridView1.Columns[d].HeaderText = list[d];
+
+            
+            int i, j;
+            for (i = 0; i < dataGridView1.RowCount; ++i)
+            {
+                SQLFieldParams fieldData = testData[keys[i]];
+                dataGridView1.Rows[i].Cells[0].Value = fieldData.Required;
+                dataGridView1.Rows[i].Cells[1].Value = fieldData.AtributeName;
+                dataGridView1.Rows[i].Cells[2].Value = fieldData.DataType + $"({fieldData.MaxLength})";
+/*                for (j = 0; j < dataGridView1.ColumnCount; ++j)
+                    dataGridView1.Rows[i].Cells[j].Value = 1;*/
+            }
+                
+            
         }
 
         public Dictionary<string, dynamic> GetSettings()

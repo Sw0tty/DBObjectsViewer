@@ -8,11 +8,14 @@ namespace DBObjectsViewer
 {
     public abstract class SQLAdapters
     {
+
         /// <summary>
         /// Makes SELECT requests
+        /// 1. returnsNull - if true convert NULL in 'null'<br/>
+        /// 2. removeEscapes - if true convert "'value'" in "value" <br/>
         /// </summary>
         /// <returns>List of Dictionarys Selected data</returns>
-        protected List<Dictionary<string, string>> SelectAdapter(string request, bool allowsNull, SqlConnection connection, SqlTransaction transaction)
+        protected List<Dictionary<string, string>> SelectAdapter(string request, bool returnsNull, bool removeEscapes, SqlConnection connection, SqlTransaction transaction)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
             DataSet dataSet = new DataSet();
@@ -39,18 +42,33 @@ namespace DBObjectsViewer
                     {
                         if (cell.ToString().Trim(' ') == "")
                         {
-                            if (allowsNull)
+                            if (returnsNull && removeEscapes)
+                            {
+                                valueFromTable[columns[columnNum]] = "null";
+                            }
+                            else if (returnsNull && !removeEscapes)
                             {
                                 valueFromTable[columns[columnNum]] = "'null'";
                             }
-                            else
+                            else if (!returnsNull && !removeEscapes)
                             {
                                 valueFromTable[columns[columnNum]] = "''";
+                            }
+                            else
+                            {
+                                valueFromTable[columns[columnNum]] = "";
                             }
                         }
                         else
                         {
-                            valueFromTable[columns[columnNum]] = "'" + cell.ToString() + "'";
+                            if (removeEscapes)
+                            {
+                                valueFromTable[columns[columnNum]] = cell.ToString();
+                            }
+                            else
+                            {
+                                valueFromTable[columns[columnNum]] = "'" + cell.ToString() + "'";
+                            }
                         }
                         columnNum++;
                     }
