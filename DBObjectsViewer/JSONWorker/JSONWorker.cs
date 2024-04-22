@@ -25,7 +25,7 @@ namespace DBObjectsViewer
     {
         public static string DirectoryNameOfTestDataFiles = @"TestData\";
         public static Dictionary<string, List<string>> DataFromFile = new Dictionary<string, List<string>>();
-        public static Dictionary<string, SQLFieldParams> SQLTestData = new Dictionary<string, SQLFieldParams>();
+        public static Dictionary<string, Deserializers.TestTableFields> SQLTestData = new Dictionary<string, Deserializers.TestTableFields>();
         public static Dictionary<string, dynamic> TableTemplateData = new Dictionary<string, dynamic>();
 
         public static void LoadJson()
@@ -73,13 +73,13 @@ namespace DBObjectsViewer
             }
         }
 
-        public class Person
+        static string ReadJson(string fileName, string pathToFile = null)
         {
-            public string Name { get; set; }
-            public int Age { get; set; }
+            using (StreamReader reader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName))
+                return reader.ReadToEnd();
         }
 
-        public static void LoadTestData(/*Dictionary<string, dynamic> argToLoadData, string fileName, string pathToFile = null*/)
+            public static void LoadTestData(/*string nameOfArgToDeserialize, string fileName, string pathToFile = null*/)
         {
             //if (pathToFile != null)
             //{
@@ -88,15 +88,26 @@ namespace DBObjectsViewer
                     AppCreateDirectory(DirectoryNameOfTestDataFiles);
                 }
             //}
-            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + DirectoryNameOfTestDataFiles + AppConsts.JSONConsts.SQLTestDataFuleName))
+            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + DirectoryNameOfTestDataFiles + AppConsts.JSONConsts.SQLTestDataFileName))
             {
-                AppCreateFile(AppConsts.JSONConsts.SQLTestDataFuleName, directoryName: DirectoryNameOfTestDataFiles);
-                WriteDefaultData(AppConsts.JSONConsts.SQLTestDataFuleName, filePath: DirectoryNameOfTestDataFiles);
+                AppCreateFile(AppConsts.JSONConsts.SQLTestDataFileName, directoryName: DirectoryNameOfTestDataFiles);
+                WriteDefaultData(AppConsts.JSONConsts.SQLTestDataFileName, filePath: DirectoryNameOfTestDataFiles);
             }
-            using (StreamReader reader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + DirectoryNameOfTestDataFiles + AppConsts.JSONConsts.SQLTestDataFuleName))
+            string json_NEW = ReadJson(AppConsts.JSONConsts.SQLTestDataFileName, pathToFile: DirectoryNameOfTestDataFiles);
+
+/*            switch (fileName)
+            {
+                case AppConsts.JSONConsts.SQLTestDataFileName:
+                    SQLTestData = JsonSerializer.Deserialize<Dictionary<string, Deserializers.SQLTestData>>(json_NEW);
+                    break;
+            }*/
+
+            SQLTestData = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestTableFields>>(json_NEW);
+
+            using (StreamReader reader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + DirectoryNameOfTestDataFiles + AppConsts.JSONConsts.SQLTestDataFileName))
             {
                 string json = reader.ReadToEnd();
-                SQLTestData = JsonSerializer.Deserialize<Dictionary<string, SQLFieldParams>>(json);
+                SQLTestData = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestTableFields>>(json);
 
 
                 /*Dictionary<string, dynamic> sdf = new Dictionary<string, dynamic>(JSONWorker.TableTemplateData);

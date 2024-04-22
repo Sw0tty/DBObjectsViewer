@@ -57,7 +57,7 @@ namespace DBObjectsViewer.Forms
         private void LoadTableTemplate()
         {
             List<string> list = JSONWorker.TableTemplateData["TABLE_TITLE"];
-            Dictionary<string, SQLFieldParams> testData = JSONWorker.SQLTestData;
+            Dictionary<string, Deserializers.TestTableFields> testData = JSONWorker.SQLTestData;
             List<string> keys = new List<string>();
 
             foreach(string key in testData.Keys)
@@ -76,7 +76,7 @@ namespace DBObjectsViewer.Forms
             int i, j;
             for (i = 0; i < dataGridView1.RowCount; ++i)
             {
-                SQLFieldParams fieldData = testData[keys[i]];
+                Deserializers.TestTableFields fieldData = testData[keys[i]];
                 dataGridView1.Rows[i].Cells[0].Value = fieldData.Required;
                 dataGridView1.Rows[i].Cells[1].Value = fieldData.AtributeName;
                 dataGridView1.Rows[i].Cells[2].Value = fieldData.DataType + $"({fieldData.MaxLength})";

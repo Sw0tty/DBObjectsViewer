@@ -1,0 +1,9 @@
+{
+  "foreign1": {
+    "Name": "FK_TestTable_NameOfTest",
+    "Description": "FK",
+    "Column": "NameOf",
+    "RefTable": "NameOfTest",
+    "RefTableColumn": "TestName"
+  }
+}

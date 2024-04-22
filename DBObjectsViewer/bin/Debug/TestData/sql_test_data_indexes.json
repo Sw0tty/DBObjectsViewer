@@ -1,0 +1,12 @@
+{
+  "index1": {
+    "Name": "PK_TestTable",
+    "IndexedColumn": "ID",
+    "Info": ["Clustered"]
+  },
+  "index2": {
+    "Name": "IX_TestTable",
+    "IndexedColumn": "Name",
+    "Info": ["Unique", "Non-Clustered"]
+  }
+}
