@@ -9,37 +9,42 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-
+using System.Reflection;
 
 namespace DBObjectsViewer.Forms
 {
     public partial class TableTemplateForm : Form
     {
-        public TableTemplateForm(Dictionary<string, dynamic> tableTemplateParams)
+        public TableTemplateForm()
         {
             InitializeComponent();
-            LoadTableTemplate();
+            //LoadTableTemplate();
 
-            StartParams = DeepClone(tableTemplateParams);
-            MiddleParams = new Dictionary<string, dynamic>(tableTemplateParams);
+            //StartParams = DeepClone(tableTemplateParams);
+            //MiddleParams.Add("AddIndexesInfo", JSONWorker.TableTemplateData.AddIndexesInfo);
+/*            MiddleParams["AddForeignInfo"] = JSONWorker.TableTemplateData.AddForeignInfo;
+            MiddleParams["AllAboutDataType"] = JSONWorker.TableTemplateData.AllAboutDataType;*/
 
-            checkBox1.Checked = tableTemplateParams["ADD_INDEXES_INFO"];
-            checkBox2.Checked = tableTemplateParams["ADD_FOREIGN_KEYS_INFO"];
-            checkBox3.Checked = tableTemplateParams["ALL_ABOUT_DATA_TYPE"];
+            //MiddleParams["AddIndexesInfo"] = true;
 
-            foreach (string key in tableTemplateParams["NOT_SELECTED_COLUMNS"].Keys)
+            checkBox1.Checked = JSONWorker.TableTemplateData.AddIndexesInfo;
+            checkBox2.Checked = JSONWorker.TableTemplateData.AddForeignInfo;
+            checkBox3.Checked = JSONWorker.TableTemplateData.AllAboutDataType;
+
+            foreach (string key in JSONWorker.TableTemplateData.NotSelectedColumns.Keys)
             {
-                listBox1.Items.Add(tableTemplateParams["NOT_SELECTED_COLUMNS"][key]);
+                listBox1.Items.Add(JSONWorker.TableTemplateData.NotSelectedColumns[key]);
             }
 
-            foreach (string key in tableTemplateParams["SELECTED_COLUMNS"].Keys)
+            foreach (string key in JSONWorker.TableTemplateData.SelectedColumns.Keys)
             {
-                listBox2.Items.Add(tableTemplateParams["SELECTED_COLUMNS"][key]);
+                listBox2.Items.Add(JSONWorker.TableTemplateData.SelectedColumns[key]);
             }
         }
 
-        public static Dictionary<string, dynamic> StartParams { get; set; }
+        //public static Dictionary<string, dynamic> StartParams { get; set; }
         public static Dictionary<string, dynamic> MiddleParams { get; set; }
+        public static bool NotSaved { get; set; } = false;
 
         public static bool SavePressed = false;
 
@@ -54,7 +59,7 @@ namespace DBObjectsViewer.Forms
             }
         }
 
-        private void LoadTableTemplate()
+        /*private void LoadTableTemplate()
         {
             List<string> list = JSONWorker.TableTemplateData["TABLE_TITLE"];
             Dictionary<string, Deserializers.TestTableFields> testData = JSONWorker.SQLTestData;
@@ -80,21 +85,21 @@ namespace DBObjectsViewer.Forms
                 dataGridView1.Rows[i].Cells[0].Value = fieldData.Required;
                 dataGridView1.Rows[i].Cells[1].Value = fieldData.AtributeName;
                 dataGridView1.Rows[i].Cells[2].Value = fieldData.DataType + $"({fieldData.MaxLength})";
-/*                for (j = 0; j < dataGridView1.ColumnCount; ++j)
-                    dataGridView1.Rows[i].Cells[j].Value = 1;*/
+*//*                for (j = 0; j < dataGridView1.ColumnCount; ++j)
+                    dataGridView1.Rows[i].Cells[j].Value = 1;*//*
             }
                 
             
-        }
+        }*/
 
-        public Dictionary<string, dynamic> GetSettings()
+        /*public Dictionary<string, dynamic> GetSettings()
         {
             return MiddleParams;
         }
-
+*/
         private void button7_Click(object sender, EventArgs e)
         {
-            listBox2.Items.Add(listBox1.SelectedItem);
+            /*listBox2.Items.Add(listBox1.SelectedItem);
 
             string keyOfSwitchValue = null;
 
@@ -110,17 +115,17 @@ namespace DBObjectsViewer.Forms
             MiddleParams["SELECTED_COLUMNS"].Add(keyOfSwitchValue, MiddleParams["NOT_SELECTED_COLUMNS"][keyOfSwitchValue]);
             MiddleParams["NOT_SELECTED_COLUMNS"].Remove(keyOfSwitchValue);
 
-            listBox1.Items.Remove(listBox1.SelectedItem);
+            listBox1.Items.Remove(listBox1.SelectedItem);*/
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            SavePressed = true;
+            /*SavePressed = true;
             if (!CheckUnsavedSettings())
                 this.DialogResult = DialogResult.Yes;
             else
                 this.DialogResult = DialogResult.No;
-            this.Close();
+            this.Close();*/
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -134,7 +139,7 @@ namespace DBObjectsViewer.Forms
 
         }
 
-        private bool CheckUnsavedSettings()
+        /*private bool CheckUnsavedSettings()
         {
             foreach (string key in MiddleParams.Keys)
             {
@@ -159,11 +164,11 @@ namespace DBObjectsViewer.Forms
                 }
             }
             return true;
-        }
+        }*/
 
         private void TableTemplateForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!SavePressed)
+            /*if (!SavePressed)
             {
                 if (!CheckUnsavedSettings())
                 {
@@ -176,22 +181,22 @@ namespace DBObjectsViewer.Forms
                         this.DialogResult = DialogResult.No;
                     }
                 }
-            }
+            }*/
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            MiddleParams["ADD_INDEXES_INFO"] = checkBox1.Checked;
+            //MiddleParams["ADD_INDEXES_INFO"] = checkBox1.Checked;
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
-            MiddleParams["ADD_FOREIGN_KEYS_INFO"] = checkBox2.Checked;
+            //MiddleParams["ADD_FOREIGN_KEYS_INFO"] = checkBox2.Checked;
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
-            MiddleParams["ALL_ABOUT_DATA_TYPE"] = checkBox3.Checked;
+            //MiddleParams["ALL_ABOUT_DATA_TYPE"] = checkBox3.Checked;
         }
 
         private void button8_Click(object sender, EventArgs e)

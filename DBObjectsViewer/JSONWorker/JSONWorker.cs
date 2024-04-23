@@ -26,11 +26,11 @@ namespace DBObjectsViewer
         public static string DirectoryNameOfTestDataFiles = @"TestData\";
         public static Dictionary<string, List<string>> DataFromFile = new Dictionary<string, List<string>>();
         public static Dictionary<string, Deserializers.TestTableFields> SQLTestData = new Dictionary<string, Deserializers.TestTableFields>();
-        public static Dictionary<string, dynamic> TableTemplateData = new Dictionary<string, dynamic>();
+        public static Deserializers.TableTemplate TableTemplateData = new Deserializers.TableTemplate();
 
         public static void LoadJson()
         {
-            if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + AppConsts.JSONConsts.TableTemplateFileName))
+            /*if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + AppConsts.JSONConsts.TableTemplateFileName))
             {
                 using (StreamReader reader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + AppConsts.JSONConsts.TableTemplateFileName))
                 {
@@ -70,7 +70,7 @@ namespace DBObjectsViewer
                 WriteDefaultData(AppConsts.JSONConsts.TableTemplateFileName);
                 //CreateTableTemplate();
                 LoadJson();
-            }
+            }*/
         }
 
         static string ReadJson(string fileName, string pathToFile = null)
@@ -79,38 +79,41 @@ namespace DBObjectsViewer
                 return reader.ReadToEnd();
         }
 
-            public static void LoadTestData(/*string nameOfArgToDeserialize, string fileName, string pathToFile = null*/)
+        public static void LoadTestData(string fileName, string pathToFile = null/*string nameOfArgToDeserialize, string fileName, string pathToFile = null*/)
         {
-            //if (pathToFile != null)
-            //{
+/*            if (pathToFile != null)
+            {
                 if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + DirectoryNameOfTestDataFiles))
                 {
                     AppCreateDirectory(DirectoryNameOfTestDataFiles);
                 }
-            //}
-            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + DirectoryNameOfTestDataFiles + AppConsts.JSONConsts.SQLTestDataFileName))
-            {
-                AppCreateFile(AppConsts.JSONConsts.SQLTestDataFileName, directoryName: DirectoryNameOfTestDataFiles);
-                WriteDefaultData(AppConsts.JSONConsts.SQLTestDataFileName, filePath: DirectoryNameOfTestDataFiles);
-            }
-            string json_NEW = ReadJson(AppConsts.JSONConsts.SQLTestDataFileName, pathToFile: DirectoryNameOfTestDataFiles);
-
-/*            switch (fileName)
-            {
-                case AppConsts.JSONConsts.SQLTestDataFileName:
-                    SQLTestData = JsonSerializer.Deserialize<Dictionary<string, Deserializers.SQLTestData>>(json_NEW);
-                    break;
             }*/
+            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + fileName + fileName))
+            {
+                AppCreateFile(fileName, directoryName: DirectoryNameOfTestDataFiles);
+                WriteDefaultData(fileName, filePath: DirectoryNameOfTestDataFiles);
+            }
+            string json = ReadJson(fileName, pathToFile: pathToFile);
 
-            SQLTestData = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestTableFields>>(json_NEW);
+            switch (fileName)
+            {
+                case AppConsts.JSONConsts.TableTemplateFileName:
+                    TableTemplateData = JsonSerializer.Deserialize<Deserializers.TableTemplate>(json);
+                    break;
+                case AppConsts.JSONConsts.SQLTestDataFileName:
+                    SQLTestData = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestTableFields>>(json);
+                    break;
+            }
 
-            using (StreamReader reader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + DirectoryNameOfTestDataFiles + AppConsts.JSONConsts.SQLTestDataFileName))
+            //SQLTestData = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestTableFields>>(json_NEW);
+
+            /*using (StreamReader reader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + DirectoryNameOfTestDataFiles + AppConsts.JSONConsts.SQLTestDataFileName))
             {
                 string json = reader.ReadToEnd();
                 SQLTestData = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestTableFields>>(json);
 
 
-                /*Dictionary<string, dynamic> sdf = new Dictionary<string, dynamic>(JSONWorker.TableTemplateData);
+                *//*Dictionary<string, dynamic> sdf = new Dictionary<string, dynamic>(JSONWorker.TableTemplateData);
 
                 foreach (string key in sdf.Keys)
                 {
@@ -131,8 +134,8 @@ namespace DBObjectsViewer
                             MessageBox.Show($"Undefined type: '{TableTemplateData[key].ValueKind.ToString()}'");
                             break;
                     }
-                }*/
-            }
+                }*//*
+            }*/
             /*if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + JSONWorker.TableTemplateFileName))
             {
                 
@@ -144,7 +147,7 @@ namespace DBObjectsViewer
             }*/
         }
 
-        public static void SaveTableTemplate()
+        /*public static void SaveTableTemplate()
         {
             Dictionary<string, dynamic> categoryValues = new Dictionary<string, dynamic>();
 
@@ -156,6 +159,6 @@ namespace DBObjectsViewer
             string json = JsonSerializer.Serialize(TableTemplateData);
 
             File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + AppConsts.JSONConsts.TableTemplateFileName, json);
-        }
+        }*/
     }
 }

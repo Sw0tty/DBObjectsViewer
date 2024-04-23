@@ -15,6 +15,7 @@ namespace DBObjectsViewer
             public bool AllAboutDataType { get; set; }
             public Dictionary<string, string> SelectedColumns { get; set; }
             public Dictionary<string, string> NotSelectedColumns { get; set; }
+            public List<string> TableTitle { get; set; }
         }
 
         public class TestTableFields

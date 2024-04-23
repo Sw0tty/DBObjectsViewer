@@ -28,7 +28,10 @@ namespace DBObjectsViewer
         {
             InitializeComponent();
             JSONWorker.LoadJson();
-            JSONWorker.LoadTestData();
+            JSONWorker.LoadTestData(AppConsts.JSONConsts.TableTemplateFileName);
+            JSONWorker.LoadTestData(AppConsts.JSONConsts.SQLTestDataFileName, JSONWorker.DirectoryNameOfTestDataFiles);
+
+            //MessageBox.Show(JSONWorker.TableTemplateData.NotSelectedColumns["data_type"].ToString());
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -176,25 +179,25 @@ namespace DBObjectsViewer
 
         private void button3_Click(object sender, EventArgs e)
         {
-            
-/*            Dictionary<string, dynamic> sdf = JSONWorker.TableTemplateData;
-            Dictionary<string, dynamic> newsdf = new Dictionary<string, dynamic>();
-            foreach (string key in sdf.Keys)
-            {
-                try
-                {
-                    newsdf[key] = JsonSerializer.Deserialize<bool>(sdf[key].GetRawText());
-                }
-                catch
-                {
-                    newsdf[key] = JsonSerializer.Deserialize<Dictionary<string, string>>(sdf[key].GetRawText());
-                }
-            }*/
 
-            TableTemplateForm settingsForm = new TableTemplateForm(JSONWorker.TableTemplateData);
+            /*            Dictionary<string, dynamic> sdf = JSONWorker.TableTemplateData;
+                        Dictionary<string, dynamic> newsdf = new Dictionary<string, dynamic>();
+                        foreach (string key in sdf.Keys)
+                        {
+                            try
+                            {
+                                newsdf[key] = JsonSerializer.Deserialize<bool>(sdf[key].GetRawText());
+                            }
+                            catch
+                            {
+                                newsdf[key] = JsonSerializer.Deserialize<Dictionary<string, string>>(sdf[key].GetRawText());
+                            }
+                        }*/
+
+            TableTemplateForm settingsForm = new TableTemplateForm();
             DialogResult formResult = settingsForm.ShowDialog();
 
-            if (formResult == DialogResult.Yes)
+            /*if (formResult == DialogResult.Yes)
             {
                 JSONWorker.TableTemplateData = settingsForm.GetSettings();
                 JSONWorker.SaveTableTemplate();
@@ -206,7 +209,7 @@ namespace DBObjectsViewer
             else if (formResult == DialogResult.Cancel)
             {
                 //
-            }
+            }*/
             /*            Dictionary<string, object> tableTemplateParams = JSONWorker.LoadJson();
 
                         Dictionary<string, bool> checkBoxes = new Dictionary<string, bool>();
