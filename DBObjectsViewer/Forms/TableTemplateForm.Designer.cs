@@ -50,10 +50,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -63,7 +66,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(3, 16);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(586, 128);
+            this.dataGridView1.Size = new System.Drawing.Size(587, 128);
             this.dataGridView1.TabIndex = 0;
             // 
             // checkBox1
@@ -91,9 +94,9 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.dataGridView1);
-            this.groupBox1.Location = new System.Drawing.Point(28, 192);
+            this.groupBox1.Location = new System.Drawing.Point(12, 192);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(592, 147);
+            this.groupBox1.Size = new System.Drawing.Size(593, 147);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Шаблон таблицы";
@@ -103,9 +106,9 @@
             this.groupBox2.Controls.Add(this.comboBox1);
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Location = new System.Drawing.Point(192, 412);
+            this.groupBox2.Location = new System.Drawing.Point(12, 427);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(239, 39);
+            this.groupBox2.Size = new System.Drawing.Size(286, 39);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             // 
@@ -113,36 +116,42 @@
             // 
             this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(62, 11);
+            this.comboBox1.Location = new System.Drawing.Point(62, 12);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(115, 21);
+            this.comboBox1.Size = new System.Drawing.Size(162, 21);
             this.comboBox1.TabIndex = 2;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(183, 11);
+            this.button2.Enabled = false;
+            this.button2.Location = new System.Drawing.Point(230, 11);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(50, 23);
             this.button2.TabIndex = 1;
             this.button2.Text = ">";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
+            this.button1.Enabled = false;
             this.button1.Location = new System.Drawing.Point(6, 11);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(50, 23);
             this.button1.TabIndex = 0;
             this.button1.Text = "<";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(484, 345);
+            this.button3.Location = new System.Drawing.Point(293, 19);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(133, 23);
+            this.button3.Size = new System.Drawing.Size(120, 23);
             this.button3.TabIndex = 5;
             this.button3.Text = "Добавить колонку";
             this.button3.UseVisualStyleBackColor = true;
@@ -150,26 +159,28 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(484, 374);
+            this.button4.Location = new System.Drawing.Point(293, 48);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(133, 23);
+            this.button4.Size = new System.Drawing.Size(120, 23);
             this.button4.TabIndex = 6;
             this.button4.Text = "Удалить колонку";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(242, 348);
+            this.textBox1.Location = new System.Drawing.Point(7, 21);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(189, 20);
+            this.textBox1.Size = new System.Drawing.Size(159, 20);
             this.textBox1.TabIndex = 7;
             // 
             // comboBox2
             // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(242, 376);
+            this.comboBox2.Location = new System.Drawing.Point(7, 49);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(189, 21);
+            this.comboBox2.Size = new System.Drawing.Size(279, 21);
             this.comboBox2.TabIndex = 3;
             // 
             // checkBox3
@@ -185,9 +196,9 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(201, 458);
+            this.button5.Location = new System.Drawing.Point(310, 432);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(97, 32);
+            this.button5.Size = new System.Drawing.Size(140, 32);
             this.button5.TabIndex = 9;
             this.button5.Text = "Сохранить";
             this.button5.UseVisualStyleBackColor = true;
@@ -195,11 +206,11 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(359, 458);
+            this.button6.Location = new System.Drawing.Point(462, 432);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(97, 32);
+            this.button6.Size = new System.Drawing.Size(140, 32);
             this.button6.TabIndex = 10;
-            this.button6.Text = "Отменить";
+            this.button6.Text = "Отменить изменения";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
@@ -269,31 +280,52 @@
             this.groupBox3.Controls.Add(this.listBox2);
             this.groupBox3.Controls.Add(this.button8);
             this.groupBox3.Controls.Add(this.button7);
-            this.groupBox3.Location = new System.Drawing.Point(345, 7);
+            this.groupBox3.Location = new System.Drawing.Point(298, 7);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(307, 179);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Информация о колонках";
             // 
+            // comboBox3
+            // 
+            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(172, 21);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(114, 21);
+            this.comboBox3.TabIndex = 18;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.button3);
+            this.groupBox4.Controls.Add(this.comboBox3);
+            this.groupBox4.Controls.Add(this.button4);
+            this.groupBox4.Controls.Add(this.textBox1);
+            this.groupBox4.Controls.Add(this.comboBox2);
+            this.groupBox4.Location = new System.Drawing.Point(12, 345);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(424, 76);
+            this.groupBox4.TabIndex = 19;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "groupBox4";
+            // 
             // TableTemplateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(677, 514);
+            this.ClientSize = new System.Drawing.Size(615, 472);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.checkBox3);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Name = "TableTemplateForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Шаблон информации об объекте";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TableTemplateForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -301,6 +333,8 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -330,5 +364,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.GroupBox groupBox4;
     }
 }

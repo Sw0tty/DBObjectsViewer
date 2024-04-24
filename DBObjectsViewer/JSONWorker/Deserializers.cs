@@ -15,7 +15,8 @@ namespace DBObjectsViewer
             public bool AllAboutDataType { get; set; }
             public Dictionary<string, string> SelectedColumns { get; set; }
             public Dictionary<string, string> NotSelectedColumns { get; set; }
-            public List<string> TableTitle { get; set; }
+            //public List<string> TableTitle { get; set; }
+            public List<Tuple<string, string>> TableTitle { get; set; }
         }
 
         public class TestTableFields
@@ -26,15 +27,17 @@ namespace DBObjectsViewer
             public bool Required { get; set; }
         }
 
-        public class TestIndexes
-        {
-            public string Name { get; set; }
-            public string IndexedColumn { get; set; }
-            public List<string> Info { get; set; }
-        }
-
         public class TestForeigns
         {
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public string Column { get; set; }
+            public string RefTable { get; set; }
+            public string RefTableColumn { get; set; }
+        }
+
+        public class TestIndexes
+    {
             public string Name { get; set; }
             public string IndexedColumn { get; set; }
             public List<string> Info { get; set; }

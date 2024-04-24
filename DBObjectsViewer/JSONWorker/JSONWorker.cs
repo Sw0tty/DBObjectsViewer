@@ -23,55 +23,12 @@ namespace DBObjectsViewer
 
     class JSONWorker : BaseWorker
     {
-        public static string DirectoryNameOfTestDataFiles = @"TestData\";
+        //public static string DirectoryNameOfTestDataFiles = @"TestData\";
         public static Dictionary<string, List<string>> DataFromFile = new Dictionary<string, List<string>>();
         public static Dictionary<string, Deserializers.TestTableFields> SQLTestData = new Dictionary<string, Deserializers.TestTableFields>();
+        public static Dictionary<string, Deserializers.TestIndexes> SQLTestIndexes = new Dictionary<string, Deserializers.TestIndexes>();
+        public static Dictionary<string, Deserializers.TestForeigns> SQLTestForeigns = new Dictionary<string, Deserializers.TestForeigns>();
         public static Deserializers.TableTemplate TableTemplateData = new Deserializers.TableTemplate();
-
-        public static void LoadJson()
-        {
-            /*if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + AppConsts.JSONConsts.TableTemplateFileName))
-            {
-                using (StreamReader reader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + AppConsts.JSONConsts.TableTemplateFileName))
-                {
-                    string json = reader.ReadToEnd();
-                    if (json != "")
-                    {
-                        TableTemplateData = JsonSerializer.Deserialize<Dictionary<string, dynamic>>(json);
-
-                        Dictionary<string, dynamic> sdf = new Dictionary<string, dynamic>(JSONWorker.TableTemplateData);
-
-                        foreach (string key in sdf.Keys)
-                        {
-                            
-                            switch (TableTemplateData[key].ValueKind.ToString())
-                            {
-                                case "True":
-                                case "False":
-                                    TableTemplateData[key] = JsonSerializer.Deserialize<bool>(TableTemplateData[key].GetRawText());
-                                    break;
-                                case "Object":
-                                    TableTemplateData[key] = JsonSerializer.Deserialize<Dictionary<string, string>>(TableTemplateData[key].GetRawText());
-                                    break;
-                                case "Array":
-                                    TableTemplateData[key] = JsonSerializer.Deserialize<List<string>>(TableTemplateData[key].GetRawText());
-                                    break;
-                                default:
-                                    MessageBox.Show($"Undefined type: '{TableTemplateData[key].ValueKind.ToString()}'");
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                AppCreateFile(AppConsts.JSONConsts.TableTemplateFileName);
-                WriteDefaultData(AppConsts.JSONConsts.TableTemplateFileName);
-                //CreateTableTemplate();
-                LoadJson();
-            }*/
-        }
 
         static string ReadJson(string fileName, string pathToFile = null)
         {
@@ -79,7 +36,7 @@ namespace DBObjectsViewer
                 return reader.ReadToEnd();
         }
 
-        public static void LoadTestData(string fileName, string pathToFile = null/*string nameOfArgToDeserialize, string fileName, string pathToFile = null*/)
+        public static void LoadJson(string fileName, string pathToFile = null/*string nameOfArgToDeserialize, string fileName, string pathToFile = null*/)
         {
 /*            if (pathToFile != null)
             {
@@ -88,10 +45,10 @@ namespace DBObjectsViewer
                     AppCreateDirectory(DirectoryNameOfTestDataFiles);
                 }
             }*/
-            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + fileName + fileName))
+            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName))
             {
-                AppCreateFile(fileName, directoryName: DirectoryNameOfTestDataFiles);
-                WriteDefaultData(fileName, filePath: DirectoryNameOfTestDataFiles);
+                AppCreateFile(fileName, directoryName: AppConsts.JSONConsts.DirectoryOfTestDataFiles);
+                WriteDefaultData(fileName, filePath: AppConsts.JSONConsts.DirectoryOfTestDataFiles);
             }
             string json = ReadJson(fileName, pathToFile: pathToFile);
 
@@ -103,62 +60,19 @@ namespace DBObjectsViewer
                 case AppConsts.JSONConsts.SQLTestDataFileName:
                     SQLTestData = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestTableFields>>(json);
                     break;
+                case AppConsts.JSONConsts.SQLTestForeignsFileName:
+                    SQLTestForeigns = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestForeigns>>(json);
+                    break;
+                case AppConsts.JSONConsts.SQLTestIndexesFileName:
+                    SQLTestIndexes = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestIndexes>>(json);
+                    break;
             }
-
-            //SQLTestData = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestTableFields>>(json_NEW);
-
-            /*using (StreamReader reader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + DirectoryNameOfTestDataFiles + AppConsts.JSONConsts.SQLTestDataFileName))
-            {
-                string json = reader.ReadToEnd();
-                SQLTestData = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestTableFields>>(json);
-
-
-                *//*Dictionary<string, dynamic> sdf = new Dictionary<string, dynamic>(JSONWorker.TableTemplateData);
-
-                foreach (string key in sdf.Keys)
-                {
-
-                    switch (TableTemplateData[key].ValueKind.ToString())
-                    {
-                        case "True":
-                        case "False":
-                            TableTemplateData[key] = JsonSerializer.Deserialize<bool>(TableTemplateData[key].GetRawText());
-                            break;
-                        case "Object":
-                            TableTemplateData[key] = JsonSerializer.Deserialize<Dictionary<string, string>>(TableTemplateData[key].GetRawText());
-                            break;
-                        case "Array":
-                            TableTemplateData[key] = JsonSerializer.Deserialize<List<string>>(TableTemplateData[key].GetRawText());
-                            break;
-                        default:
-                            MessageBox.Show($"Undefined type: '{TableTemplateData[key].ValueKind.ToString()}'");
-                            break;
-                    }
-                }*//*
-            }*/
-            /*if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + JSONWorker.TableTemplateFileName))
-            {
-                
-            }
-            else
-            {
-                CreateTableTemplate();
-                LoadJson();
-            }*/
         }
 
-        /*public static void SaveTableTemplate()
+        public static void SaveJson(object data, string fileName, string pathToFile = null)
         {
-            Dictionary<string, dynamic> categoryValues = new Dictionary<string, dynamic>();
-
-            foreach (string key in TableTemplateData.Keys)
-            {
-                categoryValues[key] = TableTemplateData[key];
-            }
-
-            string json = JsonSerializer.Serialize(TableTemplateData);
-
-            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + AppConsts.JSONConsts.TableTemplateFileName, json);
-        }*/
+            string json = JsonSerializer.Serialize(data);
+            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName, json);
+        }
     }
 }
