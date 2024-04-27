@@ -20,7 +20,7 @@ namespace DBObjectsViewer.Forms
         public TableTemplateForm()
         {
             InitializeComponent();
-
+            PageLoading = true;
             checkBox1.Checked = JSONWorker.TableTemplateData.AddIndexesInfo;
             checkBox2.Checked = JSONWorker.TableTemplateData.AddForeignInfo;
             checkBox3.Checked = JSONWorker.TableTemplateData.AllAboutDataType;
@@ -50,13 +50,14 @@ namespace DBObjectsViewer.Forms
 
             LoadComboBox();
             LoadTableTemplate();
+            PageLoading = false;
         }
 
         public static Deserializers.TableTemplate SettingsCopy { get; set; } = new Deserializers.TableTemplate();
 
         private static bool SavePressed { get; set; }
         private static bool CancelPressed { get; set; }
-
+        private static bool PageLoading { get; set; }
         private static Dictionary<int, string> TableColumns { get; set;} = new Dictionary<int, string>();
 
         static T DeepClone<T>(T obj)
@@ -100,6 +101,7 @@ namespace DBObjectsViewer.Forms
 
         private void LoadTableTemplate()
         {
+            dataGridView1.Rows.Clear();
             if (SettingsCopy.TableTitle.Count < 6)
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             else
@@ -107,14 +109,32 @@ namespace DBObjectsViewer.Forms
 
             List<Tuple<string, string>> list = SettingsCopy.TableTitle;
             Dictionary<string, Deserializers.TestTableFields> testData = JSONWorker.SQLTestData;
+            Dictionary<string, Deserializers.TestIndexes> testDataIndexes = JSONWorker.SQLTestIndexes;
+            Dictionary<string, Deserializers.TestForeigns> testDataForeigns = JSONWorker.SQLTestForeigns;
             List<string> keys = new List<string>();
-
+            List<string> indexKeys = new List<string>();
             foreach (string key in testData.Keys)
             {
                 keys.Add(key);
             }
 
+            foreach (string key in testDataIndexes.Keys)
+            {
+                indexKeys.Add(key);
+            }
+
             dataGridView1.RowCount = testData.Count;
+
+            if (SettingsCopy.AddIndexesInfo)
+            {
+                dataGridView1.RowCount += testDataIndexes.Count + 1;
+            }
+            if (SettingsCopy.AddForeignInfo)
+            {
+                dataGridView1.RowCount += testDataForeigns.Count + 1;
+            }
+
+            
             dataGridView1.ColumnCount = list.Count;
 
             TableColumns.Clear();
@@ -123,14 +143,43 @@ namespace DBObjectsViewer.Forms
                 dataGridView1.Columns[d].HeaderText = list[d].Item1;
                 TableColumns[d] = list[d].Item2;
             }
-                
-            for (int i = 0; i < dataGridView1.RowCount; ++i)
+            
+            // Выгрузка инфы по полям
+            for (int i = 0; i < testData.Count; ++i)
             {
                 Deserializers.TestTableFields fieldData = testData[keys[i]];
 
                 foreach (int key in TableColumns.Keys)
                     dataGridView1.Rows[i].Cells[key].Value = GetValueForField(TableColumns[key], fieldData);
             }
+
+            // Выгрузка инфы по индексам
+            //dataGridView1.RowCount = dataGridView1.RowCount + testDataIndexes.Count + 1;
+            if (SettingsCopy.AddIndexesInfo)
+            {
+                dataGridView1.Rows[testData.Count].Cells[0].Value = "Индексы";
+                for (int i = testData.Count + 1; i <= testData.Count + testDataIndexes.Count; ++i)
+                {
+                    Deserializers.TestIndexes indexData = testDataIndexes[indexKeys[i - testData.Count - 1]];
+
+                    foreach (int key in TableColumns.Keys)
+                        dataGridView1.Rows[i].Cells[key].Value = GetValueForIndex(key, indexData);
+                }
+            }
+
+
+
+
+
+            // Выгрузка инфы по вторичным ключам
+            if (SettingsCopy.AddForeignInfo)
+                if (SettingsCopy.AddIndexesInfo)
+                    dataGridView1.Rows[testData.Count + testDataIndexes.Count + 1].Cells[0].Value = "Внешние ключи";
+                else if (!SettingsCopy.AddIndexesInfo)
+                    dataGridView1.Rows[testData.Count].Cells[0].Value = "Внешние ключи";
+
+
+
         }
 
         private dynamic GetValueForField(string typeOfInfo, Deserializers.TestTableFields fieldData)
@@ -154,6 +203,25 @@ namespace DBObjectsViewer.Forms
             }
             return "";
         }
+
+        private dynamic GetValueForIndex(int column, Deserializers.TestIndexes indexData)
+        {
+            switch (column)
+            {
+                case 1:
+                    return indexData.Name;
+                case 2:
+                    return "ON " + indexData.IndexedColumn;
+                case 3:
+                    return string.Join(", ", indexData.Info);
+            }
+            return "";
+        }
+
+/*        private dynamic GetValueForForeign(string typeOfInfo, Deserializers.TestIndexes foreignData)
+        {
+
+        }*/
 
         private string GetFieldType(string nameOf)
         {
@@ -270,17 +338,22 @@ namespace DBObjectsViewer.Forms
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             SettingsCopy.AddIndexesInfo = checkBox1.Checked;
+            if (!PageLoading)
+                LoadTableTemplate();
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             SettingsCopy.AddForeignInfo = checkBox2.Checked;
+            if (!PageLoading)
+                LoadTableTemplate();
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
             SettingsCopy.AllAboutDataType = checkBox3.Checked;
-            LoadTableTemplate();
+            if (!PageLoading)
+                LoadTableTemplate();
         }
 
         private void button7_Click(object sender, EventArgs e)

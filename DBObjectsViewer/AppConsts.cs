@@ -6,7 +6,7 @@ namespace DBObjectsViewer
 {
     public static class AppConsts
     {
-        public const string NoneType = "Без типа";
+        public const string NoneType = "Пустая";
         public static Dictionary<string, string> Types = new Dictionary<string, string>() { { "data_type", "Тип данных" }, { "required", "Обязательное поле" }, { "name", "Наименование атрибута" } };
 
         public static class JSONConsts

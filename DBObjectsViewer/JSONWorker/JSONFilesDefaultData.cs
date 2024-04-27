@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-// "{\r\n    \"ADD_INDEXES_INFO\": false,\r\n    \"ADD_FOREIGN_KEYS_INFO\": false,\r\n    \"ALL_ABOUT_DATA_TYPE\": false,\r\n    \"NOT_SELECTED_COLUMNS\": {\"name\": \"Наименование атрибута\", \"data_type\": \"Тип данных\", \"required\": \"Обязательное поле\"},\r\n    \"SELECTED_COLUMNS\": {},\r\n    \"TABLE_TITLE\": [\r\n        \"Обяз. поле\",\r\n        \"Атрибут\",\r\n        \"Тип данных\",\r\n        \"Описание\"\r\n    ]\r\n}"
+
 namespace DBObjectsViewer
 {
     public static class JSONFilesDefaultData

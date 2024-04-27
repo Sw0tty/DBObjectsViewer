@@ -66,7 +66,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(3, 16);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(587, 128);
+            this.dataGridView1.Size = new System.Drawing.Size(587, 229);
             this.dataGridView1.TabIndex = 0;
             // 
             // checkBox1
@@ -94,9 +94,9 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.dataGridView1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 192);
+            this.groupBox1.Location = new System.Drawing.Point(12, 144);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(593, 147);
+            this.groupBox1.Size = new System.Drawing.Size(593, 248);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Шаблон таблицы";
@@ -106,7 +106,7 @@
             this.groupBox2.Controls.Add(this.comboBox1);
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Location = new System.Drawing.Point(12, 427);
+            this.groupBox2.Location = new System.Drawing.Point(15, 480);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(286, 39);
             this.groupBox2.TabIndex = 4;
@@ -196,7 +196,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(310, 432);
+            this.button5.Location = new System.Drawing.Point(313, 485);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(140, 32);
             this.button5.TabIndex = 9;
@@ -206,7 +206,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(462, 432);
+            this.button6.Location = new System.Drawing.Point(465, 485);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(140, 32);
             this.button6.TabIndex = 10;
@@ -216,26 +216,31 @@
             // 
             // listBox1
             // 
+            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(12, 32);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(120, 134);
+            this.listBox1.Size = new System.Drawing.Size(120, 82);
             this.listBox1.TabIndex = 11;
             this.listBox1.SelectedValueChanged += new System.EventHandler(this.listBox1_SelectedValueChanged);
             // 
             // listBox2
             // 
+            this.listBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.listBox2.FormattingEnabled = true;
             this.listBox2.Location = new System.Drawing.Point(177, 32);
             this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(120, 134);
+            this.listBox2.Size = new System.Drawing.Size(120, 82);
             this.listBox2.TabIndex = 12;
             this.listBox2.SelectedValueChanged += new System.EventHandler(this.listBox2_SelectedValueChanged);
             // 
             // button7
             // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button7.Enabled = false;
-            this.button7.Location = new System.Drawing.Point(139, 65);
+            this.button7.Location = new System.Drawing.Point(139, 38);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(32, 32);
             this.button7.TabIndex = 13;
@@ -245,8 +250,9 @@
             // 
             // button8
             // 
+            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button8.Enabled = false;
-            this.button8.Location = new System.Drawing.Point(139, 103);
+            this.button8.Location = new System.Drawing.Point(139, 76);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(32, 32);
             this.button8.TabIndex = 14;
@@ -282,7 +288,7 @@
             this.groupBox3.Controls.Add(this.button7);
             this.groupBox3.Location = new System.Drawing.Point(298, 7);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(307, 179);
+            this.groupBox3.Size = new System.Drawing.Size(307, 131);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Информация о колонках";
@@ -303,7 +309,7 @@
             this.groupBox4.Controls.Add(this.button4);
             this.groupBox4.Controls.Add(this.textBox1);
             this.groupBox4.Controls.Add(this.comboBox2);
-            this.groupBox4.Location = new System.Drawing.Point(12, 345);
+            this.groupBox4.Location = new System.Drawing.Point(15, 398);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(424, 76);
             this.groupBox4.TabIndex = 19;
@@ -314,7 +320,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(615, 472);
+            this.ClientSize = new System.Drawing.Size(615, 529);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.button6);
