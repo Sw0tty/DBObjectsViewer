@@ -5,6 +5,11 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
 using DBObjectsViewer.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Reflection.Emit;
+using System.Threading.Channels;
+using System.Windows.Forms.VisualStyles;
+using System.Data.SqlClient;
 
 
 namespace DBObjectsViewer
@@ -14,18 +19,24 @@ namespace DBObjectsViewer
         public Form1()
         {
             InitializeComponent();
-            JSONWorker.LoadJson(AppConsts.JSONConsts.TableTemplateFileName);
-            JSONWorker.LoadJson(AppConsts.JSONConsts.SQLTestDataFileName, pathToFile: AppConsts.JSONConsts.DirectoryOfTestDataFiles);
-            JSONWorker.LoadJson(AppConsts.JSONConsts.SQLTestIndexesFileName, pathToFile: AppConsts.JSONConsts.DirectoryOfTestDataFiles);
-            JSONWorker.LoadJson(AppConsts.JSONConsts.SQLTestForeignsFileName, pathToFile: AppConsts.JSONConsts.DirectoryOfTestDataFiles);
+            JSONWorker.LoadJson(AppConsts.FileNamesConsts.TableTemplateFileName);
+            JSONWorker.LoadJson(AppConsts.FileNamesConsts.SQLTestDataFileName, pathToFile: AppConsts.DirsConsts.DirectoryOfTestDataFiles);
+            JSONWorker.LoadJson(AppConsts.FileNamesConsts.SQLTestIndexesFileName, pathToFile: AppConsts.DirsConsts.DirectoryOfTestDataFiles);
+            JSONWorker.LoadJson(AppConsts.FileNamesConsts.SQLTestForeignsFileName, pathToFile: AppConsts.DirsConsts.DirectoryOfTestDataFiles);
+
+/*            JSONWorker.LoadJson("MYSQL.json", pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
+            MessageBox.Show(JSONWorker.MYSQLDatabaseInfo["eqActivityLog"].FieldsInfo[0]["Attribute"]);*/
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            PostgreDBConnector postgreConnector = new PostgreDBConnector("localhost", "5432", "postgres", "postgres", "Admin_1234");
+/*            PostgreDBConnector postgreConnector = new PostgreDBConnector("localhost", "5432", "postgres", "postgres", "Admin_1234");
             postgreConnector.OpenConnection();
             MessageBox.Show(postgreConnector.GetVersion());
-            postgreConnector.CloseConnection();
+            postgreConnector.CloseConnection();*/
+
+            ConnectionForm conForm = new ConnectionForm(AppConsts.DatabaseType.PostgreSQL);
+            DialogResult result = conForm.ShowDialog();
         }
 
         private void MakeCellBorder(Table table, int row, int column)
@@ -38,7 +49,25 @@ namespace DBObjectsViewer
 
         private void button2_Click(object sender, EventArgs e)
         {
-            backgroundWorker1.RunWorkerAsync();
+            //backgroundWorker1.RunWorkerAsync();
+
+            ConnectionForm conForm = new ConnectionForm(AppConsts.DatabaseType.MYSQL);
+            DialogResult conResult = conForm.ShowDialog();
+
+            if (conResult == DialogResult.OK)
+            {
+                //WorkProgressForm progressForm = new WorkProgressForm(conForm.ReturnStableConnection());
+                //DialogResult progressResult = progressForm.ShowDialog();
+
+                SQLDBConnector connector = conForm.ReturnStableConnection();
+                connector.OpenConnection();
+                List<string> tables = connector.ReturnListTables();
+
+                Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> DBInfo = connector.ReturnTablesInfo(tables);
+                JSONWorker.SaveJson(DBInfo, $"{connector.ReturnCatalogName()}_{AppConsts.DatabaseType.MYSQL}_" + DateTime.Now.ToString("MMddyyHHmmss") + ".json", pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
+
+                connector.CloseConnection();
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -47,7 +76,27 @@ namespace DBObjectsViewer
             DialogResult formResult = settingsForm.ShowDialog();
 
             if (formResult == DialogResult.Yes)
-                JSONWorker.SaveJson(JSONWorker.TableTemplateData, AppConsts.JSONConsts.TableTemplateFileName);
+                JSONWorker.SaveJson(JSONWorker.TableTemplateData, AppConsts.FileNamesConsts.TableTemplateFileName);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            SQLDBConnector sqlConnector = new SQLDBConnector(@"(local)\SQLEXPRESS2022", "Games", "sa", "123"); // Home string
+
+            sqlConnector.OpenConnection();
+            sqlConnector.StartTransaction();
+            List<string> tables2 = sqlConnector.ReturnListTables();
+            Invoke(new Action(() => {
+                textBox1.Text = SQLRequests.CompositeRequestToDB(tables2);
+            }));
+
+            Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> DBInfo = sqlConnector.ReturnTablesInfo(tables2);
+
+            //MessageBox.Show(DBInfo["tblFUND"]["FieldsInfo"][0]["attribute"]);
+
+            JSONWorker.SaveJson(DBInfo, $"{sqlConnector.ReturnCatalogName()}_{AppConsts.DatabaseType.MYSQL}_" + DateTime.Now.ToString("MMddyyHHmmss") + ".json", AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
+            sqlConnector.CommitTransaction();
+            sqlConnector.CloseConnection();
         }
 
         private void MakeCellsMerge(Table table, List<int> cellsRows, int titles)
@@ -71,11 +120,18 @@ namespace DBObjectsViewer
             int startForeignCol = 2;
             int endForeignCol = 4;
             //SQLDBConnector sqlConnector = new SQLDBConnector(@"(local)\SQLEXPRESS2022", "5009_d", "sa", "123"); // Home string
-            SQLDBConnector sqlConnector = new SQLDBConnector(@"(local)\SQL2022", "220", "sa", "123"); // Home string
-            
+            //SQLDBConnector sqlConnector = new SQLDBConnector(@"(local)\SQL2022", "220", "sa", "123"); // Home string
+            SQLDBConnector sqlConnector = new SQLDBConnector(@"(local)\SQLEXPRESS2022", "main", "sa", "123"); // Home string
             
             sqlConnector.OpenConnection();
+            List<string> tables2 = sqlConnector.ReturnListTables();
+            Invoke(new Action(() => {
+                textBox1.Text = SQLRequests.CompositeRequestToDB(tables2);
+            }));
 
+            Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> DBInfo = sqlConnector.ReturnTablesInfo(tables2);
+
+            MessageBox.Show(DBInfo["tblFUND"]["FieldsInfo"][0]["attribute"]);
             List<Dictionary<string, string>> tables = sqlConnector.ReturnTables();
             
 

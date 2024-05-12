@@ -6,29 +6,20 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Windows.Forms;
 using System.IO;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using BaseJsonWorker;
 using Microsoft.Office.Interop.Word;
 
 
 namespace DBObjectsViewer
 {
-    public class SQLFieldParams
-    {
-        public string AtributeName { get; set; }
-        public string DataType { get; set; }
-        public int MaxLength { get; set; }
-        public bool Required { get; set; }
-    }
-
     class JSONWorker : BaseWorker
     {
-        //public static string DirectoryNameOfTestDataFiles = @"TestData\";
         public static Dictionary<string, List<string>> DataFromFile = new Dictionary<string, List<string>>();
         public static Dictionary<string, Deserializers.TestTableFields> SQLTestData = new Dictionary<string, Deserializers.TestTableFields>();
         public static Dictionary<string, Deserializers.TestIndexes> SQLTestIndexes = new Dictionary<string, Deserializers.TestIndexes>();
         public static Dictionary<string, Deserializers.TestForeigns> SQLTestForeigns = new Dictionary<string, Deserializers.TestForeigns>();
         public static Deserializers.TableTemplate TableTemplateData = new Deserializers.TableTemplate();
+        public static Dictionary<string, Deserializers.DataBaseInfo> MYSQLDatabaseInfo = new Dictionary<string, Deserializers.DataBaseInfo>();
 
         static string ReadJson(string fileName, string pathToFile = null)
         {
@@ -47,25 +38,35 @@ namespace DBObjectsViewer
             }*/
             if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName))
             {
-                AppCreateFile(fileName, directoryName: AppConsts.JSONConsts.DirectoryOfTestDataFiles);
-                WriteDefaultData(fileName, filePath: AppConsts.JSONConsts.DirectoryOfTestDataFiles);
+                AppCreateFile(fileName, directoryName: pathToFile);
+                WriteDefaultData(fileName, filePath: pathToFile);
             }
             string json = ReadJson(fileName, pathToFile: pathToFile);
 
-            switch (fileName)
+            if (pathToFile != null && pathToFile.Contains(AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles))
             {
-                case AppConsts.JSONConsts.TableTemplateFileName:
-                    TableTemplateData = JsonSerializer.Deserialize<Deserializers.TableTemplate>(json);
-                    break;
-                case AppConsts.JSONConsts.SQLTestDataFileName:
-                    SQLTestData = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestTableFields>>(json);
-                    break;
-                case AppConsts.JSONConsts.SQLTestForeignsFileName:
-                    SQLTestForeigns = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestForeigns>>(json);
-                    break;
-                case AppConsts.JSONConsts.SQLTestIndexesFileName:
-                    SQLTestIndexes = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestIndexes>>(json);
-                    break;
+                if (fileName.Contains(AppConsts.DatabaseType.MYSQL))
+                    MYSQLDatabaseInfo = JsonSerializer.Deserialize<Dictionary<string, Deserializers.DataBaseInfo>>(json);
+                /*else if (fileName.Contains(AppConsts.DatabaseType.PostgreSQL))
+                    PostgreSQLDatabaseInfo = JsonSerializer.Deserialize<Dictionary<string, Deserializers.DataBaseInfo>>(json);*/
+            }
+            else
+            {
+                switch (fileName)
+                {
+                    case AppConsts.FileNamesConsts.TableTemplateFileName:
+                        TableTemplateData = JsonSerializer.Deserialize<Deserializers.TableTemplate>(json);
+                        break;
+                    case AppConsts.FileNamesConsts.SQLTestDataFileName:
+                        SQLTestData = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestTableFields>>(json);
+                        break;
+                    case AppConsts.FileNamesConsts.SQLTestForeignsFileName:
+                        SQLTestForeigns = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestForeigns>>(json);
+                        break;
+                    case AppConsts.FileNamesConsts.SQLTestIndexesFileName:
+                        SQLTestIndexes = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestIndexes>>(json);
+                        break;
+                }
             }
         }
 

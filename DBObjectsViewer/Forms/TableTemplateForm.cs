@@ -28,6 +28,7 @@ namespace DBObjectsViewer.Forms
             SettingsCopy.NotSelectedColumns = new Dictionary<string, string>(JSONWorker.TableTemplateData.NotSelectedColumns);
             SettingsCopy.SelectedColumns = new Dictionary<string, string>(JSONWorker.TableTemplateData.SelectedColumns);
             SettingsCopy.TableTitle = new List<Tuple<string, string>>(JSONWorker.TableTemplateData.TableTitle);
+            SettingsCopy.IndexParamsColumnsNum = new Dictionary<string, int>(JSONWorker.TableTemplateData.IndexParamsColumnsNum);
 
             foreach (string key in JSONWorker.TableTemplateData.NotSelectedColumns.Keys)
             {
@@ -81,6 +82,7 @@ namespace DBObjectsViewer.Forms
             settingsCopy.SelectedColumns = new Dictionary<string, string>(settings.SelectedColumns);
             settingsCopy.NotSelectedColumns = new Dictionary<string, string>(settings.NotSelectedColumns);
             settingsCopy.TableTitle = new List<Tuple<string, string>>(settings.TableTitle);
+            settingsCopy.IndexParamsColumnsNum = new Dictionary<string, int>(settings.IndexParamsColumnsNum);
 
             return settingsCopy;
         }
@@ -102,6 +104,7 @@ namespace DBObjectsViewer.Forms
         private void LoadTableTemplate()
         {
             dataGridView1.Rows.Clear();
+
             if (SettingsCopy.TableTitle.Count < 6)
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             else
@@ -113,6 +116,7 @@ namespace DBObjectsViewer.Forms
             Dictionary<string, Deserializers.TestForeigns> testDataForeigns = JSONWorker.SQLTestForeigns;
             List<string> keys = new List<string>();
             List<string> indexKeys = new List<string>();
+            List<string> foreignKeys = new List<string>();
             foreach (string key in testData.Keys)
             {
                 keys.Add(key);
@@ -123,18 +127,11 @@ namespace DBObjectsViewer.Forms
                 indexKeys.Add(key);
             }
 
-            dataGridView1.RowCount = testData.Count;
-
-            if (SettingsCopy.AddIndexesInfo)
+            foreach (string key in testDataForeigns.Keys)
             {
-                dataGridView1.RowCount += testDataIndexes.Count + 1;
-            }
-            if (SettingsCopy.AddForeignInfo)
-            {
-                dataGridView1.RowCount += testDataForeigns.Count + 1;
+                foreignKeys.Add(key);
             }
 
-            
             dataGridView1.ColumnCount = list.Count;
 
             TableColumns.Clear();
@@ -149,37 +146,42 @@ namespace DBObjectsViewer.Forms
             {
                 Deserializers.TestTableFields fieldData = testData[keys[i]];
 
+                dataGridView1.RowCount++;
                 foreach (int key in TableColumns.Keys)
-                    dataGridView1.Rows[i].Cells[key].Value = GetValueForField(TableColumns[key], fieldData);
+                    dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[key].Value = GetValueForField(TableColumns[key], fieldData);
             }
 
             // Выгрузка инфы по индексам
-            //dataGridView1.RowCount = dataGridView1.RowCount + testDataIndexes.Count + 1;
             if (SettingsCopy.AddIndexesInfo)
             {
-                dataGridView1.Rows[testData.Count].Cells[0].Value = "Индексы";
-                for (int i = testData.Count + 1; i <= testData.Count + testDataIndexes.Count; ++i)
-                {
-                    Deserializers.TestIndexes indexData = testDataIndexes[indexKeys[i - testData.Count - 1]];
+                dataGridView1.RowCount++;
+                dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[0].Value = "Индексы";
 
+                for (int i = 0; i < testDataIndexes.Count; ++i)
+                {
+                    Deserializers.TestIndexes indexData = testDataIndexes[indexKeys[i]];
+
+                    dataGridView1.RowCount++;
                     foreach (int key in TableColumns.Keys)
-                        dataGridView1.Rows[i].Cells[key].Value = GetValueForIndex(key, indexData);
+                        dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[key].Value = GetValueForIndex(key, indexData);
                 }
             }
-
-
-
-
-
+            
             // Выгрузка инфы по вторичным ключам
             if (SettingsCopy.AddForeignInfo)
-                if (SettingsCopy.AddIndexesInfo)
-                    dataGridView1.Rows[testData.Count + testDataIndexes.Count + 1].Cells[0].Value = "Внешние ключи";
-                else if (!SettingsCopy.AddIndexesInfo)
-                    dataGridView1.Rows[testData.Count].Cells[0].Value = "Внешние ключи";
+            {
+                dataGridView1.RowCount++;
+                dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[0].Value = "Внешние ключи";
 
+                for (int i = 0; i < testDataForeigns.Count; ++i)
+                {
+                    Deserializers.TestForeigns foreignData = testDataForeigns[foreignKeys[i]];
 
-
+                    dataGridView1.RowCount++;
+                    foreach (int key in TableColumns.Keys)
+                        dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[key].Value = GetValueForForeign(key, foreignData);
+                }
+            }
         }
 
         private dynamic GetValueForField(string typeOfInfo, Deserializers.TestTableFields fieldData)
@@ -218,10 +220,19 @@ namespace DBObjectsViewer.Forms
             return "";
         }
 
-/*        private dynamic GetValueForForeign(string typeOfInfo, Deserializers.TestIndexes foreignData)
+        private dynamic GetValueForForeign(int column, Deserializers.TestForeigns foreignData)
         {
-
-        }*/
+            switch (column)
+            {
+                case 1:
+                    return foreignData.Name;
+                case 2:
+                    return foreignData.Description;
+                case 3:
+                    return $"({foreignData.Column}) ref {foreignData.RefTable} ({foreignData.RefTableColumn})";
+            }
+            return "";
+        }
 
         private string GetFieldType(string nameOf)
         {

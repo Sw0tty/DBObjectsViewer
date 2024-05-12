@@ -17,6 +17,12 @@ namespace DBObjectsViewer
             return SelectAdapter(request, returnsNull: true, removeEscapes: true, ReturnConnection(), ReturnTransaction());
         }
 
+        public List<string> ReturnListTables()
+        {
+            string request = SQLRequests.TablesRequest();
+            return SelectListAdapter(request, returnsNull: true, removeEscapes: true, ReturnConnection(), ReturnTransaction());
+        }
+
         public List<Dictionary<string, string>> ReturnTableColumnsInfo(string tableName, List<string> infoColumns)
         {
             string request = SQLRequests.ColumnsInfo(tableName, infoColumns);
@@ -39,6 +45,12 @@ namespace DBObjectsViewer
         {
             string request = SQLRequests.PrimaryKeyRequest(tableName);
             return SelectAdapter(request, returnsNull: true, removeEscapes: true, ReturnConnection(), ReturnTransaction());
+        }
+
+        public Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> ReturnTablesInfo(List<string> tables)
+        {
+            string request = SQLRequests.CompositeRequestToDB(tables);
+            return SelectCompositeDictAdapter(request, tables, returnsNull: true, removeEscapes: true, ReturnConnection(), ReturnTransaction());
         }
     }
 }
