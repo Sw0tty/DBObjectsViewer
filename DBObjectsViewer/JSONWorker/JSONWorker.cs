@@ -29,13 +29,20 @@ namespace DBObjectsViewer
 
         public static void LoadJson(string fileName, string pathToFile = null/*string nameOfArgToDeserialize, string fileName, string pathToFile = null*/)
         {
-/*            if (pathToFile != null)
-            {
-                if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + DirectoryNameOfTestDataFiles))
+            if (pathToFile != null)
+            {           
+                string[] dirsToFile = pathToFile.Split('\\');
+                string dirsChain = "";
+                
+                foreach (string dir in dirsToFile)
                 {
-                    AppCreateDirectory(DirectoryNameOfTestDataFiles);
-                }
-            }*/
+                    dirsChain += $@"\{dir}";
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + dirsChain))
+                    {
+                        AppCreateDirectory(dirsChain);
+                    }
+                }      
+            }
             if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName))
             {
                 AppCreateFile(fileName, directoryName: pathToFile);

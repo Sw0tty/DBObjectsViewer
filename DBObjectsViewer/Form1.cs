@@ -81,22 +81,21 @@ namespace DBObjectsViewer
 
         private void button4_Click(object sender, EventArgs e)
         {
-            SQLDBConnector sqlConnector = new SQLDBConnector(@"(local)\SQLEXPRESS2022", "Games", "sa", "123"); // Home string
+            backgroundWorker1.RunWorkerAsync();
+           /* SQLDBConnector sqlConnector = new SQLDBConnector(@"(local)\SQLEXPRESS2022", "54", "sa", "123"); // Home string
 
             sqlConnector.OpenConnection();
-            sqlConnector.StartTransaction();
+
             List<string> tables2 = sqlConnector.ReturnListTables();
-            Invoke(new Action(() => {
-                textBox1.Text = SQLRequests.CompositeRequestToDB(tables2);
-            }));
+            textBox1.Text = SQLRequests.CompositeRequestToDB(tables2);
 
             Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> DBInfo = sqlConnector.ReturnTablesInfo(tables2);
 
             //MessageBox.Show(DBInfo["tblFUND"]["FieldsInfo"][0]["attribute"]);
 
             JSONWorker.SaveJson(DBInfo, $"{sqlConnector.ReturnCatalogName()}_{AppConsts.DatabaseType.MYSQL}_" + DateTime.Now.ToString("MMddyyHHmmss") + ".json", AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
-            sqlConnector.CommitTransaction();
-            sqlConnector.CloseConnection();
+
+            sqlConnector.CloseConnection();*/
         }
 
         private void MakeCellsMerge(Table table, List<int> cellsRows, int titles)
@@ -121,7 +120,7 @@ namespace DBObjectsViewer
             int endForeignCol = 4;
             //SQLDBConnector sqlConnector = new SQLDBConnector(@"(local)\SQLEXPRESS2022", "5009_d", "sa", "123"); // Home string
             //SQLDBConnector sqlConnector = new SQLDBConnector(@"(local)\SQL2022", "220", "sa", "123"); // Home string
-            SQLDBConnector sqlConnector = new SQLDBConnector(@"(local)\SQLEXPRESS2022", "main", "sa", "123"); // Home string
+            SQLDBConnector sqlConnector = new SQLDBConnector(@"(local)\SQLEXPRESS2022", "54", "sa", "123"); // Home string
             
             sqlConnector.OpenConnection();
             List<string> tables2 = sqlConnector.ReturnListTables();

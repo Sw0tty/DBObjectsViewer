@@ -9,6 +9,7 @@ namespace DBObjectsViewer
         public const string NoneType = "Пустая";
         public static Dictionary<string, string> Types = new Dictionary<string, string>() { { "data_type", "Тип данных" }, { "required", "Обязательное поле" }, { "name", "Наименование атрибута" } };
         public static List<string> FieldsInfo = new List<string>() { "COLUMN_NAME", "DATA_TYPE", "IS_NULLABLE", "COLUMN_DEFAULT", "CHARACTER_MAXIMUM_LENGTH" };
+        public static int CountOfTablesInRequest = 100;
 
         public static class DataBaseDataDeserializerConsts
         {

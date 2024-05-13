@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace DBObjectsViewer
 {
@@ -20,8 +21,49 @@ namespace DBObjectsViewer
             return headerRow;
         }
 
+        public static List<Tuple<int, int>> SplitOnParts(int tablesCount)
+        {
+            List<Tuple<int, int>> pairs = new List<Tuple<int, int>>();
+
+            if (tablesCount < AppConsts.CountOfTablesInRequest)
+            {
+                pairs.Add(new Tuple<int, int>(0, tablesCount));
+                return pairs;
+            }
+            else if (tablesCount == AppConsts.CountOfTablesInRequest)
+            {
+                pairs.Add(new Tuple<int, int>(0, AppConsts.CountOfTablesInRequest));
+                return pairs;
+            }
+
+            pairs.Add(new Tuple<int, int>(0, AppConsts.CountOfTablesInRequest));
+            tablesCount -= AppConsts.CountOfTablesInRequest;
+            int startPos = AppConsts.CountOfTablesInRequest;
+            int endPos;
+
+            while (tablesCount > 0)
+            {
+                tablesCount -= AppConsts.CountOfTablesInRequest;
+
+                if (tablesCount < 0)
+                {
+                    endPos = startPos + AppConsts.CountOfTablesInRequest + tablesCount;
+                }
+                else
+                {
+                    endPos = startPos + AppConsts.CountOfTablesInRequest;
+                }
+
+                pairs.Add(new Tuple<int, int>(startPos, endPos));
+                startPos = endPos;
+            }
+            return pairs;
+        }
+
         public static string CompositeRequestToDB(List<string> tableNames/*, List<string> fieldsInfo*/)
         {
+            List<Tuple<int, int>> tablesPairs = SplitOnParts(tableNames.Count);
+
             string compositeRequest = "";
 
             foreach (string tableName in tableNames)
@@ -53,6 +95,7 @@ namespace DBObjectsViewer
         public static string ColumnsInfo(string tableName, List<string> columns)
         {
             // COLUMN_NAME, COLUMN_DEFAULT, IS_NULLABLE, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH
+            // CASE WHEN IS_NULLABLE = 'YES' THEN 'Required' ELSE 'Non-required' END
             return $"SELECT {string.Join(", ", columns)} FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'";
         }
 
