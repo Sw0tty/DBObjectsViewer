@@ -75,5 +75,10 @@ namespace DBObjectsViewer
             string json = JsonSerializer.Serialize(data);
             File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName, json);
         }
+
+        public static string MakeUniqueFileName(string databaseName, string databaseType)
+        {
+            return $"{databaseName}_{databaseType}_" + DateTime.Now.ToString("MMddyyHHmmss") + ".json";
+        }
     }
 }

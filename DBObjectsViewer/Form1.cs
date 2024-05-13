@@ -56,17 +56,17 @@ namespace DBObjectsViewer
 
             if (conResult == DialogResult.OK)
             {
-                //WorkProgressForm progressForm = new WorkProgressForm(conForm.ReturnStableConnection());
-                //DialogResult progressResult = progressForm.ShowDialog();
+                WorkProgressForm progressForm = new WorkProgressForm(conForm.ReturnStableConnection());
+                DialogResult progressResult = progressForm.ShowDialog();
 
-                SQLDBConnector connector = conForm.ReturnStableConnection();
+/*                SQLDBConnector connector = conForm.ReturnStableConnection();
                 connector.OpenConnection();
                 List<string> tables = connector.ReturnListTables();
 
                 Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> DBInfo = connector.ReturnTablesInfo(tables);
-                JSONWorker.SaveJson(DBInfo, $"{connector.ReturnCatalogName()}_{AppConsts.DatabaseType.MYSQL}_" + DateTime.Now.ToString("MMddyyHHmmss") + ".json", pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
+                JSONWorker.SaveJson(DBInfo, JSONWorker.MakeUniqueFileName(connector.ReturnCatalogName(), AppConsts.DatabaseType.MYSQL), pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
 
-                connector.CloseConnection();
+                connector.CloseConnection();*/
             }
         }
 

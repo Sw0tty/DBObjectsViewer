@@ -81,7 +81,6 @@ C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.Wor
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Properties.Resources.resources
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.csproj.GenerateResource.cache
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.csproj.CoreCompileInputs.cache
-C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.csproj.CopyComplete
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.exe
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.pdb
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.TableTemplateForm.resources
@@ -90,3 +89,6 @@ D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObject.CB1C3B0D.Up2Date
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.ConnectionForm.resources
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.WorkProgressForm.resources
+C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.ConnectionForm.resources
+C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.WorkProgressForm.resources
+C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObject.CB1C3B0D.Up2Date

@@ -37,7 +37,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(86, 63);
+            this.button1.Location = new System.Drawing.Point(296, 25);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(121, 29);
             this.button1.TabIndex = 0;
@@ -65,18 +65,20 @@
             // ScanDatabaseBGWorker
             // 
             this.ScanDatabaseBGWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ScanDatabaseBGWorker_DoWork);
+            this.ScanDatabaseBGWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.ScanDatabaseBGWorker_ProgressChanged);
             // 
             // WorkProgressForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(302, 103);
+            this.ClientSize = new System.Drawing.Size(428, 68);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "WorkProgressForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WorkProgressForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WorkProgressForm_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
