@@ -10,33 +10,20 @@ using System.Reflection.Emit;
 using System.Threading.Channels;
 using System.Windows.Forms.VisualStyles;
 using System.Data.SqlClient;
+using System.Xml.Serialization;
 
 
 namespace DBObjectsViewer
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             JSONWorker.LoadJson(AppConsts.FileNamesConsts.TableTemplateFileName);
             JSONWorker.LoadJson(AppConsts.FileNamesConsts.SQLTestDataFileName, pathToFile: AppConsts.DirsConsts.DirectoryOfTestDataFiles);
             JSONWorker.LoadJson(AppConsts.FileNamesConsts.SQLTestIndexesFileName, pathToFile: AppConsts.DirsConsts.DirectoryOfTestDataFiles);
             JSONWorker.LoadJson(AppConsts.FileNamesConsts.SQLTestForeignsFileName, pathToFile: AppConsts.DirsConsts.DirectoryOfTestDataFiles);
-
-/*            JSONWorker.LoadJson("MYSQL.json", pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
-            MessageBox.Show(JSONWorker.MYSQLDatabaseInfo["eqActivityLog"].FieldsInfo[0]["Attribute"]);*/
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-/*            PostgreDBConnector postgreConnector = new PostgreDBConnector("localhost", "5432", "postgres", "postgres", "Admin_1234");
-            postgreConnector.OpenConnection();
-            MessageBox.Show(postgreConnector.GetVersion());
-            postgreConnector.CloseConnection();*/
-
-            ConnectionForm conForm = new ConnectionForm(AppConsts.DatabaseType.PostgreSQL);
-            DialogResult result = conForm.ShowDialog();
         }
 
         private void MakeCellBorder(Table table, int row, int column)
@@ -47,11 +34,9 @@ namespace DBObjectsViewer
             table.Cell(row, column).Range.Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleSingle;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void ConnectAndScan(string databaseType)
         {
-            //backgroundWorker1.RunWorkerAsync();
-
-            ConnectionForm conForm = new ConnectionForm(AppConsts.DatabaseType.MYSQL);
+            ConnectionForm conForm = new ConnectionForm(databaseType);
             DialogResult conResult = conForm.ShowDialog();
 
             if (conResult == DialogResult.OK)
@@ -59,15 +44,21 @@ namespace DBObjectsViewer
                 WorkProgressForm progressForm = new WorkProgressForm(conForm.ReturnStableConnection());
                 DialogResult progressResult = progressForm.ShowDialog();
 
-/*                SQLDBConnector connector = conForm.ReturnStableConnection();
-                connector.OpenConnection();
-                List<string> tables = connector.ReturnListTables();
-
-                Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> DBInfo = connector.ReturnTablesInfo(tables);
-                JSONWorker.SaveJson(DBInfo, JSONWorker.MakeUniqueFileName(connector.ReturnCatalogName(), AppConsts.DatabaseType.MYSQL), pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
-
-                connector.CloseConnection();*/
+                if (progressResult == DialogResult.OK)
+                {
+                    MessageBox.Show("Database data successfully save.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ConnectAndScan(AppConsts.DatabaseType.PostgreSQL);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ConnectAndScan(AppConsts.DatabaseType.MYSQL);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -125,12 +116,12 @@ namespace DBObjectsViewer
             sqlConnector.OpenConnection();
             List<string> tables2 = sqlConnector.ReturnListTables();
             Invoke(new Action(() => {
-                textBox1.Text = SQLRequests.CompositeRequestToDB(tables2);
+                //textBox1.Text = SQLRequests.CompositeRequestToDB(tables2);
             }));
 
-            Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> DBInfo = sqlConnector.ReturnTablesInfo(tables2);
+            //Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> DBInfo = sqlConnector.ReturnTablesInfo(tables2);
 
-            MessageBox.Show(DBInfo["tblFUND"]["FieldsInfo"][0]["attribute"]);
+            MessageBox.Show("");
             List<Dictionary<string, string>> tables = sqlConnector.ReturnTables();
             
 

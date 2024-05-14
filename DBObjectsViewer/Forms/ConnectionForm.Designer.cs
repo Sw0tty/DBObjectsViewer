@@ -154,6 +154,7 @@
             this.ConPort.Name = "ConPort";
             this.ConPort.Size = new System.Drawing.Size(319, 22);
             this.ConPort.TabIndex = 1;
+            this.ConPort.Text = "5432";
             // 
             // flowLayoutPanel1
             // 

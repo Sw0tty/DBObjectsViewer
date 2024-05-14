@@ -37,5 +37,15 @@ namespace DBObjectsViewer
             public const string SQLTestForeignsFileName = "sql_test_data_foreigns.json";
             public const string SQLTestIndexesFileName = "sql_test_data_indexes.json";
         }
+
+        public static class ScanProgressConsts
+        {
+            public static Tuple<int, string> OpenStatus = new Tuple<int, string>(10, "Open connection...");
+            public static Tuple<int, string> CollectTablesStatus = new Tuple<int, string>(20, "Сollect tables...");
+            public static Tuple<int, string> CollectInfoStatus = new Tuple<int, string>(50, "Collect info about database...");
+            public static Tuple<int, string> SaveDataStatus = new Tuple<int, string>(80, "Save data in file...");
+            public static Tuple<int, string> CloseStatus = new Tuple<int, string>(90, "Close connection...");
+            public static Tuple<int, string> DoneStatus = new Tuple<int, string>(100, "Done");
+        }
     }
 }

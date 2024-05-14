@@ -64,6 +64,7 @@
             // 
             // ScanDatabaseBGWorker
             // 
+            this.ScanDatabaseBGWorker.WorkerReportsProgress = true;
             this.ScanDatabaseBGWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ScanDatabaseBGWorker_DoWork);
             this.ScanDatabaseBGWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.ScanDatabaseBGWorker_ProgressChanged);
             // 

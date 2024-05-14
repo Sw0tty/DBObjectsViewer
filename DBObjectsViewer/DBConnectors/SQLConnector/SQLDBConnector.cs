@@ -47,9 +47,9 @@ namespace DBObjectsViewer
             return SelectAdapter(request, returnsNull: true, removeEscapes: true, ReturnConnection(), ReturnTransaction());
         }
 
-        public Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> ReturnTablesInfo(List<string> tables)
+        public Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> ReturnTablesInfo(string request, List<string> tables)
         {
-            string request = SQLRequests.CompositeRequestToDB(tables);
+            //string request = SQLRequests.CompositeRequestToDB(tables);
             return SelectCompositeDictAdapter(request, tables, returnsNull: true, removeEscapes: true, ReturnConnection(), ReturnTransaction());
         }
     }
