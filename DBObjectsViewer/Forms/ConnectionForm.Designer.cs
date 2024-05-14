@@ -37,22 +37,26 @@
             this.ConLogin = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.ConPassword = new System.Windows.Forms.TextBox();
-            this.PortGroup = new System.Windows.Forms.GroupBox();
+            this.portGroup = new System.Windows.Forms.GroupBox();
             this.ConPort = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.schemaGroup = new System.Windows.Forms.GroupBox();
+            this.schema = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.PortGroup.SuspendLayout();
+            this.portGroup.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.schemaGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(79, 341);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.Location = new System.Drawing.Point(81, 370);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(193, 49);
             this.button1.TabIndex = 0;
@@ -136,15 +140,16 @@
             this.ConPassword.Size = new System.Drawing.Size(319, 22);
             this.ConPassword.TabIndex = 1;
             // 
-            // PortGroup
+            // portGroup
             // 
-            this.PortGroup.Controls.Add(this.ConPort);
-            this.PortGroup.Location = new System.Drawing.Point(3, 99);
-            this.PortGroup.Name = "PortGroup";
-            this.PortGroup.Size = new System.Drawing.Size(325, 42);
-            this.PortGroup.TabIndex = 6;
-            this.PortGroup.TabStop = false;
-            this.PortGroup.Text = "Порт:";
+            this.portGroup.Controls.Add(this.ConPort);
+            this.portGroup.Location = new System.Drawing.Point(3, 99);
+            this.portGroup.Name = "portGroup";
+            this.portGroup.Size = new System.Drawing.Size(325, 42);
+            this.portGroup.TabIndex = 6;
+            this.portGroup.TabStop = false;
+            this.portGroup.Text = "Порт:";
+            this.portGroup.Visible = false;
             // 
             // ConPort
             // 
@@ -158,14 +163,17 @@
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.flowLayoutPanel1.Controls.Add(this.groupBox1);
             this.flowLayoutPanel1.Controls.Add(this.groupBox2);
-            this.flowLayoutPanel1.Controls.Add(this.PortGroup);
+            this.flowLayoutPanel1.Controls.Add(this.portGroup);
             this.flowLayoutPanel1.Controls.Add(this.groupBox3);
             this.flowLayoutPanel1.Controls.Add(this.groupBox4);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 57);
+            this.flowLayoutPanel1.Controls.Add(this.schemaGroup);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 63);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(335, 278);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(335, 300);
             this.flowLayoutPanel1.TabIndex = 7;
             // 
             // label1
@@ -184,11 +192,31 @@
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
+            // schemaGroup
+            // 
+            this.schemaGroup.Controls.Add(this.schema);
+            this.schemaGroup.Location = new System.Drawing.Point(3, 243);
+            this.schemaGroup.Name = "schemaGroup";
+            this.schemaGroup.Size = new System.Drawing.Size(325, 42);
+            this.schemaGroup.TabIndex = 9;
+            this.schemaGroup.TabStop = false;
+            this.schemaGroup.Text = "Схема:";
+            this.schemaGroup.Visible = false;
+            // 
+            // schema
+            // 
+            this.schema.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.schema.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.schema.Location = new System.Drawing.Point(3, 16);
+            this.schema.Name = "schema";
+            this.schema.Size = new System.Drawing.Size(319, 22);
+            this.schema.TabIndex = 1;
+            // 
             // ConnectionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(358, 402);
+            this.ClientSize = new System.Drawing.Size(358, 431);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.button1);
@@ -205,9 +233,11 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.PortGroup.ResumeLayout(false);
-            this.PortGroup.PerformLayout();
+            this.portGroup.ResumeLayout(false);
+            this.portGroup.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.schemaGroup.ResumeLayout(false);
+            this.schemaGroup.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -223,10 +253,12 @@
         private System.Windows.Forms.TextBox ConLogin;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox ConPassword;
-        private System.Windows.Forms.GroupBox PortGroup;
+        private System.Windows.Forms.GroupBox portGroup;
         private System.Windows.Forms.TextBox ConPort;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Label label1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.GroupBox schemaGroup;
+        private System.Windows.Forms.TextBox schema;
     }
 }

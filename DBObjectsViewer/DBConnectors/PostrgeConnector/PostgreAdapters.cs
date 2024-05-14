@@ -79,6 +79,59 @@ namespace DBObjectsViewer
         }
 
         /// <summary>
+        /// Makes SELECT requests
+        /// 1. returnsNull - if true convert NULL in 'null'<br/>
+        /// 2. removeEscapes - if true convert "'value'" in "value" <br/>
+        /// </summary>
+        /// <returns>List of Strings Selected data</returns>
+        protected List<string> SelectListAdapter(string request, bool returnsNull, bool removeEscapes, NpgsqlConnection connection, NpgsqlTransaction transaction)
+        {
+            NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+            adapter.SelectCommand = new NpgsqlCommand(request, connection);
+            adapter.SelectCommand.Transaction = transaction;
+            NpgsqlDataReader reader = adapter.SelectCommand.ExecuteReader();
+            List<string> selectedData = new List<string>();
+
+            while (reader.Read())
+            {
+                string value = reader.GetValue(0).ToString().Trim(' ');
+
+                if (value == "")
+                {
+                    if (returnsNull && removeEscapes)
+                    {
+                        selectedData.Add("null");
+                    }
+                    else if (returnsNull && !removeEscapes)
+                    {
+                        selectedData.Add("'null'");
+                    }
+                    else if (!returnsNull && removeEscapes)
+                    {
+                        selectedData.Add("");
+                    }
+                    else if (!returnsNull && !removeEscapes)
+                    {
+                        selectedData.Add("''");
+                    }
+                }
+                else
+                {
+                    if (removeEscapes)
+                    {
+                        selectedData.Add(value);
+                    }
+                    else
+                        selectedData.Add("'" + value + "'");
+                }
+            }
+
+            reader.Close();
+            adapter.Dispose();
+            return selectedData;
+        }
+
+        /// <summary>
         /// Makes SELECT COUNT requests
         /// </summary>
         /// <returns>Count of affected rows</returns>
@@ -184,6 +237,83 @@ namespace DBObjectsViewer
             int rowsAffected = adapter.DeleteCommand.ExecuteNonQuery();
             adapter.Dispose();
             return rowsAffected;
+        }
+
+        protected Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> SelectCompositeDictAdapter(string request, List<string> tables, bool returnsNull, bool removeEscapes, NpgsqlConnection connection, NpgsqlTransaction transaction)
+        {
+            NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
+            DataSet dataSet = new DataSet();
+            adapter.SelectCommand = new NpgsqlCommand(request, connection);
+            adapter.SelectCommand.Transaction = transaction;
+            Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> selectedData = new Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>>();
+            adapter.Fill(dataSet);
+
+            foreach (DataTable table in dataSet.Tables)
+            {
+                List<string> columns = new List<string>();
+                foreach (DataColumn column in table.Columns)
+                {
+                    columns.Add(column.ColumnName);
+                }
+
+                string tableName = null;
+                string tableInfoKey = null;
+                foreach (DataRow row in table.Rows)
+                {
+                    var cells = row.ItemArray;
+                    int columnNum = 0;
+
+                    if (tables.Contains(cells[0].ToString()))
+                    {
+                        tableName = cells[0].ToString();
+                        selectedData.Add(tableName, new Dictionary<string, List<Dictionary<string, string>>>());
+                        continue;
+                    }
+                    if (AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys.Contains(cells[0].ToString()))
+                    {
+                        tableInfoKey = cells[0].ToString();
+                        selectedData[tableName].Add(tableInfoKey, new List<Dictionary<string, string>>());
+                        continue;
+                    }
+
+                    Dictionary<string, string> rowInfo = new Dictionary<string, string>();
+                    foreach (object cell in cells)
+                    {
+
+                        if (cell.ToString().Trim(' ') == "")
+                        {
+                            if (returnsNull && removeEscapes)
+                            {
+                                rowInfo.Add(columns[columnNum], "null");
+                            }
+                            else if (returnsNull && !removeEscapes)
+                            {
+                                rowInfo.Add(columns[columnNum], "'null'");
+                            }
+                            else if (!returnsNull && removeEscapes)
+                            {
+                                rowInfo.Add(columns[columnNum], "");
+                            }
+                            else if (!returnsNull && !removeEscapes)
+                            {
+                                rowInfo.Add(columns[columnNum], "''");
+                            }
+                        }
+                        else
+                        {
+                            if (removeEscapes)
+                                rowInfo.Add(columns[columnNum], cell.ToString().Trim(' '));
+                            else
+                                rowInfo.Add(columns[columnNum], "'" + cell.ToString().Trim(' ') + "'");
+                        }
+                        columnNum++;
+                    }
+                    selectedData[tableName][tableInfoKey].Add(new Dictionary<string, string>(rowInfo));
+                }
+            }
+            adapter.Dispose();
+
+            return selectedData;
         }
     }
 }

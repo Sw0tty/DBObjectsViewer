@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.Office.Interop.Word;
+using DBObjectsViewer.DBRequests;
 
 
 namespace DBObjectsViewer.Forms
@@ -69,7 +70,7 @@ namespace DBObjectsViewer.Forms
 
                 MakeWorkerReport(worker, AppConsts.ScanProgressConsts.CollectInfoStatus);
 
-                foreach (string compositeRequest in SQLRequests.CompositeRequestToDB(tables))
+                foreach (string compositeRequest in RequestMaker.CompositeRequestToDB(tables, AppConsts.DatabaseType.MYSQL))
                 {
                     Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> middleInfo = DeepClone(MYSQLConnection.ReturnTablesInfo(compositeRequest, tables));
                     
@@ -90,7 +91,21 @@ namespace DBObjectsViewer.Forms
                 MakeWorkerReport(worker, AppConsts.ScanProgressConsts.OpenStatus);
                 PostgreSQLConnection.OpenConnection();
 
+                MakeWorkerReport(worker, AppConsts.ScanProgressConsts.CollectTablesStatus);
+                List<string> tables = PostgreSQLConnection.ReturnListTables(PostgreSQLConnection.ReturnSchemaName());
 
+                MakeWorkerReport(worker, AppConsts.ScanProgressConsts.CollectInfoStatus);
+
+                foreach (string compositeRequest in RequestMaker.CompositeRequestToDB(tables, AppConsts.DatabaseType.PostgreSQL, schema: PostgreSQLConnection.ReturnSchemaName()))
+                {
+                    Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> middleInfo = DeepClone(PostgreSQLConnection.ReturnTablesInfo(compositeRequest, tables));
+
+                    foreach (string key in middleInfo.Keys)
+                        DBInfo.Add(key, DeepClone(middleInfo[key]));
+                }
+
+                MakeWorkerReport(worker, AppConsts.ScanProgressConsts.SaveDataStatus);
+                JSONWorker.SaveJson(DBInfo, JSONWorker.MakeUniqueFileName(PostgreSQLConnection.ReturnDatabaseName(), AppConsts.DatabaseType.PostgreSQL), pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
 
                 MakeWorkerReport(worker, AppConsts.ScanProgressConsts.CloseStatus);
                 PostgreSQLConnection.CloseConnection();

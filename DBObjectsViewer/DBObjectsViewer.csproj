@@ -102,9 +102,10 @@
     <Compile Include="AppConsts.cs" />
     <Compile Include="DBConnectors\PostrgeConnector\PostgreBaseConnector.cs" />
     <Compile Include="DBConnectors\PostrgeConnector\PostgreDBConnector.cs" />
-    <Compile Include="DBConnectors\PostrgeConnector\PostgreAdaptres.cs" />
+    <Compile Include="DBConnectors\PostrgeConnector\PostgreAdapters.cs" />
     <Compile Include="DBConnectors\SQLConnector\SQLBaseConnector.cs" />
     <Compile Include="DBRequests\PostgreRequests.cs" />
+    <Compile Include="DBRequests\RequestMaker.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,7 +143,7 @@
     <Compile Include="Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DBConnectors\SQLConnector\SQLAdaptres.cs" />
+    <Compile Include="DBConnectors\SQLConnector\SQLAdapters.cs" />
     <Compile Include="DBConnectors\SQLConnector\SQLDBConnector.cs" />
     <Compile Include="DBRequests\SQLRequests.cs" />
     <EmbeddedResource Include="Forms\MainForm.resx">

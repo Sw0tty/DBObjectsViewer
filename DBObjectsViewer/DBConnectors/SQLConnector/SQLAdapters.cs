@@ -262,7 +262,6 @@ namespace DBObjectsViewer
                 foreach (DataRow row in table.Rows)
                 {
                     var cells = row.ItemArray;
-                    //Dictionary<string, string> valueFromTable = new Dictionary<string, string>();
                     int columnNum = 0;
 
                     if (tables.Contains(cells[0].ToString()))

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+
 
 namespace DBObjectsViewer
 {
@@ -10,13 +7,25 @@ namespace DBObjectsViewer
     {
         public static string ColumnsInfo(string tableName, List<string> columns)
         {
-            // COLUMN_NAME, COLUMN_DEFAULT, IS_NULLABLE, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH
+            // COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT, CHARACTER_MAXIMUM_LENGTH
             return $"SELECT {string.Join(", ", columns)} FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'";
         }
 
-        public static string VersionRequest()
+        public static string TablesRequest(string schema)
         {
-            return "SELECT version()";
+            return $"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{schema}' ORDER BY TABLE_NAME";
+        }
+
+        public static string SelectForeignKeysInfoRequest(string tableName, string schema)
+        {
+            return "SELECT " +
+                   "tc.constraint_name, " +
+                   "'FK', " +
+                   "'(' || kcu.column_name || ') ref ' || ccu.table_name || ' (' || ccu.column_name || ')', " +
+                   "NULL, " +
+                   "NULL " +
+                   "FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name AND tc.table_schema = kcu.table_schema JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name " +
+                   $"WHERE tc.constraint_type = 'FOREIGN KEY' AND tc.table_schema = '{schema}' AND tc.table_name = '{tableName}'";
         }
     }
 }

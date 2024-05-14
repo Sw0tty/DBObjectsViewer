@@ -16,33 +16,124 @@ namespace DBObjectsViewer
 {
     internal class Node
     {
+        /*private static string UnionCommand { get; } = "\nUNION ALL\n";
+
+        private static string MakeHeader(string header)
+        {
+            //NULL AS data_type, NULL AS info, NULL AS default_value, NULL AS max_length
+            string headerRow = $"SELECT '{header}' AS {AppConsts.DataBaseDataDeserializerConsts.ColumnsHeaders[0]}, NULL AS {AppConsts.DataBaseDataDeserializerConsts.ColumnsHeaders[1]}, NULL AS {AppConsts.DataBaseDataDeserializerConsts.ColumnsHeaders[2]}, NULL AS {AppConsts.DataBaseDataDeserializerConsts.ColumnsHeaders[3]}, NULL AS {AppConsts.DataBaseDataDeserializerConsts.ColumnsHeaders[4]}";
+            *//*for (int i = 1; i < AppConsts.FieldsInfo.Count; i++)
+                headerRow += (i == AppConsts.FieldsInfo.Count - 1) ? "NULL" : "NULL, ";*//*
+            return headerRow;
+        }
+
+        public static List<Tuple<int, int>> SplitOnParts(int tablesCount)
+        {
+            List<Tuple<int, int>> pairs = new List<Tuple<int, int>>();
+
+            if (tablesCount < AppConsts.CountOfTablesInRequest)
+            {
+                pairs.Add(new Tuple<int, int>(0, tablesCount));
+                return pairs;
+            }
+            else if (tablesCount == AppConsts.CountOfTablesInRequest)
+            {
+                pairs.Add(new Tuple<int, int>(0, AppConsts.CountOfTablesInRequest));
+                return pairs;
+            }
+
+            pairs.Add(new Tuple<int, int>(0, AppConsts.CountOfTablesInRequest));
+            tablesCount -= AppConsts.CountOfTablesInRequest;
+            int startPos = AppConsts.CountOfTablesInRequest;
+            int endPos;
+
+            while (tablesCount > 0)
+            {
+                tablesCount -= AppConsts.CountOfTablesInRequest;
+
+                if (tablesCount < 0)
+                {
+                    endPos = startPos + AppConsts.CountOfTablesInRequest + tablesCount;
+                }
+                else
+                {
+                    endPos = startPos + AppConsts.CountOfTablesInRequest;
+                }
+
+                pairs.Add(new Tuple<int, int>(startPos, endPos));
+                startPos = endPos;
+            }
+            return pairs;
+        }
+
+        public static List<string> CompositeRequestToDB(List<string> tableNames*//*, List<string> fieldsInfo*//*)
+        {
+            List<Tuple<int, int>> tablesPairs = SplitOnParts(tableNames.Count);
+            List<string> compositeRequests = new List<string>();
+
+            foreach (Tuple<int, int> pair in tablesPairs)
+            {
+                string compositeRequest = "";
+                for (int i = pair.Item1; i < pair.Item2; i++)
+                {
+                    string tableName = tableNames[i];
+
+                    compositeRequest += MakeHeader(tableName) + UnionCommand;
+                    compositeRequest += MakeHeader(AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys[0]) + UnionCommand;
+                    compositeRequest += ColumnsInfo(tableName, AppConsts.FieldsInfo);
+
+                    if (JSONWorker.TableTemplateData.AddIndexesInfo)
+                    {
+                        compositeRequest += UnionCommand;
+                        compositeRequest += MakeHeader(AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys[1]) + UnionCommand;
+                        compositeRequest += TableIndexesRequest(tableName);
+                    }
+                    if (JSONWorker.TableTemplateData.AddForeignInfo)
+                    {
+                        compositeRequest += UnionCommand;
+                        compositeRequest += MakeHeader(AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys[2]) + UnionCommand;
+                        compositeRequest += SelectForeignKeysInfoRequest(tableName);
+                    }
+                    if (tableNames[pair.Item2 - 1] != tableName)
+                        compositeRequest += UnionCommand;
+                }
+                compositeRequests.Add(compositeRequest);
+            }
+
+            return compositeRequests;
+        }*/
+
+
+
+
+
         // for one table
- /*       use main;
+        /*       use main;
 
-        SELECT 'ColumnsInfo' as attribute, '' as data_type, '' as info, '' as default_value, '' as max_length
-        UNION ALL
-        SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tblFUND'
-UNION ALL
+               SELECT 'ColumnsInfo' as attribute, '' as data_type, '' as info, '' as default_value, '' as max_length
+               UNION ALL
+               SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tblFUND'
+       UNION ALL
 
-select 'Foreigns', '', '', '', NULL
-UNION ALL
+       select 'Foreigns', '', '', '', NULL
+       UNION ALL
 
-SELECT name as key_name, 'FK',
-'(' + COL_NAME(fk_c.parent_object_id, fk_c.parent_column_id) + ') ref ' + OBJECT_NAME(fk.referenced_object_id) + ' (' + COL_NAME(fk.referenced_object_id, fk_c.referenced_column_id) + ')' AS referenced_column_name,
-NULL, NULL
-FROM sys.foreign_keys AS fk INNER JOIN sys.foreign_key_columns AS fk_c ON fk.object_id = fk_c.constraint_object_id
-WHERE OBJECT_NAME(fk.parent_object_id) = 'tblFUND'
+       SELECT name as key_name, 'FK',
+       '(' + COL_NAME(fk_c.parent_object_id, fk_c.parent_column_id) + ') ref ' + OBJECT_NAME(fk.referenced_object_id) + ' (' + COL_NAME(fk.referenced_object_id, fk_c.referenced_column_id) + ')' AS referenced_column_name,
+       NULL, NULL
+       FROM sys.foreign_keys AS fk INNER JOIN sys.foreign_key_columns AS fk_c ON fk.object_id = fk_c.constraint_object_id
+       WHERE OBJECT_NAME(fk.parent_object_id) = 'tblFUND'
 
-UNION ALL
-select 'Indexes', '', '', '', ''
-UNION ALL
+       UNION ALL
+       select 'Indexes', '', '', '', ''
+       UNION ALL
 
-select i.[name] as index_name,
-'ON ' + substring(column_names, 1, len(column_names)-1) as [on_column],
-case when i.[type] = 1 then 'Clustered' when i.[type] = 2 then 'Non-Clustered' when i.[type] = 3 then 'XML index' when i.[type] = 4 then 'Spatial index' when i.[type] = 5 then 'Clustered columnstore index' when i.[type] = 6 then 'Nonclustered columnstore index' when i.[type] = 7 then 'Nonclustered hash index' end + ', ' + case when i.is_unique = 1 then 'Unique' else 'Not unique' end as [info],
-        NULL, NULL
-from sys.objects t inner join sys.indexes i on t.object_id = i.object_id cross apply (select col.[name] + ', ' from sys.index_columns ic inner join sys.columns col on ic.object_id = col.object_id and ic.column_id = col.column_id where ic.object_id = t.object_id and ic.index_id = i.index_id order by key_ordinal for xml path ('') ) D(column_names)
-where t.is_ms_shipped<> 1 and index_id > 0 and t.[name] = 'tblFUND'*/
+       select i.[name] as index_name,
+       'ON ' + substring(column_names, 1, len(column_names)-1) as [on_column],
+       case when i.[type] = 1 then 'Clustered' when i.[type] = 2 then 'Non-Clustered' when i.[type] = 3 then 'XML index' when i.[type] = 4 then 'Spatial index' when i.[type] = 5 then 'Clustered columnstore index' when i.[type] = 6 then 'Nonclustered columnstore index' when i.[type] = 7 then 'Nonclustered hash index' end + ', ' + case when i.is_unique = 1 then 'Unique' else 'Not unique' end as [info],
+               NULL, NULL
+       from sys.objects t inner join sys.indexes i on t.object_id = i.object_id cross apply (select col.[name] + ', ' from sys.index_columns ic inner join sys.columns col on ic.object_id = col.object_id and ic.column_id = col.column_id where ic.object_id = t.object_id and ic.index_id = i.index_id order by key_ordinal for xml path ('') ) D(column_names)
+       where t.is_ms_shipped<> 1 and index_id > 0 and t.[name] = 'tblFUND'*/
 
 
 

@@ -9,12 +9,17 @@ namespace DBObjectsViewer
 {
     public class PostgreDBConnector : BasePostgreDBConnector
     {
-        public PostgreDBConnector(string server, string port,string catalog, string login, string password) : base(server, port, catalog, login, password) { }
+        public PostgreDBConnector(string server, string port,string catalog, string login, string password, string schema) : base(server, port, catalog, login, password, schema) { }
 
-        public string GetVersion()
+        public List<string> ReturnListTables(string schema)
         {
-            string request = PostgreRequests.VersionRequest();
-            return SelectSingleValueAdapter(request, likeValue: false, ReturnConnection(), ReturnTransaction());
+            string request = PostgreRequests.TablesRequest(schema);
+            return SelectListAdapter(request, returnsNull: true, removeEscapes: true, ReturnConnection(), ReturnTransaction());
+        }
+
+        public Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> ReturnTablesInfo(string request, List<string> tables)
+        {
+            return SelectCompositeDictAdapter(request, tables, returnsNull: true, removeEscapes: true, ReturnConnection(), ReturnTransaction());
         }
     }
 }

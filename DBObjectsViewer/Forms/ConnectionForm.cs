@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.ComponentModel;
+
 
 namespace DBObjectsViewer.Forms
 {
@@ -22,8 +16,15 @@ namespace DBObjectsViewer.Forms
             DBServer = DBServerName;
             StableConnection = false;
             label1.Text = $"{DBServer} connection";
-            if (DBServer == AppConsts.DatabaseType.MYSQL)
-                PortGroup.Visible = false;
+            if (DBServer == AppConsts.DatabaseType.PostgreSQL)
+            {
+                portGroup.Visible = true;
+                schemaGroup.Visible = true;
+            }
+            else if (DBServer == AppConsts.DatabaseType.MYSQL)
+            {
+                this.Height = this.Height - portGroup.Height - schemaGroup.Height;
+            }
         }
 
         private void TrimFields()
@@ -32,6 +33,8 @@ namespace DBObjectsViewer.Forms
             ConDataBaseName.Text = ConDataBaseName.Text.Trim();
             ConLogin.Text = ConLogin.Text.Trim();
             ConPassword.Text = ConPassword.Text.Trim();
+            ConPort.Text = ConPort.Text.Trim();
+            schema.Text = schema.Text.Trim();
         }
 
         private bool TryConnection()
@@ -47,7 +50,7 @@ namespace DBObjectsViewer.Forms
                 }
                 if (DBServer == AppConsts.DatabaseType.PostgreSQL)
                 {
-                    PostgreDBConnector con = new PostgreDBConnector(ConServer.Text, ConPort.Text, ConDataBaseName.Text, ConLogin.Text, ConPassword.Text);
+                    PostgreDBConnector con = new PostgreDBConnector(ConServer.Text, ConPort.Text, ConDataBaseName.Text, ConLogin.Text, ConPassword.Text, schema.Text);
                     con.OpenConnection();
                     con.CloseConnection();
                     return true;
@@ -62,7 +65,7 @@ namespace DBObjectsViewer.Forms
             if (DBServer == AppConsts.DatabaseType.MYSQL)
                 return new SQLDBConnector(ConServer.Text, ConDataBaseName.Text, ConLogin.Text, ConPassword.Text);
             if (DBServer == AppConsts.DatabaseType.MYSQL)
-                return new PostgreDBConnector(ConServer.Text, ConPort.Text, ConDataBaseName.Text, ConLogin.Text, ConPassword.Text);
+                return new PostgreDBConnector(ConServer.Text, ConPort.Text, ConDataBaseName.Text, ConLogin.Text, ConPassword.Text, schema.Text);
             return null;
         }
 

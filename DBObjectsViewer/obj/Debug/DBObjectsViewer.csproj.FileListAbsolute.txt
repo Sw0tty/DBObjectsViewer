@@ -34,7 +34,6 @@ D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\bin\Debug\System.Threading.Chan
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\bin\Debug\System.Threading.Tasks.Extensions.xml
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\bin\Debug\System.ValueTuple.xml
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.csproj.AssemblyReference.cache
-D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Form1.resources
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Properties.Resources.resources
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.csproj.GenerateResource.cache
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.csproj.CoreCompileInputs.cache
@@ -92,3 +91,4 @@ C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.Wor
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObject.CB1C3B0D.Up2Date
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.csproj.CopyComplete
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.MainForm.resources
+D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.MainForm.resources
