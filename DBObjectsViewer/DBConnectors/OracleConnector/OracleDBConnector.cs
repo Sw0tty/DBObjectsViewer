@@ -4,20 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-namespace DBObjectsViewer
+namespace DBObjectsViewer.DBConnectors.OracleConnector
 {
-    public class PostgreDBConnector : BasePostgreDBConnector
+    public class OracleDBConnector : BaseOracleDBConnector
     {
-        public PostgreDBConnector(string server, string port,string catalog, string login, string password, string schema) : base(server, port, catalog, login, password, schema) { }
+        public OracleDBConnector(string server, string port, string database, string login, string password) : base(server, port, database, login, password) { }
 
-        public List<string> ReturnSchemasList()
-        {
-            string request = PostgreRequests.SchemasRequest();
-            return SelectListAdapter(request, returnsNull: false, removeEscapes: true, ReturnConnection(), ReturnTransaction());
-        }
-
-        public List<string> ReturnListTables(string schema)
+/*        public List<string> ReturnListTables(string schema)
         {
             string request = PostgreRequests.TablesRequest(schema);
             return SelectListAdapter(request, returnsNull: true, removeEscapes: true, ReturnConnection(), ReturnTransaction());
@@ -26,6 +19,6 @@ namespace DBObjectsViewer
         public Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> ReturnTablesInfo(string request, List<string> tables)
         {
             return SelectCompositeDictAdapter(request, tables, returnsNull: true, removeEscapes: true, ReturnConnection(), ReturnTransaction());
-        }
+        }*/
     }
 }

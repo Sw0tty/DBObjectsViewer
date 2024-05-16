@@ -60,6 +60,7 @@
       <HintPath>..\packages\System.Collections.Immutable.8.0.0\lib\net462\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.8.0.0\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
@@ -100,6 +101,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConsts.cs" />
+    <Compile Include="DBConnectors\OracleConnector\OracleAdapters.cs" />
+    <Compile Include="DBConnectors\OracleConnector\OracleBaseConnector.cs" />
+    <Compile Include="DBConnectors\OracleConnector\OracleDBConnector.cs" />
     <Compile Include="DBConnectors\PostrgeConnector\PostgreBaseConnector.cs" />
     <Compile Include="DBConnectors\PostrgeConnector\PostgreDBConnector.cs" />
     <Compile Include="DBConnectors\PostrgeConnector\PostgreAdapters.cs" />
@@ -184,5 +188,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -34,7 +34,7 @@ namespace DBObjectsViewer.Forms
             ConLogin.Text = ConLogin.Text.Trim();
             ConPassword.Text = ConPassword.Text.Trim();
             ConPort.Text = ConPort.Text.Trim();
-            schema.Text = schema.Text.Trim();
+            ConSchema.Text = ConSchema.Text.Trim();
         }
 
         private bool TryConnection()
@@ -50,8 +50,14 @@ namespace DBObjectsViewer.Forms
                 }
                 if (DBServer == AppConsts.DatabaseType.PostgreSQL)
                 {
-                    PostgreDBConnector con = new PostgreDBConnector(ConServer.Text, ConPort.Text, ConDataBaseName.Text, ConLogin.Text, ConPassword.Text, schema.Text);
+                    PostgreDBConnector con = new PostgreDBConnector(ConServer.Text, ConPort.Text, ConDataBaseName.Text, ConLogin.Text, ConPassword.Text, ConSchema.Text);
                     con.OpenConnection();
+                    if (!con.ReturnSchemasList().Contains(ConSchema.Text))
+                    {
+                        con.CloseConnection();
+                        MessageBox.Show($"Schema '{ConSchema.Text}' not found!", "Error");
+                        return false;
+                    }                       
                     con.CloseConnection();
                     return true;
                 }
@@ -64,8 +70,8 @@ namespace DBObjectsViewer.Forms
         {
             if (DBServer == AppConsts.DatabaseType.MYSQL)
                 return new SQLDBConnector(ConServer.Text, ConDataBaseName.Text, ConLogin.Text, ConPassword.Text);
-            if (DBServer == AppConsts.DatabaseType.MYSQL)
-                return new PostgreDBConnector(ConServer.Text, ConPort.Text, ConDataBaseName.Text, ConLogin.Text, ConPassword.Text, schema.Text);
+            if (DBServer == AppConsts.DatabaseType.PostgreSQL)
+                return new PostgreDBConnector(ConServer.Text, ConPort.Text, ConDataBaseName.Text, ConLogin.Text, ConPassword.Text, ConSchema.Text);
             return null;
         }
 

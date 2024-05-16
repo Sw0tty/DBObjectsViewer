@@ -30,18 +30,8 @@ namespace DBObjectsViewer
         public static void LoadJson(string fileName, string pathToFile = null/*string nameOfArgToDeserialize, string fileName, string pathToFile = null*/)
         {
             if (pathToFile != null)
-            {           
-                string[] dirsToFile = pathToFile.Split('\\');
-                string dirsChain = "";
-                
-                foreach (string dir in dirsToFile)
-                {
-                    dirsChain += $@"\{dir}";
-                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + dirsChain))
-                    {
-                        AppCreateDirectory(dirsChain);
-                    }
-                }      
+            {
+                CheckPath(pathToFile);
             }
             if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName))
             {
@@ -80,6 +70,11 @@ namespace DBObjectsViewer
         public static void SaveJson(object data, string fileName, string pathToFile = null)
         {
             string json = JsonSerializer.Serialize(data);
+
+            if (pathToFile != null)
+            {
+                CheckPath(pathToFile);
+            }
             File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName, json);
         }
 

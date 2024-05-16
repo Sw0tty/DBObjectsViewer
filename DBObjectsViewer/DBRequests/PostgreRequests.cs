@@ -5,10 +5,15 @@ namespace DBObjectsViewer
 {
     public static class PostgreRequests
     {
+        public static string SchemasRequest()
+        {
+            return "SELECT schema_name FROM information_schema.schemata";
+        }
+
         public static string ColumnsInfo(string tableName, List<string> columns)
         {
             // COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT, CHARACTER_MAXIMUM_LENGTH
-            return $"SELECT {string.Join(", ", columns)} FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'";
+            return $"SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT, CAST(CHARACTER_MAXIMUM_LENGTH as text) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'";
         }
 
         public static string TablesRequest(string schema)

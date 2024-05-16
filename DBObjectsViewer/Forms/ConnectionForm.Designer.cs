@@ -40,10 +40,10 @@
             this.portGroup = new System.Windows.Forms.GroupBox();
             this.ConPort = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.schemaGroup = new System.Windows.Forms.GroupBox();
+            this.ConSchema = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.schemaGroup = new System.Windows.Forms.GroupBox();
-            this.schema = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -176,6 +176,26 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(335, 300);
             this.flowLayoutPanel1.TabIndex = 7;
             // 
+            // schemaGroup
+            // 
+            this.schemaGroup.Controls.Add(this.ConSchema);
+            this.schemaGroup.Location = new System.Drawing.Point(3, 243);
+            this.schemaGroup.Name = "schemaGroup";
+            this.schemaGroup.Size = new System.Drawing.Size(325, 42);
+            this.schemaGroup.TabIndex = 9;
+            this.schemaGroup.TabStop = false;
+            this.schemaGroup.Text = "Схема:";
+            this.schemaGroup.Visible = false;
+            // 
+            // ConSchema
+            // 
+            this.ConSchema.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ConSchema.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ConSchema.Location = new System.Drawing.Point(3, 16);
+            this.ConSchema.Name = "ConSchema";
+            this.ConSchema.Size = new System.Drawing.Size(319, 22);
+            this.ConSchema.TabIndex = 1;
+            // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -191,26 +211,6 @@
             // backgroundWorker1
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            // 
-            // schemaGroup
-            // 
-            this.schemaGroup.Controls.Add(this.schema);
-            this.schemaGroup.Location = new System.Drawing.Point(3, 243);
-            this.schemaGroup.Name = "schemaGroup";
-            this.schemaGroup.Size = new System.Drawing.Size(325, 42);
-            this.schemaGroup.TabIndex = 9;
-            this.schemaGroup.TabStop = false;
-            this.schemaGroup.Text = "Схема:";
-            this.schemaGroup.Visible = false;
-            // 
-            // schema
-            // 
-            this.schema.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.schema.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.schema.Location = new System.Drawing.Point(3, 16);
-            this.schema.Name = "schema";
-            this.schema.Size = new System.Drawing.Size(319, 22);
-            this.schema.TabIndex = 1;
             // 
             // ConnectionForm
             // 
@@ -259,6 +259,6 @@
         private System.Windows.Forms.Label label1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.GroupBox schemaGroup;
-        private System.Windows.Forms.TextBox schema;
+        private System.Windows.Forms.TextBox ConSchema;
     }
 }

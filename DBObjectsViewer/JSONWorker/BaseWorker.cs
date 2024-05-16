@@ -38,5 +38,21 @@ namespace BaseJsonWorker
                 writer.Write(JSONFilesDefaultData.DefaultData[fileNameDefaultData]);
             }
         }
+
+        /// <summary>
+        /// Checks on existing path and create if False
+        /// </summary>
+        public static void CheckPath(string pathToFile)
+        {
+            string[] dirsToFile = pathToFile.Split('\\');
+            string dirsChain = "";
+
+            foreach (string dir in dirsToFile)
+            {
+                dirsChain += $@"\{dir}";
+                if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + dirsChain))
+                    AppCreateDirectory(dirsChain);
+            }
+        }
     }
 }
