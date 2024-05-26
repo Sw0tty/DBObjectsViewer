@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json;
-using System.Windows.Forms;
 using System.IO;
 using BaseJsonWorker;
-using Microsoft.Office.Interop.Word;
+using System.Text.Json;
+using System.Collections.Generic;
 
 
 namespace DBObjectsViewer
@@ -19,7 +14,8 @@ namespace DBObjectsViewer
         public static Dictionary<string, Deserializers.TestIndexes> SQLTestIndexes = new Dictionary<string, Deserializers.TestIndexes>();
         public static Dictionary<string, Deserializers.TestForeigns> SQLTestForeigns = new Dictionary<string, Deserializers.TestForeigns>();
         public static Deserializers.TableTemplate TableTemplateData = new Deserializers.TableTemplate();
-        public static Dictionary<string, Deserializers.DataBaseInfo> MYSQLDatabaseInfo = new Dictionary<string, Deserializers.DataBaseInfo>();
+        public static Dictionary<string, Deserializers.DataBaseInfo> MySQLDatabaseInfo = new Dictionary<string, Deserializers.DataBaseInfo>();
+        public static Dictionary<string, Deserializers.DataBaseInfo> PostgreSQLDatabaseInfo = new Dictionary<string, Deserializers.DataBaseInfo>();
 
         static string ReadJson(string fileName, string pathToFile = null)
         {
@@ -42,10 +38,10 @@ namespace DBObjectsViewer
 
             if (pathToFile != null && pathToFile.Contains(AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles))
             {
-                if (fileName.Contains(AppConsts.DatabaseType.MYSQL))
-                    MYSQLDatabaseInfo = JsonSerializer.Deserialize<Dictionary<string, Deserializers.DataBaseInfo>>(json);
-                /*else if (fileName.Contains(AppConsts.DatabaseType.PostgreSQL))
-                    PostgreSQLDatabaseInfo = JsonSerializer.Deserialize<Dictionary<string, Deserializers.DataBaseInfo>>(json);*/
+                if (fileName.Contains(AppConsts.DatabaseType.MySQL))
+                    MySQLDatabaseInfo = JsonSerializer.Deserialize<Dictionary<string, Deserializers.DataBaseInfo>>(json);
+                else if (fileName.Contains(AppConsts.DatabaseType.PostgreSQL))
+                    PostgreSQLDatabaseInfo = JsonSerializer.Deserialize<Dictionary<string, Deserializers.DataBaseInfo>>(json);
             }
             else
             {
@@ -75,12 +71,12 @@ namespace DBObjectsViewer
             {
                 CheckPath(pathToFile);
             }
-            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName, json);
+            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName + ".json", json);
         }
 
         public static string MakeUniqueFileName(string databaseName, string databaseType)
         {
-            return $"{databaseName}_{databaseType}_" + DateTime.Now.ToString("MMddyyHHmmss") + ".json";
+            return $"{databaseName}_{databaseType}_" + DateTime.Now.ToString("MMddyyHHmmss");
         }
     }
 }

@@ -17,9 +17,22 @@ namespace DBObjectsViewer
             public static List<string> ColumnsHeaders = new List<string>() { "Attribute", "DataType", "Info", "DefaultValue", "MaxLength" };
         }
 
+        public static class DBConsts
+        {
+            public const string Schema = "public";
+            public const string UnionCommand = "\nUNION ALL\n";
+        }
+
+        public static class FileDialogSupportedFormats
+        {
+            public const string UnsupportFormatStatus = "$UnsupporT$";
+            public static Dictionary<string, string> ExcelFormats = new Dictionary<string, string>() { { "xlsx", "Excel files" } };
+            public static Dictionary<string, string> JsonFormats = new Dictionary<string, string>() { { "json", "Json files" } };
+        }
+
         public static class DatabaseType
         {
-            public const string MYSQL = "MYSQL";
+            public const string MySQL = "MySQL";
             public const string PostgreSQL = "PostgreSQL";
             //public const string Oracle = "Oracle";
         }

@@ -21,7 +21,7 @@ namespace DBObjectsViewer.Forms
                 portGroup.Visible = true;
                 schemaGroup.Visible = true;
             }
-            else if (DBServer == AppConsts.DatabaseType.MYSQL)
+            else if (DBServer == AppConsts.DatabaseType.MySQL)
             {
                 this.Height = this.Height - portGroup.Height - schemaGroup.Height;
             }
@@ -41,7 +41,7 @@ namespace DBObjectsViewer.Forms
         {
             try
             {
-                if (DBServer == AppConsts.DatabaseType.MYSQL)
+                if (DBServer == AppConsts.DatabaseType.MySQL)
                 {
                     SQLDBConnector con = new SQLDBConnector(ConServer.Text, ConDataBaseName.Text, ConLogin.Text, ConPassword.Text);
                     con.OpenConnection();
@@ -68,7 +68,7 @@ namespace DBObjectsViewer.Forms
 
         public dynamic ReturnStableConnection()
         {
-            if (DBServer == AppConsts.DatabaseType.MYSQL)
+            if (DBServer == AppConsts.DatabaseType.MySQL)
                 return new SQLDBConnector(ConServer.Text, ConDataBaseName.Text, ConLogin.Text, ConPassword.Text);
             if (DBServer == AppConsts.DatabaseType.PostgreSQL)
                 return new PostgreDBConnector(ConServer.Text, ConPort.Text, ConDataBaseName.Text, ConLogin.Text, ConPassword.Text, ConSchema.Text);

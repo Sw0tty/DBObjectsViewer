@@ -61,17 +61,6 @@ namespace DBObjectsViewer.Forms
         private static bool PageLoading { get; set; }
         private static Dictionary<int, string> TableColumns { get; set;} = new Dictionary<int, string>();
 
-        static T DeepClone<T>(T obj)
-        {
-            using (var stream = new MemoryStream())
-            {
-                var formatter = new BinaryFormatter();
-                formatter.Serialize(stream, obj);
-                stream.Seek(0, SeekOrigin.Begin);
-                return (T)formatter.Deserialize(stream);
-            }
-        }
-
         private Deserializers.TableTemplate CopySettings(Deserializers.TableTemplate settings)
         {
             Deserializers.TableTemplate settingsCopy = new Deserializers.TableTemplate();

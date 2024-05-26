@@ -36,7 +36,7 @@ namespace DBObjectsViewer
 
         private void ConnectAndScan(string databaseType)
         {
-            ConnectionForm conForm = new ConnectionForm(databaseType);
+            /*ConnectionForm conForm = new ConnectionForm(databaseType);
             DialogResult conResult = conForm.ShowDialog();
 
             if (conResult == DialogResult.OK)
@@ -48,7 +48,7 @@ namespace DBObjectsViewer
                 {
                     MessageBox.Show("Database data successfully save.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-            }
+            }*/
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -58,7 +58,7 @@ namespace DBObjectsViewer
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ConnectAndScan(AppConsts.DatabaseType.MYSQL);
+            ConnectAndScan(AppConsts.DatabaseType.MySQL);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -397,6 +397,30 @@ namespace DBObjectsViewer
             // Закрытие документа и Word
             doc.Close();
             wordApp.Quit();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            DBScriptMakerForm scriprtMaker = new DBScriptMakerForm(AppConsts.DatabaseType.MySQL);
+            scriprtMaker.ShowDialog();
+        }
+
+        private void OpenWorkForm(string databaseType)
+        {
+            this.Visible = false;
+            DBWorkForm workForm = new DBWorkForm(databaseType);
+            workForm.ShowDialog();
+            this.Visible = true;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            OpenWorkForm(AppConsts.DatabaseType.MySQL);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            OpenWorkForm(AppConsts.DatabaseType.PostgreSQL);
         }
     }
 }

@@ -11,14 +11,13 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.Office.Interop.Word;
-using DBObjectsViewer.DBRequests;
 
 
 namespace DBObjectsViewer.Forms
 {
     public partial class WorkProgressForm : Form
     {
-        private SQLDBConnector MYSQLConnection { get; set; }
+        private SQLDBConnector MySQLConnection { get; set; }
         private PostgreDBConnector PostgreSQLConnection { get; set; }
 
         public WorkProgressForm(dynamic connection)
@@ -26,7 +25,7 @@ namespace DBObjectsViewer.Forms
             InitializeComponent();
 
             if (connection is SQLDBConnector)
-                MYSQLConnection = connection;
+                MySQLConnection = connection;
             else if (connection is PostgreDBConnector)
                 PostgreSQLConnection = connection;
 
@@ -35,19 +34,8 @@ namespace DBObjectsViewer.Forms
 
         private void CancelValues()
         {
-            MYSQLConnection = null;
+            MySQLConnection = null;
             PostgreSQLConnection = null;
-        }
-
-        static T DeepClone<T>(T obj)
-        {
-            using (var stream = new MemoryStream())
-            {
-                var formatter = new BinaryFormatter();
-                formatter.Serialize(stream, obj);
-                stream.Seek(0, SeekOrigin.Begin);
-                return (T)formatter.Deserialize(stream);
-            }
         }
 
         static void MakeWorkerReport(BackgroundWorker worker, Tuple<int, string> report)
@@ -60,29 +48,29 @@ namespace DBObjectsViewer.Forms
             BackgroundWorker worker = sender as BackgroundWorker;
             Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> DBInfo = new Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>>();
 
-            if (MYSQLConnection != null)
+            if (MySQLConnection != null)
             {
                 MakeWorkerReport(worker, AppConsts.ScanProgressConsts.OpenStatus);
-                MYSQLConnection.OpenConnection();
+                MySQLConnection.OpenConnection();
 
                 MakeWorkerReport(worker, AppConsts.ScanProgressConsts.CollectTablesStatus);
-                List<string> tables = MYSQLConnection.ReturnListTables();
+                List<string> tables = MySQLConnection.ReturnListTables();
 
                 MakeWorkerReport(worker, AppConsts.ScanProgressConsts.CollectInfoStatus);
 
-                foreach (string compositeRequest in RequestMaker.CompositeRequestToDB(tables, AppConsts.DatabaseType.MYSQL))
+                foreach (string compositeRequest in AppUsedFunctions.MakeCompositeRequestsToDB(tables, AppConsts.DatabaseType.MySQL))
                 {
-                    Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> middleInfo = DeepClone(MYSQLConnection.ReturnTablesInfo(compositeRequest, tables));
+                    Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> middleInfo = AppUsedFunctions.DeepClone(MySQLConnection.ReturnTablesInfo(compositeRequest, tables));
                     
                     foreach (string key in middleInfo.Keys)
-                        DBInfo.Add(key, DeepClone(middleInfo[key]));
+                        DBInfo.Add(key, AppUsedFunctions.DeepClone(middleInfo[key]));
                 }
 
                 MakeWorkerReport(worker, AppConsts.ScanProgressConsts.SaveDataStatus);
-                JSONWorker.SaveJson(DBInfo, JSONWorker.MakeUniqueFileName(MYSQLConnection.ReturnCatalogName(), AppConsts.DatabaseType.MYSQL), pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
+                JSONWorker.SaveJson(DBInfo, JSONWorker.MakeUniqueFileName(MySQLConnection.ReturnCatalogName(), AppConsts.DatabaseType.MySQL), pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
 
                 MakeWorkerReport(worker, AppConsts.ScanProgressConsts.CloseStatus);
-                MYSQLConnection.CloseConnection();
+                MySQLConnection.CloseConnection();
 
                 MakeWorkerReport(worker, AppConsts.ScanProgressConsts.DoneStatus);
             }
@@ -96,12 +84,12 @@ namespace DBObjectsViewer.Forms
 
                 MakeWorkerReport(worker, AppConsts.ScanProgressConsts.CollectInfoStatus);
 
-                foreach (string compositeRequest in RequestMaker.CompositeRequestToDB(tables, AppConsts.DatabaseType.PostgreSQL, schema: PostgreSQLConnection.ReturnSchemaName()))
+                foreach (string compositeRequest in AppUsedFunctions.MakeCompositeRequestsToDB(tables, AppConsts.DatabaseType.PostgreSQL, schema: PostgreSQLConnection.ReturnSchemaName()))
                 {
-                    Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> middleInfo = DeepClone(PostgreSQLConnection.ReturnTablesInfo(compositeRequest, tables));
+                    Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> middleInfo = AppUsedFunctions.DeepClone(PostgreSQLConnection.ReturnTablesInfo(compositeRequest, tables));
 
                     foreach (string key in middleInfo.Keys)
-                        DBInfo.Add(key, DeepClone(middleInfo[key]));
+                        DBInfo.Add(key, AppUsedFunctions.DeepClone(middleInfo[key]));
                 }
 
                 MakeWorkerReport(worker, AppConsts.ScanProgressConsts.SaveDataStatus);

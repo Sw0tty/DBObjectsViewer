@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConnectionForm));
             this.button1 = new System.Windows.Forms.Button();
             this.ConServer = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -195,6 +196,7 @@
             this.ConSchema.Name = "ConSchema";
             this.ConSchema.Size = new System.Drawing.Size(319, 22);
             this.ConSchema.TabIndex = 1;
+            this.ConSchema.Text = "public";
             // 
             // label1
             // 
@@ -221,6 +223,7 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConnectionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ConnectionForm";
