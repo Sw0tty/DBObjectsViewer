@@ -32,7 +32,7 @@ namespace DBObjectsViewer.Forms
             List<string> tables = new List<string>();
 
             foreach (string tableName in textBox3.Text.Split('\n'))
-                tables.Add(tableName.Trim());
+                tables.Add(tableName.Trim().Replace("\"", ""));
 
             if (textBox3.Text.Trim(' ') == "" || tables.Count == 0)
                 MessageBox.Show("Enter tables in column separated with new row.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

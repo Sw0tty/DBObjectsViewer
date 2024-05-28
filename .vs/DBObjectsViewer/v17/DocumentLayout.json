@@ -3,8 +3,44 @@
   "WorkspaceRootPath": "C:\\CharpProj\\DBObjectsViewer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|C:\\CharpProj\\DBObjectsViewer\\dbobjectsviewer\\jsonworker\\jsonworker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|c:\\charpproj\\dbobjectsviewer\\dbobjectsviewer\\forms\\dbworkform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|solutionrelative:dbobjectsviewer\\forms\\dbworkform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|c:\\charpproj\\dbobjectsviewer\\dbobjectsviewer\\forms\\workprogressform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|solutionrelative:dbobjectsviewer\\forms\\workprogressform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|c:\\charpproj\\dbobjectsviewer\\dbobjectsviewer\\appconsts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|solutionrelative:dbobjectsviewer\\appconsts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|c:\\charpproj\\dbobjectsviewer\\dbobjectsviewer\\appusedfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|solutionrelative:dbobjectsviewer\\appusedfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|c:\\charpproj\\dbobjectsviewer\\dbobjectsviewer\\forms\\dbworkform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|solutionrelative:dbobjectsviewer\\forms\\dbworkform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|c:\\charpproj\\dbobjectsviewer\\dbobjectsviewer\\jsonworker\\jsonworker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|solutionrelative:dbobjectsviewer\\jsonworker\\jsonworker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|c:\\charpproj\\dbobjectsviewer\\dbobjectsviewer\\dbrequests\\postgrerequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|solutionrelative:dbobjectsviewer\\dbrequests\\postgrerequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|C:\\CharpProj\\DBObjectsViewer\\dbobjectsviewer\\dbrequests\\sqlrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|solutionrelative:dbobjectsviewer\\dbrequests\\sqlrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|c:\\charpproj\\dbobjectsviewer\\dbobjectsviewer\\forms\\workprogressform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|solutionrelative:dbobjectsviewer\\forms\\workprogressform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|c:\\charpproj\\dbobjectsviewer\\dbobjectsviewer\\forms\\dbscriptmakerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|solutionrelative:dbobjectsviewer\\forms\\dbscriptmakerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|C:\\CharpProj\\DBObjectsViewer\\dbobjectsviewer\\jsonworker\\baseworker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -39,10 +75,6 @@
       "RelativeMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|solutionrelative:dbobjectsviewer\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|C:\\CharpProj\\DBObjectsViewer\\dbobjectsviewer\\dbrequests\\sqlrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|solutionrelative:dbobjectsviewer\\dbrequests\\sqlrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|C:\\CharpProj\\DBObjectsViewer\\dbobjectsviewer\\jsonworker\\deserializers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BE5B51EB-C805-469D-90DF-4E8F78A2C351}|DBObjectsViewer\\DBObjectsViewer.csproj|solutionrelative:dbobjectsviewer\\jsonworker\\deserializers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -66,7 +98,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -74,7 +106,109 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AppUsedFunctions.cs",
+              "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\AppUsedFunctions.cs",
+              "RelativeDocumentMoniker": "DBObjectsViewer\\AppUsedFunctions.cs",
+              "ToolTip": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\AppUsedFunctions.cs",
+              "RelativeToolTip": "DBObjectsViewer\\AppUsedFunctions.cs",
+              "ViewState": "AQIAAGUAAAAAAAAAAAAwwHsAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-28T06:11:29.071Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AppConsts.cs",
+              "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\AppConsts.cs",
+              "RelativeDocumentMoniker": "DBObjectsViewer\\AppConsts.cs",
+              "ToolTip": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\AppConsts.cs",
+              "RelativeToolTip": "DBObjectsViewer\\AppConsts.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-27T07:36:13.279Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "WorkProgressForm.cs",
+              "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\WorkProgressForm.cs",
+              "RelativeDocumentMoniker": "DBObjectsViewer\\Forms\\WorkProgressForm.cs",
+              "ToolTip": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\WorkProgressForm.cs",
+              "RelativeToolTip": "DBObjectsViewer\\Forms\\WorkProgressForm.cs",
+              "ViewState": "AQIAAGgAAAAAAAAAAAAIwKgAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-27T07:23:28.931Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "WorkProgressForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\WorkProgressForm.cs",
+              "RelativeDocumentMoniker": "DBObjectsViewer\\Forms\\WorkProgressForm.cs",
+              "ToolTip": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\WorkProgressForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "DBObjectsViewer\\Forms\\WorkProgressForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-27T07:23:25.443Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DBWorkForm.cs",
+              "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\DBWorkForm.cs",
+              "RelativeDocumentMoniker": "DBObjectsViewer\\Forms\\DBWorkForm.cs",
+              "ToolTip": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\DBWorkForm.cs",
+              "RelativeToolTip": "DBObjectsViewer\\Forms\\DBWorkForm.cs",
+              "ViewState": "AQIAAIYAAAAAAAAAAAAUwLIAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-27T07:21:16.188Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DBWorkForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\DBWorkForm.cs",
+              "RelativeDocumentMoniker": "DBObjectsViewer\\Forms\\DBWorkForm.cs",
+              "ToolTip": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\DBWorkForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "DBObjectsViewer\\Forms\\DBWorkForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-27T07:21:13.819Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "DBScriptMakerForm.cs",
+              "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\DBScriptMakerForm.cs",
+              "RelativeDocumentMoniker": "DBObjectsViewer\\Forms\\DBScriptMakerForm.cs",
+              "ToolTip": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\DBScriptMakerForm.cs",
+              "RelativeToolTip": "DBObjectsViewer\\Forms\\DBScriptMakerForm.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADEAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-27T07:00:37.951Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PostgreRequests.cs",
+              "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\DBRequests\\PostgreRequests.cs",
+              "RelativeDocumentMoniker": "DBObjectsViewer\\DBRequests\\PostgreRequests.cs",
+              "ToolTip": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\DBRequests\\PostgreRequests.cs",
+              "RelativeToolTip": "DBObjectsViewer\\DBRequests\\PostgreRequests.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-27T06:57:42.555Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "BaseWorker.cs",
               "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\JSONWorker\\BaseWorker.cs",
               "RelativeDocumentMoniker": "DBObjectsViewer\\JSONWorker\\BaseWorker.cs",
@@ -82,12 +216,11 @@
               "RelativeToolTip": "DBObjectsViewer\\JSONWorker\\BaseWorker.cs",
               "ViewState": "AQIAABYAAAAAAAAAAADwvzgAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-13T07:47:30.842Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-13T07:47:30.842Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 17,
               "Title": "MainForm.cs",
               "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\MainForm.cs",
               "RelativeDocumentMoniker": "DBObjectsViewer\\Forms\\MainForm.cs",
@@ -95,12 +228,11 @@
               "RelativeToolTip": "DBObjectsViewer\\Forms\\MainForm.cs",
               "ViewState": "AQIAABkAAAAAAAAAAAAgwDkAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-10T22:26:06.338Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-10T22:26:06.338Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 13,
               "Title": "ConnectionForm.cs",
               "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\ConnectionForm.cs",
               "RelativeDocumentMoniker": "DBObjectsViewer\\Forms\\ConnectionForm.cs",
@@ -108,24 +240,22 @@
               "RelativeToolTip": "DBObjectsViewer\\Forms\\ConnectionForm.cs",
               "ViewState": "AQIAAB0AAAAAAAAAAAAgwDcAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-12T13:50:03.775Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-12T13:50:03.775Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 14,
               "Title": "ConnectionForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\ConnectionForm.cs",
               "RelativeDocumentMoniker": "DBObjectsViewer\\Forms\\ConnectionForm.cs",
               "ToolTip": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\ConnectionForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "DBObjectsViewer\\Forms\\ConnectionForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-12T08:16:18.465Z",
-              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+              "WhenOpened": "2024-05-12T08:16:18.465Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 19,
               "Title": "Node.cs",
               "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Node.cs",
               "RelativeDocumentMoniker": "DBObjectsViewer\\Node.cs",
@@ -137,20 +267,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "JSONWorker.cs",
               "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\JSONWorker\\JSONWorker.cs",
               "RelativeDocumentMoniker": "DBObjectsViewer\\JSONWorker\\JSONWorker.cs",
               "ToolTip": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\JSONWorker\\JSONWorker.cs",
               "RelativeToolTip": "DBObjectsViewer\\JSONWorker\\JSONWorker.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEQAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAABfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-10T22:26:06.341Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 20,
               "Title": "JSONFilesDefaultData.cs",
               "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\JSONWorker\\JSONFilesDefaultData.cs",
               "RelativeDocumentMoniker": "DBObjectsViewer\\JSONWorker\\JSONFilesDefaultData.cs",
@@ -162,31 +292,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 15,
               "Title": "MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\MainForm.cs",
               "RelativeDocumentMoniker": "DBObjectsViewer\\Forms\\MainForm.cs",
               "ToolTip": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "DBObjectsViewer\\Forms\\MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-10T22:26:06.34Z",
-              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+              "WhenOpened": "2024-05-10T22:26:06.34Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 11,
               "Title": "TableTemplateForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\TableTemplateForm.cs",
               "RelativeDocumentMoniker": "DBObjectsViewer\\Forms\\TableTemplateForm.cs",
               "ToolTip": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\TableTemplateForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "DBObjectsViewer\\Forms\\TableTemplateForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-10T22:26:06.341Z",
-              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+              "WhenOpened": "2024-05-10T22:26:06.341Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 12,
               "Title": "TableTemplateForm.cs",
               "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\Forms\\TableTemplateForm.cs",
               "RelativeDocumentMoniker": "DBObjectsViewer\\Forms\\TableTemplateForm.cs",
@@ -194,24 +322,24 @@
               "RelativeToolTip": "DBObjectsViewer\\Forms\\TableTemplateForm.cs",
               "ViewState": "AQIAANoBAAAAAAAAAAAUwA4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-10T22:26:06.284Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-10T22:26:06.284Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 7,
               "Title": "SQLRequests.cs",
               "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\DBRequests\\SQLRequests.cs",
               "RelativeDocumentMoniker": "DBObjectsViewer\\DBRequests\\SQLRequests.cs",
               "ToolTip": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\DBRequests\\SQLRequests.cs",
               "RelativeToolTip": "DBObjectsViewer\\DBRequests\\SQLRequests.cs",
-              "ViewState": "AQIAAG0AAAAAAAAAAAD4v4sAAABNAAAA",
+              "ViewState": "AQIAADcAAAAAAAAAAAAAADcAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-10T22:26:06.345Z"
+              "WhenOpened": "2024-05-10T22:26:06.345Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 18,
               "Title": "Deserializers.cs",
               "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\JSONWorker\\Deserializers.cs",
               "RelativeDocumentMoniker": "DBObjectsViewer\\JSONWorker\\Deserializers.cs",
@@ -223,7 +351,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 21,
               "Title": "SQLAdaptres.cs",
               "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\DBConnectors\\SQLConnector\\SQLAdaptres.cs",
               "RelativeDocumentMoniker": "DBObjectsViewer\\DBConnectors\\SQLConnector\\SQLAdaptres.cs",
@@ -235,7 +363,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 16,
               "Title": "SQLDBConnector.cs",
               "DocumentMoniker": "C:\\CharpProj\\DBObjectsViewer\\DBObjectsViewer\\DBConnectors\\SQLConnector\\SQLDBConnector.cs",
               "RelativeDocumentMoniker": "DBObjectsViewer\\DBConnectors\\SQLConnector\\SQLDBConnector.cs",
@@ -243,8 +371,7 @@
               "RelativeToolTip": "DBObjectsViewer\\DBConnectors\\SQLConnector\\SQLDBConnector.cs",
               "ViewState": "AQIAACMAAAAAAAAAAAAvwDQAAAAtAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-10T22:26:06.343Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-10T22:26:06.343Z"
             }
           ]
         }

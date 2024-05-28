@@ -31,11 +31,11 @@ namespace DBObjectsViewer
             return formats;
         }
 
-        public static string SelectFileOnPC(Dictionary<string, string> supportedFormats = null)
+        public static string SelectFileOnPC(string startDir, Dictionary<string, string> supportedFormats = null)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.InitialDirectory = @"C:\";
+                openFileDialog.InitialDirectory = startDir;
                 openFileDialog.Filter = $"{(supportedFormats != null && supportedFormats.Count > 0 ? ReturnSupportedFormats(supportedFormats) : "")}All files (*.*)|*.*";
                 openFileDialog.FilterIndex = 1;
                 openFileDialog.RestoreDirectory = true;

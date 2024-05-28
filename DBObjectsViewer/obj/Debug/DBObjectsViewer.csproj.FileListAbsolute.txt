@@ -98,3 +98,9 @@ D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\bin\Debug\DocumentFormat.OpenXm
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\bin\Debug\DocumentFormat.OpenXml.Framework.dll
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\bin\Debug\DocumentFormat.OpenXml.xml
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\bin\Debug\DocumentFormat.OpenXml.Framework.xml
+C:\CharpProj\DBObjectsViewer\DBObjectsViewer\bin\Debug\DocumentFormat.OpenXml.dll
+C:\CharpProj\DBObjectsViewer\DBObjectsViewer\bin\Debug\DocumentFormat.OpenXml.Framework.dll
+C:\CharpProj\DBObjectsViewer\DBObjectsViewer\bin\Debug\DocumentFormat.OpenXml.xml
+C:\CharpProj\DBObjectsViewer\DBObjectsViewer\bin\Debug\DocumentFormat.OpenXml.Framework.xml
+C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.DBScriptMakerForm.resources
+C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.DBWorkForm.resources

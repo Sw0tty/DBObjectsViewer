@@ -33,6 +33,7 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ScanDatabaseBGWorker = new System.ComponentModel.BackgroundWorker();
+            this.ConvertExcelToJsonDBWorker = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,6 +70,12 @@
             this.ScanDatabaseBGWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ScanDatabaseBGWorker_DoWork);
             this.ScanDatabaseBGWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.ScanDatabaseBGWorker_ProgressChanged);
             // 
+            // ConvertExcelToJsonDBWorker
+            // 
+            this.ConvertExcelToJsonDBWorker.WorkerReportsProgress = true;
+            this.ConvertExcelToJsonDBWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ConvertExcelToJsonDBWorker_DoWork);
+            this.ConvertExcelToJsonDBWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.ConvertExcelToJsonDBWorker_ProgressChanged);
+            // 
             // WorkProgressForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -93,5 +100,6 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.ComponentModel.BackgroundWorker ScanDatabaseBGWorker;
+        private System.ComponentModel.BackgroundWorker ConvertExcelToJsonDBWorker;
     }
 }
