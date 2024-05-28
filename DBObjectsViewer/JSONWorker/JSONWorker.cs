@@ -3,6 +3,7 @@ using System.IO;
 using BaseJsonWorker;
 using System.Text.Json;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 
 namespace DBObjectsViewer
@@ -17,31 +18,40 @@ namespace DBObjectsViewer
         public static Dictionary<string, Deserializers.DataBaseInfo> MySQLDatabaseInfo = new Dictionary<string, Deserializers.DataBaseInfo>();
         public static Dictionary<string, Deserializers.DataBaseInfo> PostgreSQLDatabaseInfo = new Dictionary<string, Deserializers.DataBaseInfo>();
 
-        static string ReadJson(string fileName, string pathToFile = null)
+        static string ReadJson(string fileName, string pathToFile = null, bool defAppPath = true)
         {
-            using (StreamReader reader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName))
+            if (defAppPath)
+                using (StreamReader reader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName + ".json"))
+                    return reader.ReadToEnd();
+            using (StreamReader reader = new StreamReader(pathToFile + fileName + ".json"))
                 return reader.ReadToEnd();
         }
 
-        public static void LoadJson(string fileName, string pathToFile = null/*string nameOfArgToDeserialize, string fileName, string pathToFile = null*/)
+        public static void LoadJson(string fileName, string pathToFile = null, bool defAppPath = true)
         {
-            if (pathToFile != null)
+            if (defAppPath)
             {
-                CheckPath(pathToFile);
+                if (pathToFile != null)
+                {
+                    CheckPath(pathToFile);
+                }
+                if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName + ".json"))
+                {
+                    AppCreateFile(fileName, directoryName: pathToFile);
+                    WriteDefaultData(fileName, filePath: pathToFile);
+                }
             }
-            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName))
-            {
-                AppCreateFile(fileName, directoryName: pathToFile);
-                WriteDefaultData(fileName, filePath: pathToFile);
-            }
-            string json = ReadJson(fileName, pathToFile: pathToFile);
+            
+            string json = ReadJson(fileName, pathToFile: pathToFile, defAppPath: defAppPath);
 
-            if (pathToFile != null && pathToFile.Contains(AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles))
+            if (pathToFile != null && !defAppPath)
             {
                 if (fileName.Contains(AppConsts.DatabaseType.MySQL))
                     MySQLDatabaseInfo = JsonSerializer.Deserialize<Dictionary<string, Deserializers.DataBaseInfo>>(json);
                 else if (fileName.Contains(AppConsts.DatabaseType.PostgreSQL))
                     PostgreSQLDatabaseInfo = JsonSerializer.Deserialize<Dictionary<string, Deserializers.DataBaseInfo>>(json);
+                else
+                    MessageBox.Show("File not valid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {

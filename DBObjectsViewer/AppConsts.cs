@@ -45,10 +45,10 @@ namespace DBObjectsViewer
 
         public static class FileNamesConsts
         {
-            public const string TableTemplateFileName = "table_template.json";
-            public const string SQLTestDataFileName = "sql_test_data.json";
-            public const string SQLTestForeignsFileName = "sql_test_data_foreigns.json";
-            public const string SQLTestIndexesFileName = "sql_test_data_indexes.json";
+            public const string TableTemplateFileName = "table_template";
+            public const string SQLTestDataFileName = "sql_test_data";
+            public const string SQLTestForeignsFileName = "sql_test_data_foreigns";
+            public const string SQLTestIndexesFileName = "sql_test_data_indexes";
         }
 
         public static class ProgressConsts
@@ -66,7 +66,10 @@ namespace DBObjectsViewer
             public static class ConvertETJConsts
             {
                 public static Tuple<int, string> OpenStatus = new Tuple<int, string>(10, "Open file...");
-
+                public static Tuple<int, string> CollectScanField = new Tuple<int, string>(20, "Collect scanning fields...");
+                public static Tuple<int, string> ScanRows = new Tuple<int, string>(40, "Scanning rows...");
+                public static Tuple<int, string> CloseFile = new Tuple<int, string>(80, "Closing the file...");
+                public static Tuple<int, string> SaveFile = new Tuple<int, string>(90, "Save data in file...");
                 public static Tuple<int, string> DoneStatus = new Tuple<int, string>(100, "Done");
             }
         }

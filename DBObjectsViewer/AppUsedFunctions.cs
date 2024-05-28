@@ -52,6 +52,13 @@ namespace DBObjectsViewer
             }
         }
 
+        public static Tuple<string, string> SplitPath(string filePath)
+        {
+            filePath = filePath.Replace(".json", "");
+            string[] pathParts = filePath.Split('\\');
+            return new Tuple<string, string>(pathParts[pathParts.Length - 1], string.Join("\\", pathParts).Replace(pathParts[pathParts.Length - 1], ""));
+        }
+
         private static string MakeRequestHeader(string header)
         {
             return $"SELECT '{header}' AS {AppConsts.DataBaseDataDeserializerConsts.ColumnsHeaders[0]}, NULL AS {AppConsts.DataBaseDataDeserializerConsts.ColumnsHeaders[1]}, NULL AS {AppConsts.DataBaseDataDeserializerConsts.ColumnsHeaders[2]}, NULL AS {AppConsts.DataBaseDataDeserializerConsts.ColumnsHeaders[3]}, NULL AS {AppConsts.DataBaseDataDeserializerConsts.ColumnsHeaders[4]}"; ;

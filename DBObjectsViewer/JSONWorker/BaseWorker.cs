@@ -20,7 +20,7 @@ namespace BaseJsonWorker
         /// </summary>
         public static void AppCreateFile(string fileName, string directoryName = null)
         {
-            File.Create(AppDomain.CurrentDomain.BaseDirectory + directoryName + fileName).Dispose();
+            File.Create(AppDomain.CurrentDomain.BaseDirectory + directoryName + fileName + ".json").Dispose();
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace BaseJsonWorker
         /// </summary>
         public static void WriteDefaultData(string fileNameDefaultData, string filePath = null)
         {
-            using (StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + filePath + fileNameDefaultData))
+            using (StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + filePath + fileNameDefaultData + ".json"))
             {
                 writer.Write(JSONFilesDefaultData.DefaultData[fileNameDefaultData]);
             }

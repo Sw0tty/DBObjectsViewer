@@ -11,8 +11,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.Office.Interop.Word;
-using Microsoft.Office.Interop.Excel;
-using Excel = Microsoft.Office.Interop.Excel;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 
 namespace DBObjectsViewer.Forms
@@ -22,7 +22,12 @@ namespace DBObjectsViewer.Forms
         private SQLDBConnector MySQLConnection { get; set; }
         private PostgreDBConnector PostgreSQLConnection { get; set; }
 
-        public WorkProgressForm(dynamic connection = null, string filePath = null)
+        /// <summary>
+        /// Make work on paramets. Make sure to give only one parameter. <br/>
+        /// connection - make work with requests and converting data to json <br/>
+        /// fileInfo - scan excel file with data and converting in json. Item1 filePath, Item2 DBType
+        /// </summary>
+        public WorkProgressForm(dynamic connection = null, Tuple<string, string> fileInfo = null)
         {
             InitializeComponent();
 
@@ -34,8 +39,8 @@ namespace DBObjectsViewer.Forms
             if (connection != null)
                 ScanDatabaseBGWorker.RunWorkerAsync();
 
-            if (filePath != null)
-                ConvertExcelToJsonDBWorker.RunWorkerAsync(filePath);
+            if (fileInfo != null)
+                ConvertExcelToJsonDBWorker.RunWorkerAsync(fileInfo);
         }
 
         private void CancelValues()
@@ -124,48 +129,90 @@ namespace DBObjectsViewer.Forms
         private void ConvertExcelToJsonDBWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
+            Tuple<string, string> fileInfo = (Tuple<string, string>)e.Argument;
 
             Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> DBInfo = new Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>>();
 
             MakeWorkerReport(worker, AppConsts.ProgressConsts.ConvertETJConsts.OpenStatus);
-            Excel.Application excel = new Excel.Application();
-            Workbook workbook = excel.Workbooks.Open($@"{e.Argument}");
-            Worksheet worksheet = (Worksheet)workbook.Worksheets["Лист1"];
-
-            string tableName = null;
-            string tableInfoKey = null;
-
-            for (int row = 1; row <= worksheet.UsedRange.Rows.Count; row++)
+            using (FileStream fs = new FileStream(fileInfo.Item1, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                Dictionary<string, string> rowInfo = new Dictionary<string, string>();
-
-                if (!AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys.Contains(worksheet.Cells[row, 1].Value2.ToString()) && worksheet.Cells[row, 2].Value2.ToString().ToLower() == "null")
+                using (SpreadsheetDocument doc = SpreadsheetDocument.Open(fs, false))
                 {
-                    tableName = worksheet.Cells[row, 1].Value2.ToString();
-                    DBInfo.Add(tableName, new Dictionary<string, List<Dictionary<string, string>>>());
-                    continue;
-                }
-                if (AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys.Contains(worksheet.Cells[row, 1].Value2.ToString()))
-                {
-                    tableInfoKey = worksheet.Cells[row, 1].Value2.ToString();
-                    DBInfo[tableName].Add(tableInfoKey, new List<Dictionary<string, string>>());
-                    continue;
-                }
+                    WorkbookPart workbookPart = doc.WorkbookPart;
+                    SharedStringTablePart sstpart = workbookPart.GetPartsOfType<SharedStringTablePart>().First();
+                    SharedStringTable sst = sstpart.SharedStringTable;
 
-                for (int column = 1; column <= worksheet.UsedRange.Columns.Count; column++)
-                    rowInfo.Add(AppConsts.DataBaseDataDeserializerConsts.ColumnsHeaders[column - 1], worksheet.Cells[row, column].Value2.ToString());
+                    WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
+                    DocumentFormat.OpenXml.Spreadsheet.Worksheet sheet = worksheetPart.Worksheet;
 
-                DBInfo[tableName][tableInfoKey].Add(new Dictionary<string, string>(rowInfo));
+                    MakeWorkerReport(worker, AppConsts.ProgressConsts.ConvertETJConsts.CollectScanField);
+                    var cells = sheet.Descendants<DocumentFormat.OpenXml.Spreadsheet.Cell>();
+                    var rows = sheet.Descendants<DocumentFormat.OpenXml.Spreadsheet.Row>();
+
+                    string tableName = null;
+                    string tableInfoKey = null;
+
+                    MakeWorkerReport(worker, AppConsts.ProgressConsts.ConvertETJConsts.ScanRows);
+                    foreach (DocumentFormat.OpenXml.Spreadsheet.Row row in rows)
+                    {
+                        Dictionary<string, string> rowInfo = new Dictionary<string, string>();
+                        List<string> rowValues = new List<string>();
+
+                        foreach (DocumentFormat.OpenXml.Spreadsheet.Cell cell in row.Elements<DocumentFormat.OpenXml.Spreadsheet.Cell>())
+                        {
+                            if (cell.DataType != null && cell.DataType == CellValues.SharedString)
+                            {
+                                int ssid = int.Parse(cell.CellValue.Text);
+                                string str = sst.ChildElements[ssid].InnerText;
+                                rowValues.Add(str);
+                            }
+                            else if (cell.CellValue != null)
+                            {
+                                rowValues.Add(cell.CellValue.Text);
+                            }
+                        }
+
+                        if (rowValues.Count == 1 || rowValues[1].ToLower() == "null")
+                        {
+                            string value = rowValues[0];
+
+                            if (!AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys.Contains(value) && rowValues[1].ToLower() == "null")
+                            {
+                                tableName = value;
+                                DBInfo.Add(tableName, new Dictionary<string, List<Dictionary<string, string>>>());
+                                continue;
+                            }
+                            if (AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys.Contains(value))
+                            {
+                                tableInfoKey = value;
+                                DBInfo[tableName].Add(tableInfoKey, new List<Dictionary<string, string>>());
+                                continue;
+                            }
+                        }
+
+                        int nIndex = 0;
+                        foreach (string value in rowValues)
+                        {
+                            rowInfo.Add(AppConsts.DataBaseDataDeserializerConsts.ColumnsHeaders[nIndex], value);
+                            nIndex++;
+                        }
+                        DBInfo[tableName][tableInfoKey].Add(new Dictionary<string, string>(rowInfo));
+                    }
+                    MakeWorkerReport(worker, AppConsts.ProgressConsts.ConvertETJConsts.CloseFile);
+                }
             }
 
-            workbook.Close();
-            excel.Quit();
-
-            //JSONWorker.SaveJson(DBInfo, JSONWorker.MakeUniqueFileName("ExcelScan", DataBaseType), pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
+            MakeWorkerReport(worker, AppConsts.ProgressConsts.ConvertETJConsts.SaveFile);
+            JSONWorker.SaveJson(DBInfo, JSONWorker.MakeUniqueFileName("ExcelScan", fileInfo.Item2), pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
 
             MakeWorkerReport(worker, AppConsts.ProgressConsts.ConvertETJConsts.DoneStatus);
 
             this.DialogResult = DialogResult.OK;
+        }
+
+        public string ReturnSavePath()
+        {
+            return AppDomain.CurrentDomain.BaseDirectory + AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles;
         }
 
         private void ConvertExcelToJsonDBWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)

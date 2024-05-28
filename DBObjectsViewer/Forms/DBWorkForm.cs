@@ -1,6 +1,4 @@
-﻿using Microsoft.Office.Interop.Excel;
-using Microsoft.Office.Interop.Word;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,7 +9,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Excel = Microsoft.Office.Interop.Excel;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using WordProcessing = DocumentFormat.OpenXml.Wordprocessing;
@@ -28,6 +25,7 @@ namespace DBObjectsViewer.Forms
         {
             InitializeComponent();
             DataBaseType = databaseType;
+            label1.Text = $"Now working with {DataBaseType}";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -60,122 +58,11 @@ namespace DBObjectsViewer.Forms
 
             if (AppUsedFunctions.CheckSupportFormat(filePath))
             {
-                /*WorkProgressForm progressForm = new WorkProgressForm(conForm.ReturnStableConnection());
+                WorkProgressForm progressForm = new WorkProgressForm(fileInfo: new Tuple<string, string>(filePath, DataBaseType));
                 DialogResult progressResult = progressForm.ShowDialog();
 
                 if (progressResult == DialogResult.OK)
-                    MessageBox.Show("Database data successfully save.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-*/
-
-                // -- interop excel
-                /*Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> DBInfo = new Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>>();
-
-                Excel.Application excel = new Excel.Application();
-                Excel.Workbook workbook = excel.Workbooks.Open($@"{filePath}");
-                Excel.Worksheet worksheet = (Excel.Worksheet)workbook.Worksheets["Лист1"];
-
-                string tableName = null;
-                string tableInfoKey = null;
-
-                for (int row = 1; row <= worksheet.UsedRange.Rows.Count; row++)
-                {
-                    Dictionary<string, string> rowInfo = new Dictionary<string, string>();
-
-                    if (!AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys.Contains(worksheet.Cells[row, 1].Value2.ToString()) && worksheet.Cells[row, 2].Value2.ToString().ToLower() == "null")
-                    {
-                        tableName = worksheet.Cells[row, 1].Value2.ToString();
-                        DBInfo.Add(tableName, new Dictionary<string, List<Dictionary<string, string>>>());
-                        continue;
-                    }
-                    if (AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys.Contains(worksheet.Cells[row, 1].Value2.ToString()))
-                    {
-                        tableInfoKey = worksheet.Cells[row, 1].Value2.ToString();
-                        DBInfo[tableName].Add(tableInfoKey, new List<Dictionary<string, string>>());
-                        continue;
-                    }
-
-                    for (int column = 1; column <= worksheet.UsedRange.Columns.Count; column++)
-                        rowInfo.Add(AppConsts.DataBaseDataDeserializerConsts.ColumnsHeaders[column - 1], worksheet.Cells[row, column].Value2.ToString());
-
-                    DBInfo[tableName][tableInfoKey].Add(new Dictionary<string, string>(rowInfo));
-                }
-
-                workbook.Close();
-                excel.Quit();*/
-                // -- interop excel
-
-                // xml
-                Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>> DBInfo = new Dictionary<string, Dictionary<string, List<Dictionary<string, string>>>>();
-
-                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                {
-                    using (SpreadsheetDocument doc = SpreadsheetDocument.Open(fs, false))
-                    {
-                        WorkbookPart workbookPart = doc.WorkbookPart;
-                        SharedStringTablePart sstpart = workbookPart.GetPartsOfType<SharedStringTablePart>().First();
-                        SharedStringTable sst = sstpart.SharedStringTable;
-
-                        WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
-                        DocumentFormat.OpenXml.Spreadsheet.Worksheet sheet = worksheetPart.Worksheet;
-
-                        var cells = sheet.Descendants<DocumentFormat.OpenXml.Spreadsheet.Cell>();
-                        var rows = sheet.Descendants<DocumentFormat.OpenXml.Spreadsheet.Row>();
-
-                        string tableName = null;
-                        string tableInfoKey = null;
-
-                        foreach (DocumentFormat.OpenXml.Spreadsheet.Row row in rows)
-                        {
-                            Dictionary<string, string> rowInfo = new Dictionary<string, string>();
-                            List<string> rowValues = new List<string>();
-
-                            foreach (DocumentFormat.OpenXml.Spreadsheet.Cell cell in row.Elements<DocumentFormat.OpenXml.Spreadsheet.Cell>())
-                            {
-                                if (cell.DataType != null && cell.DataType == CellValues.SharedString)
-                                {
-                                    int ssid = int.Parse(cell.CellValue.Text);
-                                    string str = sst.ChildElements[ssid].InnerText;
-                                    rowValues.Add(str);
-                                }
-                                else if (cell.CellValue != null)
-                                {
-                                    rowValues.Add(cell.CellValue.Text);
-                                }
-                            }
-
-                            if (rowValues.Count == 1 || rowValues[1].ToLower() == "null")
-                            {
-                                string value = rowValues[0];
-
-                                if (!AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys.Contains(value) && rowValues[1].ToLower() == "null")
-                                {
-                                    tableName = value;
-                                    DBInfo.Add(tableName, new Dictionary<string, List<Dictionary<string, string>>>());
-                                    continue;
-                                }
-                                if (AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys.Contains(value))
-                                {
-                                    tableInfoKey = value;
-                                    DBInfo[tableName].Add(tableInfoKey, new List<Dictionary<string, string>>());
-                                    continue;
-                                }
-                            }
-
-                            int nIndex = 0;
-                            foreach (string value in rowValues)
-                            {
-                                rowInfo.Add(AppConsts.DataBaseDataDeserializerConsts.ColumnsHeaders[nIndex], value);
-                                nIndex++;
-                            }
-                            DBInfo[tableName][tableInfoKey].Add(new Dictionary<string, string>(rowInfo));
-                        }
-                    }
-                }
-                // xml
-
-
-
-                JSONWorker.SaveJson(DBInfo, JSONWorker.MakeUniqueFileName("ExcelScan", DataBaseType), pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
+                    MessageBox.Show($"Excel file successfully scan. File saved on path: {progressForm.ReturnSavePath()}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -186,9 +73,10 @@ namespace DBObjectsViewer.Forms
             if (AppUsedFunctions.CheckSupportFormat(filePath))
             {
                 // Converting in Word
-                JSONWorker.LoadJson("ExcelScan_MYSQL_052524001525.json", AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
+                Tuple<string, string> pathParts = AppUsedFunctions.SplitPath(filePath);
 
-                
+                JSONWorker.LoadJson(pathParts.Item1, pathToFile: pathParts.Item2, defAppPath: false);
+
 
                 // read the data from the json file
                 var data = JSONWorker.MySQLDatabaseInfo;
