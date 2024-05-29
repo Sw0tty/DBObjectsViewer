@@ -41,6 +41,7 @@ namespace DBObjectsViewer
         {
             public const string DirectoryOfTestDataFiles = @"TestData\";
             public const string DirectoryOfDatabaseDataFiles = @"DatabaseData\";
+            public const string DirectoryOfWordFormatDatabaseDataFiles = @"WordFormatScans\";
         }
 
         public static class FileNamesConsts

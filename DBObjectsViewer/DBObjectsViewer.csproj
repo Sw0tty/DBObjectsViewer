@@ -121,6 +121,7 @@
     <Compile Include="DBConnectors\PostrgeConnector\PostgreAdapters.cs" />
     <Compile Include="DBConnectors\SQLConnector\SQLBaseConnector.cs" />
     <Compile Include="DBRequests\PostgreRequests.cs" />
+    <Compile Include="FilesManager.cs" />
     <Compile Include="Forms\DBScriptMakerForm.cs">
       <SubType>Form</SubType>
     </Compile>
