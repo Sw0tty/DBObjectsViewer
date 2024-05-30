@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
+using static DBObjectsViewer.AppConsts;
 
 
 namespace DBObjectsViewer
@@ -31,11 +32,12 @@ namespace DBObjectsViewer
             return formats;
         }
 
-        public static string SelectFileOnPC(string startDir, Dictionary<string, string> supportedFormats = null)
+        public static string SelectFileOnPC(string startDir, string dialogTitle, Dictionary<string, string> supportedFormats = null)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
+            {             
                 openFileDialog.InitialDirectory = startDir;
+                openFileDialog.Title = dialogTitle;
                 openFileDialog.Filter = $"{(supportedFormats != null && supportedFormats.Count > 0 ? ReturnSupportedFormats(supportedFormats) : "")}All files (*.*)|*.*";
                 openFileDialog.FilterIndex = 1;
                 openFileDialog.RestoreDirectory = true;
@@ -158,6 +160,21 @@ namespace DBObjectsViewer
             else if (filePath == null)
             {
                 MessageBox.Show("File selecting cancelled.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            return true;
+        }
+
+        public static bool CheckSelectingFile(string filePath, string dbtype)
+        {
+            if (filePath == null)
+            {
+                MessageBox.Show("File selecting cancelled.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            else if (!filePath.Contains(dbtype))
+            {               
+                MessageBox.Show($"File not valid! Make sure you choice file with current name of dbtype: '{dbtype}'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             return true;

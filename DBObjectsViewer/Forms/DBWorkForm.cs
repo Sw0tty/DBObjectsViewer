@@ -55,7 +55,7 @@ namespace DBObjectsViewer.Forms
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string filePath = AppUsedFunctions.SelectFileOnPC(@"C:\", AppConsts.FileDialogSupportedFormats.ExcelFormats);
+            string filePath = AppUsedFunctions.SelectFileOnPC(@"C:\", "Selecting an Excel file to scan", supportedFormats: AppConsts.FileDialogSupportedFormats.ExcelFormats);
 
             if (AppUsedFunctions.CheckSupportFormat(filePath))
             {
@@ -69,32 +69,127 @@ namespace DBObjectsViewer.Forms
 
         private void button4_Click(object sender, EventArgs e)
         {
-            BaseJsonWorker.BaseWorker.CheckPath(AppConsts.DirsConsts.DirectoryOfWordFormatDatabaseDataFiles);
+            string filePath = AppUsedFunctions.SelectFileOnPC(AppDomain.CurrentDomain.BaseDirectory, "Selecting an JSON file to convert in Word", supportedFormats: AppConsts.FileDialogSupportedFormats.JsonFormats);
 
-            string uName = JSONWorker.MakeUniqueFileName("WordReport", DataBaseType);
-
-            // Create a document by supplying the filepath. 
-            using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(@"C:\Users\Swotty\Desktop\TestExp" + ".docx", WordprocessingDocumentType.Document))
+            if (!AppUsedFunctions.CheckSelectingFile(filePath, DataBaseType))
+            {}
+            else if (AppUsedFunctions.CheckSupportFormat(filePath))
             {
-                // Add a main document part. 
-                MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+                Tuple<string, string> pathParts = AppUsedFunctions.SplitPath(filePath);
+                JSONWorker.LoadJson(pathParts.Item1, pathToFile: pathParts.Item2, defAppPath: false);
+                dynamic data = null;
 
-                // Create the document structure and add some text.
-                mainPart.Document = new Document();
-                Body body = mainPart.Document.AppendChild(new Body());
-                Paragraph para = body.AppendChild(new Paragraph());
-                WordProcessing.Run run = para.AppendChild(new WordProcessing.Run());
-                run.AppendChild(new WordProcessing.Text("Create text in body - CreateWordprocessingDocument"));
+                if (pathParts.Item1.Contains(AppConsts.DatabaseType.MySQL))
+                    data = JSONWorker.MySQLDatabaseInfo;
+                else if (pathParts.Item1.Contains(AppConsts.DatabaseType.PostgreSQL))
+                    data = JSONWorker.PostgreSQLDatabaseInfo;
 
-                run.AppendChild(new Paragraph(new WordProcessing.Run(new WordProcessing.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "))));
+                BaseJsonWorker.BaseWorker.CheckPath(AppConsts.DirsConsts.DirectoryOfWordFormatDatabaseDataFiles);
 
-                run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Break() { Type = BreakValues.Page })));
+                string uName = JSONWorker.MakeUniqueFileName("WordReport", DataBaseType);
+                string testPath1 = @"C:\Users\Swotty\Desktop\TestExp";
+                string workPath = AppDomain.CurrentDomain.BaseDirectory + AppConsts.DirsConsts.DirectoryOfWordFormatDatabaseDataFiles + uName;
+                // Create a document by supplying the filepath. 
+                using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(workPath + ".docx", WordprocessingDocumentType.Document))
+                {
+                    // Add a main document part. 
+                    MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
 
-                run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "))));
+                    // Create the document structure and add some text.
+                    mainPart.Document = new Document();
+                    Body body = mainPart.Document.AppendChild(new Body());
+                    Paragraph para = body.AppendChild(new Paragraph());
+                    WordProcessing.Run run = para.AppendChild(new WordProcessing.Run());
 
+                    foreach (string key in data.Keys)
+                    {
+                        run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(key))));
+                        run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(""))));
+                        run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text("Краткое описание:"))));
+                        run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(""))));
+                        WordProcessing.Table table = new WordProcessing.Table();
+                        WordProcessing.TableProperties props = new WordProcessing.TableProperties(
+                             new WordProcessing.TableBorders(
+                                 new WordProcessing.TopBorder // верх таблицы (строки, если одна)
+                                 {
+                                     Val = new EnumValue<WordProcessing.BorderValues>(WordProcessing.BorderValues.Single),
+                                     Size = 12
+                                 },
+                                 new WordProcessing.BottomBorder
+                                 {
+                                     Val = new EnumValue<WordProcessing.BorderValues>(WordProcessing.BorderValues.Single),
+                                     Size = 12
+                                 },
+                                 new WordProcessing.LeftBorder
+                                 {
+                                     Val = new EnumValue<WordProcessing.BorderValues>(WordProcessing.BorderValues.Single),
+                                     Size = 12
+                                 },
+                                 new WordProcessing.RightBorder
+                                 {
+                                     Val = new EnumValue<WordProcessing.BorderValues>(WordProcessing.BorderValues.Single),
+                                     Size = 12
+                                 },
+                                 new WordProcessing.InsideHorizontalBorder
+                                 {
+                                     Val = new EnumValue<WordProcessing.BorderValues>(WordProcessing.BorderValues.Single),
+                                     Size = 12
+                                 },
+                                 new WordProcessing.InsideVerticalBorder
+                                 {
+                                     Val = new EnumValue<WordProcessing.BorderValues>(WordProcessing.BorderValues.Single),
+                                     Size = 12
+                                 }
+                             ));
+
+                        table.AppendChild<WordProcessing.TableProperties>(props);
+
+                        // Add header
+
+                        // 1 - header
+                        int rowsCount = 1 + data[key][AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys[0]].Count;
+
+                        // Количество строк
+                        for (var i = 0; i < data.Keys.Count; i++)
+                        {
+                            var tr = new WordProcessing.TableRow();
+
+                            // Количество столбцов
+                            for (var j = 0; j < 4; j++)
+                            {
+                                var tc = new WordProcessing.TableCell();
+
+                                // Добалвение данных в ячейку
+                                tc.Append(new DocumentFormat.OpenXml.Wordprocessing.Paragraph(new WordProcessing.Run(new WordProcessing.Text("TEST"))));
+
+                                // Assume you want columns that are automatically sized.
+                                tc.Append(new WordProcessing.TableCellProperties(
+                                    new WordProcessing.TableCellWidth { Type = WordProcessing.TableWidthUnitValues.Auto }));
+
+                                tr.Append(tc);
+                            }
+                            table.Append(tr);
+                        }
+                        run.Append(table);
+
+                        run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Break() { Type = BreakValues.Page })));
+                    }
+
+
+                    /*run.AppendChild(new WordProcessing.Text("Create text in body - CreateWordprocessingDocument"));
+
+                    run.AppendChild(new Paragraph(new WordProcessing.Run(new WordProcessing.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "))));
+
+                    run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Break() { Type = BreakValues.Page })));
+
+                    run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "))));
+*/
+                }
             }
 
-            //string filePath = AppUsedFunctions.SelectFileOnPC(AppDomain.CurrentDomain.BaseDirectory, AppConsts.FileDialogSupportedFormats.JsonFormats);
+            
+
+            
 
             /*if (AppUsedFunctions.CheckSupportFormat(filePath))
             {
