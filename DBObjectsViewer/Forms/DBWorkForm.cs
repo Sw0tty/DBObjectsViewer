@@ -101,8 +101,40 @@ namespace DBObjectsViewer.Forms
                     Paragraph para = body.AppendChild(new Paragraph());
                     WordProcessing.Run run = para.AppendChild(new WordProcessing.Run());
 
+                    // 1 - header
+                    bool addHeader = true;
+
                     foreach (string key in data.Keys)
                     {
+                        Dictionary<int, List<string>> tableData = new Dictionary<int, List<string>>();
+                        int dIndex = addHeader ? 1 : 0;
+
+                        foreach (Dictionary<string, string> d in data[key].FieldsInfo)
+                        {
+                            tableData[dIndex] = new List<string>() { d["Info"], d["Attribute"], d["DataType"] };
+                            dIndex++;
+                        }
+                        if (data[key].Foreigns != null)
+                        {
+                            tableData[dIndex] = new List<string>() { "Table foreigns" };
+                            dIndex++;
+                            foreach (Dictionary<string, string> d in data[key].Foreigns)
+                            {
+                                tableData[dIndex] = new List<string>() { "", d["Attribute"], d["Info"], d["DataType"] };
+                                dIndex++;
+                            }
+                        }
+                        if (data[key].Indexes != null)
+                        {
+                            tableData[dIndex] = new List<string>() { "Table indexes" };
+                            dIndex++;
+                            foreach (Dictionary<string, string> d in data[key].Indexes)
+                            {
+                                tableData[dIndex] = new List<string>() { "", d["Attribute"], d["Info"], d["DataType"] };
+                                dIndex++;
+                            }
+                        }
+
                         run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(key))));
                         run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(""))));
                         run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text("Краткое описание:"))));
@@ -140,27 +172,78 @@ namespace DBObjectsViewer.Forms
                                      Val = new EnumValue<WordProcessing.BorderValues>(WordProcessing.BorderValues.Single),
                                      Size = 12
                                  }
-                             ));
+                             ),
+/*                             new WordProcessing.GrowAutofit { Val },*/
+                             new WordProcessing.TableLayout { Type = TableLayoutValues.Autofit },
+                             new TableWidth { Type = TableWidthUnitValues.Auto }
+                             );;
 
                         table.AppendChild<WordProcessing.TableProperties>(props);
 
                         // Add header
 
-                        // 1 - header
-                        int rowsCount = 1 + data[key][AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys[0]].Count;
+
+                        
+
+
+
+                        
+
+                        List<Tuple<string, string>> tableHeader = JSONWorker.TableTemplateData.TableTitle;
+
+                        int rowsForFieldsInfo = data[key].FieldsInfo.Count;
+                        int rowsForForeigns = data[key].Foreigns != null ? 1 + data[key].Foreigns.Count : 0;
+                        int rowsForIndexes = data[key].Indexes != null ? 1 + data[key].Indexes.Count : 0;
+                        int rowsCount = (addHeader ? 1 : 0) + rowsForFieldsInfo + rowsForIndexes + rowsForForeigns;
+
 
                         // Количество строк
-                        for (var i = 0; i < data.Keys.Count; i++)
+                        for (var i = 0; i < rowsCount; i++)
                         {
                             var tr = new WordProcessing.TableRow();
+                            List<string> objData = new List<string>();
+
+                            if (addHeader && i == 0)
+                            {
+
+                            }
+                            else
+                            {
+
+
+                                if (i - (addHeader ? 1 : 0) < rowsForFieldsInfo)
+                                {
+                                    objData.Add(data[key].FieldsInfo[i - (addHeader ? 1 : 0)]["Info"] == "NO" ? "*" : "");
+                                    objData.Add(data[key].FieldsInfo[i - (addHeader ? 1 : 0)]["Attribute"]);
+                                    objData.Add(data[key].FieldsInfo[i - (addHeader ? 1 : 0)]["DataType"]);
+                                }
+/*                                else if (rowsForForeigns != 0 && i - (addHeader ? 1 : 0) < rowsForFieldsInfo + rowsForForeigns)
+                                {
+                                    objData.Add(data[key].Foreigns[i - (addHeader ? 1 : 0)]["Info"]);
+                                    objData.Add(data[key].Foreigns[i - (addHeader ? 1 : 0)]["Attribute"]);
+                                    objData.Add(data[key].Foreigns[i - (addHeader ? 1 : 0)]["DataType"]);
+                                    objData.Add(data[key].Foreigns[i - (addHeader ? 1 : 0)]["Info"]);
+                                }*/
+
+                            }
+                                
 
                             // Количество столбцов
-                            for (var j = 0; j < 4; j++)
+                            for (var j = 0; j < tableHeader.Count; j++)
                             {
                                 var tc = new WordProcessing.TableCell();
 
-                                // Добалвение данных в ячейку
-                                tc.Append(new DocumentFormat.OpenXml.Wordprocessing.Paragraph(new WordProcessing.Run(new WordProcessing.Text("TEST"))));
+                                if (addHeader && i == 0)
+                                    tc.Append(new DocumentFormat.OpenXml.Wordprocessing.Paragraph(new WordProcessing.Run(new WordProcessing.Text(tableHeader[j].Item1))));
+                                else // Добалвение данных в ячейку
+                                {
+                                    tc.Append(new DocumentFormat.OpenXml.Wordprocessing.Paragraph(new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? tableData[i][j] : ""/*j < objData.Count ? objData[j] : ""*/))));
+                                    /*if (objData.Count > 0)
+                                        tc.Append(new DocumentFormat.OpenXml.Wordprocessing.Paragraph(new WordProcessing.Run(new WordProcessing.Text(tableData[i][j]*//*j < objData.Count ? objData[j] : ""*//*))));
+                                    else
+                                        tc.Append(new DocumentFormat.OpenXml.Wordprocessing.Paragraph(new WordProcessing.Run(new WordProcessing.Text("TEST"))));*/
+                                }
+                                    
 
                                 // Assume you want columns that are automatically sized.
                                 tc.Append(new WordProcessing.TableCellProperties(
