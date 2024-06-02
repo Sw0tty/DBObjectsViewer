@@ -83,7 +83,7 @@ namespace DBObjectsViewer.Forms
                 }
 
                 MakeWorkerReport(worker, AppConsts.ProgressConsts.ScanConsts.SaveDataStatus);
-                JSONWorker.SaveJson(DBInfo, JSONWorker.MakeUniqueFileName(MySQLConnection.ReturnCatalogName(), AppConsts.DatabaseType.MySQL), pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
+                JSONWorker.SaveJson(DBInfo, FilesManager.MakeUniqueFileName(MySQLConnection.ReturnCatalogName(), AppConsts.DatabaseType.MySQL), pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
 
                 MakeWorkerReport(worker, AppConsts.ProgressConsts.ScanConsts.CloseStatus);
                 MySQLConnection.CloseConnection();
@@ -109,7 +109,7 @@ namespace DBObjectsViewer.Forms
                 }
 
                 MakeWorkerReport(worker, AppConsts.ProgressConsts.ScanConsts.SaveDataStatus);
-                JSONWorker.SaveJson(DBInfo, JSONWorker.MakeUniqueFileName(PostgreSQLConnection.ReturnDatabaseName(), AppConsts.DatabaseType.PostgreSQL), pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
+                JSONWorker.SaveJson(DBInfo, FilesManager.MakeUniqueFileName(PostgreSQLConnection.ReturnDatabaseName(), AppConsts.DatabaseType.PostgreSQL), pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
 
                 MakeWorkerReport(worker, AppConsts.ProgressConsts.ScanConsts.CloseStatus);
                 PostgreSQLConnection.CloseConnection();
@@ -203,7 +203,7 @@ namespace DBObjectsViewer.Forms
             }
 
             MakeWorkerReport(worker, AppConsts.ProgressConsts.ConvertETJConsts.SaveFile);
-            JSONWorker.SaveJson(DBInfo, JSONWorker.MakeUniqueFileName("ExcelScan", fileInfo.Item2), pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
+            JSONWorker.SaveJson(DBInfo, FilesManager.MakeUniqueFileName("ExcelScan", fileInfo.Item2), pathToFile: AppConsts.DirsConsts.DirectoryOfDatabaseDataFiles);
 
             MakeWorkerReport(worker, AppConsts.ProgressConsts.ConvertETJConsts.DoneStatus);
 

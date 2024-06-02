@@ -46,7 +46,7 @@ namespace DBObjectsViewer
 
         public static class FileNamesConsts
         {
-            public const string TableTemplateFileName = "table_template";
+            public const string AppSettingsFileName = "app_settings";
             public const string SQLTestDataFileName = "sql_test_data";
             public const string SQLTestForeignsFileName = "sql_test_data_foreigns";
             public const string SQLTestIndexesFileName = "sql_test_data_indexes";

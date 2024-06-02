@@ -25,10 +25,12 @@ namespace DBObjectsViewer
             public string MaxLength { get; set; }
         }*/
 
-        public class TableTemplate
+        public class ScannerSettings // ScannerSettings
         {
+            public bool ScanIndexesInfo { get; set; }
+            public bool ScanForeignsInfo { get; set; }
+            public bool AddForeignsInfo { get; set; }
             public bool AddIndexesInfo { get; set; }
-            public bool AddForeignInfo { get; set; }
             public bool AllAboutDataType { get; set; }
             public Dictionary<string, int> IndexParamsColumnsNum { get; set; }
             public Dictionary<string, string> SelectedColumns { get; set; }

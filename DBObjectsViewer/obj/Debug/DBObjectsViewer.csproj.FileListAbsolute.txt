@@ -89,7 +89,6 @@ D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.ConnectionForm.resources
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.WorkProgressForm.resources
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObject.CB1C3B0D.Up2Date
-D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.csproj.CopyComplete
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.MainForm.resources
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.MainForm.resources
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.DBScriptMakerForm.resources
@@ -104,3 +103,4 @@ C:\CharpProj\DBObjectsViewer\DBObjectsViewer\bin\Debug\DocumentFormat.OpenXml.xm
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\bin\Debug\DocumentFormat.OpenXml.Framework.xml
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.DBScriptMakerForm.resources
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.DBWorkForm.resources
+D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObject.CB1C3B0D.Up2Date

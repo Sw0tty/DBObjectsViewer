@@ -14,9 +14,9 @@ namespace DBObjectsViewer
         public static Dictionary<string, Deserializers.TestTableFields> SQLTestData = new Dictionary<string, Deserializers.TestTableFields>();
         public static Dictionary<string, Deserializers.TestIndexes> SQLTestIndexes = new Dictionary<string, Deserializers.TestIndexes>();
         public static Dictionary<string, Deserializers.TestForeigns> SQLTestForeigns = new Dictionary<string, Deserializers.TestForeigns>();
-        public static Deserializers.TableTemplate TableTemplateData = new Deserializers.TableTemplate();
-        public static Dictionary<string, Deserializers.DataBaseInfo> MySQLDatabaseInfo = new Dictionary<string, Deserializers.DataBaseInfo>();
-        public static Dictionary<string, Deserializers.DataBaseInfo> PostgreSQLDatabaseInfo = new Dictionary<string, Deserializers.DataBaseInfo>();
+        public static Deserializers.ScannerSettings AppSettings = new Deserializers.ScannerSettings();
+        //public static Dictionary<string, Deserializers.DataBaseInfo> MySQLDatabaseInfo = new Dictionary<string, Deserializers.DataBaseInfo>();
+        //public static Dictionary<string, Deserializers.DataBaseInfo> PostgreSQLDatabaseInfo = new Dictionary<string, Deserializers.DataBaseInfo>();
 
         static string ReadJson(string fileName, string pathToFile = null, bool defAppPath = true)
         {
@@ -27,13 +27,19 @@ namespace DBObjectsViewer
                 return reader.ReadToEnd();
         }
 
+        public static dynamic LoadAndReturnJSON(string fileName, string pathToFile = null, bool defAppPath = true)
+        {
+            string json = ReadJson(fileName, pathToFile: pathToFile, defAppPath: defAppPath);
+            return JsonSerializer.Deserialize<Dictionary<string, Deserializers.DataBaseInfo>>(json);
+        }
+
         public static void LoadJson(string fileName, string pathToFile = null, bool defAppPath = true)
         {
             if (defAppPath)
             {
                 if (pathToFile != null)
                 {
-                    CheckPath(pathToFile);
+                    FilesManager.CheckPath(pathToFile);
                 }
                 if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName + ".json"))
                 {
@@ -46,19 +52,20 @@ namespace DBObjectsViewer
 
             if (pathToFile != null && !defAppPath)
             {
-                if (fileName.Contains(AppConsts.DatabaseType.MySQL))
+                MessageBox.Show("Method not support!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                /*if (fileName.Contains(AppConsts.DatabaseType.MySQL))
                     MySQLDatabaseInfo = JsonSerializer.Deserialize<Dictionary<string, Deserializers.DataBaseInfo>>(json);
                 else if (fileName.Contains(AppConsts.DatabaseType.PostgreSQL))
                     PostgreSQLDatabaseInfo = JsonSerializer.Deserialize<Dictionary<string, Deserializers.DataBaseInfo>>(json);
                 else
-                    MessageBox.Show("File not valid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("File not valid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);*/
             }
             else
             {
                 switch (fileName)
                 {
-                    case AppConsts.FileNamesConsts.TableTemplateFileName:
-                        TableTemplateData = JsonSerializer.Deserialize<Deserializers.TableTemplate>(json);
+                    case AppConsts.FileNamesConsts.AppSettingsFileName:
+                        AppSettings = JsonSerializer.Deserialize<Deserializers.ScannerSettings>(json);
                         break;
                     case AppConsts.FileNamesConsts.SQLTestDataFileName:
                         SQLTestData = JsonSerializer.Deserialize<Dictionary<string, Deserializers.TestTableFields>>(json);
@@ -78,15 +85,8 @@ namespace DBObjectsViewer
             string json = JsonSerializer.Serialize(data);
 
             if (pathToFile != null)
-            {
-                CheckPath(pathToFile);
-            }
+                FilesManager.CheckPath(pathToFile);
             File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + pathToFile + fileName + ".json", json);
-        }
-
-        public static string MakeUniqueFileName(string databaseName, string databaseType)
-        {
-            return $"{databaseName}_{databaseType}_" + DateTime.Now.ToString("MMddyyHHmmss");
         }
     }
 }

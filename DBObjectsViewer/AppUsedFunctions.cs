@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
-using static DBObjectsViewer.AppConsts;
+using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 
 
 namespace DBObjectsViewer
@@ -21,36 +17,6 @@ namespace DBObjectsViewer
                 formatter.Serialize(stream, obj);
                 stream.Seek(0, SeekOrigin.Begin);
                 return (T)formatter.Deserialize(stream);
-            }
-        }
-
-        public static string ReturnSupportedFormats(Dictionary<string, string> supportedFormats)
-        {
-            string formats = null;
-            foreach (string key in supportedFormats.Keys)
-                formats += $"{supportedFormats[key]} (*.{key})|*.{key}|";
-            return formats;
-        }
-
-        public static string SelectFileOnPC(string startDir, string dialogTitle, Dictionary<string, string> supportedFormats = null)
-        {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {             
-                openFileDialog.InitialDirectory = startDir;
-                openFileDialog.Title = dialogTitle;
-                openFileDialog.Filter = $"{(supportedFormats != null && supportedFormats.Count > 0 ? ReturnSupportedFormats(supportedFormats) : "")}All files (*.*)|*.*";
-                openFileDialog.FilterIndex = 1;
-                openFileDialog.RestoreDirectory = true;
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    string[] filePathParts = openFileDialog.FileName.Split('.');
-                    if (!supportedFormats.Keys.Contains(filePathParts[filePathParts.Length - 1]))
-                        return AppConsts.FileDialogSupportedFormats.UnsupportFormatStatus;
-                    else
-                        return openFileDialog.FileName;
-                }
-                return null;
             }
         }
 
@@ -121,7 +87,7 @@ namespace DBObjectsViewer
                     else if (databaseType == AppConsts.DatabaseType.PostgreSQL)
                         compositeRequest += PostgreRequests.ColumnsInfo(tableName, AppConsts.FieldsInfo);
 
-                    if (JSONWorker.TableTemplateData.AddIndexesInfo)
+                    if (JSONWorker.AppSettings.ScanIndexesInfo)
                     {
                         compositeRequest += AppConsts.DBConsts.UnionCommand;
                         compositeRequest += MakeRequestHeader(AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys[1]) + AppConsts.DBConsts.UnionCommand;
@@ -131,7 +97,7 @@ namespace DBObjectsViewer
                         /* else if (databaseType == AppConsts.DatabaseType.PostgreSQL)
                              compositeRequest += PostgreRequests.TableIndexesRequest(tableName);*/
                     }
-                    if (JSONWorker.TableTemplateData.AddForeignInfo)
+                    if (JSONWorker.AppSettings.ScanForeignsInfo)
                     {
                         compositeRequest += AppConsts.DBConsts.UnionCommand;
                         compositeRequest += MakeRequestHeader(AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys[2]) + AppConsts.DBConsts.UnionCommand;
@@ -146,7 +112,6 @@ namespace DBObjectsViewer
                 }
                 compositeRequests.Add(compositeRequest);
             }
-
             return compositeRequests;
         }
 

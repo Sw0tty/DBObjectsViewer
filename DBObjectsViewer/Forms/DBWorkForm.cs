@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using DocumentFormat.OpenXml;
+using System.Collections.Generic;
 using DocumentFormat.OpenXml.Packaging;
-using WordProcessing = DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml.Wordprocessing;
-using DocumentFormat.OpenXml.Spreadsheet;
+using WordProcessing = DocumentFormat.OpenXml.Wordprocessing;
 
 
 namespace DBObjectsViewer.Forms
@@ -55,7 +46,7 @@ namespace DBObjectsViewer.Forms
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string filePath = AppUsedFunctions.SelectFileOnPC(@"C:\", "Selecting an Excel file to scan", supportedFormats: AppConsts.FileDialogSupportedFormats.ExcelFormats);
+            string filePath = FilesManager.SelectFileOnPC(@"C:\", "Selecting an Excel file to scan", supportedFormats: AppConsts.FileDialogSupportedFormats.ExcelFormats);
 
             if (AppUsedFunctions.CheckSupportFormat(filePath))
             {
@@ -69,25 +60,24 @@ namespace DBObjectsViewer.Forms
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string filePath = AppUsedFunctions.SelectFileOnPC(AppDomain.CurrentDomain.BaseDirectory, "Selecting an JSON file to convert in Word", supportedFormats: AppConsts.FileDialogSupportedFormats.JsonFormats);
+            string filePath = FilesManager.SelectFileOnPC(AppDomain.CurrentDomain.BaseDirectory, "Selecting an JSON file to convert in Word", supportedFormats: AppConsts.FileDialogSupportedFormats.JsonFormats);
 
             if (!AppUsedFunctions.CheckSelectingFile(filePath, DataBaseType))
             {}
             else if (AppUsedFunctions.CheckSupportFormat(filePath))
             {
                 Tuple<string, string> pathParts = AppUsedFunctions.SplitPath(filePath);
-                JSONWorker.LoadJson(pathParts.Item1, pathToFile: pathParts.Item2, defAppPath: false);
-                dynamic data = null;
+                //JSONWorker.LoadJson(pathParts.Item1, pathToFile: pathParts.Item2, defAppPath: false);
+                dynamic data = JSONWorker.LoadAndReturnJSON(pathParts.Item1, pathToFile: pathParts.Item2, defAppPath: false);
 
-                if (pathParts.Item1.Contains(AppConsts.DatabaseType.MySQL))
+                /*if (pathParts.Item1.Contains(AppConsts.DatabaseType.MySQL))
                     data = JSONWorker.MySQLDatabaseInfo;
                 else if (pathParts.Item1.Contains(AppConsts.DatabaseType.PostgreSQL))
-                    data = JSONWorker.PostgreSQLDatabaseInfo;
+                    data = JSONWorker.PostgreSQLDatabaseInfo;*/
 
-                BaseJsonWorker.BaseWorker.CheckPath(AppConsts.DirsConsts.DirectoryOfWordFormatDatabaseDataFiles);
+                FilesManager.CheckPath(AppConsts.DirsConsts.DirectoryOfWordFormatDatabaseDataFiles);
 
-                string uName = JSONWorker.MakeUniqueFileName("WordReport", DataBaseType);
-                string testPath1 = @"C:\Users\Swotty\Desktop\TestExp";
+                string uName = FilesManager.MakeUniqueFileName("WordReport", DataBaseType);
                 string workPath = AppDomain.CurrentDomain.BaseDirectory + AppConsts.DirsConsts.DirectoryOfWordFormatDatabaseDataFiles + uName;
                 // Create a document by supplying the filepath. 
                 using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(workPath + ".docx", WordprocessingDocumentType.Document))
@@ -109,28 +99,28 @@ namespace DBObjectsViewer.Forms
                         Dictionary<int, List<string>> tableData = new Dictionary<int, List<string>>();
                         int dIndex = addHeader ? 1 : 0;
 
-                        foreach (Dictionary<string, string> d in data[key].FieldsInfo)
+                        foreach (Dictionary<string, string> obj in data[key].FieldsInfo)
                         {
-                            tableData[dIndex] = new List<string>() { d["Info"], d["Attribute"], d["DataType"] };
+                            tableData[dIndex] = new List<string>() { obj["Info"] == "NO" ? "*" : "", obj["Attribute"], obj["DataType"] };
                             dIndex++;
                         }
-                        if (data[key].Foreigns != null)
+                        if (JSONWorker.AppSettings.AddForeignsInfo && data[key].Foreigns != null)
                         {
                             tableData[dIndex] = new List<string>() { "Table foreigns" };
                             dIndex++;
-                            foreach (Dictionary<string, string> d in data[key].Foreigns)
+                            foreach (Dictionary<string, string> obj in data[key].Foreigns)
                             {
-                                tableData[dIndex] = new List<string>() { "", d["Attribute"], d["Info"], d["DataType"] };
+                                tableData[dIndex] = new List<string>() { "", obj["Attribute"], obj["Info"], obj["DataType"] };
                                 dIndex++;
                             }
                         }
-                        if (data[key].Indexes != null)
+                        if (JSONWorker.AppSettings.AddIndexesInfo && data[key].Indexes != null)
                         {
                             tableData[dIndex] = new List<string>() { "Table indexes" };
                             dIndex++;
-                            foreach (Dictionary<string, string> d in data[key].Indexes)
+                            foreach (Dictionary<string, string> obj in data[key].Indexes)
                             {
-                                tableData[dIndex] = new List<string>() { "", d["Attribute"], d["Info"], d["DataType"] };
+                                tableData[dIndex] = new List<string>() { "", obj["Attribute"], obj["Info"], obj["DataType"] };
                                 dIndex++;
                             }
                         }
@@ -140,41 +130,41 @@ namespace DBObjectsViewer.Forms
                         run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text("Краткое описание:"))));
                         run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(""))));
                         WordProcessing.Table table = new WordProcessing.Table();
-                        WordProcessing.TableProperties props = new WordProcessing.TableProperties(
-                             new WordProcessing.TableBorders(
+                        TableProperties props = new TableProperties(
+                             new TableBorders(
                                  new WordProcessing.TopBorder // верх таблицы (строки, если одна)
                                  {
-                                     Val = new EnumValue<WordProcessing.BorderValues>(WordProcessing.BorderValues.Single),
+                                     Val = new EnumValue<BorderValues>(BorderValues.Single),
                                      Size = 12
                                  },
                                  new WordProcessing.BottomBorder
                                  {
-                                     Val = new EnumValue<WordProcessing.BorderValues>(WordProcessing.BorderValues.Single),
+                                     Val = new EnumValue<BorderValues>(BorderValues.Single),
                                      Size = 12
                                  },
                                  new WordProcessing.LeftBorder
                                  {
-                                     Val = new EnumValue<WordProcessing.BorderValues>(WordProcessing.BorderValues.Single),
+                                     Val = new EnumValue<BorderValues>(BorderValues.Single),
                                      Size = 12
                                  },
                                  new WordProcessing.RightBorder
                                  {
-                                     Val = new EnumValue<WordProcessing.BorderValues>(WordProcessing.BorderValues.Single),
+                                     Val = new EnumValue<BorderValues>(BorderValues.Single),
                                      Size = 12
                                  },
-                                 new WordProcessing.InsideHorizontalBorder
+                                 new InsideHorizontalBorder
                                  {
-                                     Val = new EnumValue<WordProcessing.BorderValues>(WordProcessing.BorderValues.Single),
+                                     Val = new EnumValue<BorderValues>(BorderValues.Single),
                                      Size = 12
                                  },
-                                 new WordProcessing.InsideVerticalBorder
+                                 new InsideVerticalBorder
                                  {
-                                     Val = new EnumValue<WordProcessing.BorderValues>(WordProcessing.BorderValues.Single),
+                                     Val = new EnumValue<BorderValues>(BorderValues.Single),
                                      Size = 12
                                  }
                              ),
 /*                             new WordProcessing.GrowAutofit { Val },*/
-                             new WordProcessing.TableLayout { Type = TableLayoutValues.Autofit },
+                             new TableLayout { Type = TableLayoutValues.Autofit },
                              new TableWidth { Type = TableWidthUnitValues.Auto }
                              );;
 
@@ -183,25 +173,19 @@ namespace DBObjectsViewer.Forms
                         // Add header
 
 
-                        
-
-
-
-                        
-
-                        List<Tuple<string, string>> tableHeader = JSONWorker.TableTemplateData.TableTitle;
+                        List<Tuple<string, string>> tableHeader = JSONWorker.AppSettings.TableTitle;
 
                         int rowsForFieldsInfo = data[key].FieldsInfo.Count;
-                        int rowsForForeigns = data[key].Foreigns != null ? 1 + data[key].Foreigns.Count : 0;
-                        int rowsForIndexes = data[key].Indexes != null ? 1 + data[key].Indexes.Count : 0;
+                        int rowsForForeigns = JSONWorker.AppSettings.AddForeignsInfo && data[key].Foreigns != null ? 1 + data[key].Foreigns.Count : 0;
+                        int rowsForIndexes = JSONWorker.AppSettings.AddIndexesInfo && data[key].Indexes != null ? 1 + data[key].Indexes.Count : 0;
                         int rowsCount = (addHeader ? 1 : 0) + rowsForFieldsInfo + rowsForIndexes + rowsForForeigns;
 
 
                         // Количество строк
                         for (var i = 0; i < rowsCount; i++)
                         {
-                            var tr = new WordProcessing.TableRow();
-                            List<string> objData = new List<string>();
+                            var tRow = new WordProcessing.TableRow();
+/*                            List<string> objData = new List<string>();
 
                             if (addHeader && i == 0)
                             {
@@ -217,41 +201,41 @@ namespace DBObjectsViewer.Forms
                                     objData.Add(data[key].FieldsInfo[i - (addHeader ? 1 : 0)]["Attribute"]);
                                     objData.Add(data[key].FieldsInfo[i - (addHeader ? 1 : 0)]["DataType"]);
                                 }
-/*                                else if (rowsForForeigns != 0 && i - (addHeader ? 1 : 0) < rowsForFieldsInfo + rowsForForeigns)
+*//*                                else if (rowsForForeigns != 0 && i - (addHeader ? 1 : 0) < rowsForFieldsInfo + rowsForForeigns)
                                 {
                                     objData.Add(data[key].Foreigns[i - (addHeader ? 1 : 0)]["Info"]);
                                     objData.Add(data[key].Foreigns[i - (addHeader ? 1 : 0)]["Attribute"]);
                                     objData.Add(data[key].Foreigns[i - (addHeader ? 1 : 0)]["DataType"]);
                                     objData.Add(data[key].Foreigns[i - (addHeader ? 1 : 0)]["Info"]);
-                                }*/
+                                }*//*
 
-                            }
+                            }*/
                                 
 
                             // Количество столбцов
                             for (var j = 0; j < tableHeader.Count; j++)
                             {
-                                var tc = new WordProcessing.TableCell();
+                                var tCell = new TableCell();
 
                                 if (addHeader && i == 0)
-                                    tc.Append(new DocumentFormat.OpenXml.Wordprocessing.Paragraph(new WordProcessing.Run(new WordProcessing.Text(tableHeader[j].Item1))));
+                                    tCell.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(tableHeader[j].Item1))));
                                 else // Добалвение данных в ячейку
                                 {
-                                    tc.Append(new DocumentFormat.OpenXml.Wordprocessing.Paragraph(new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? tableData[i][j] : ""/*j < objData.Count ? objData[j] : ""*/))));
+                                    tCell.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? tableData[i][j] : ""/*j < objData.Count ? objData[j] : ""*/))));
                                     /*if (objData.Count > 0)
                                         tc.Append(new DocumentFormat.OpenXml.Wordprocessing.Paragraph(new WordProcessing.Run(new WordProcessing.Text(tableData[i][j]*//*j < objData.Count ? objData[j] : ""*//*))));
                                     else
                                         tc.Append(new DocumentFormat.OpenXml.Wordprocessing.Paragraph(new WordProcessing.Run(new WordProcessing.Text("TEST"))));*/
                                 }
-                                    
+
 
                                 // Assume you want columns that are automatically sized.
-                                tc.Append(new WordProcessing.TableCellProperties(
-                                    new WordProcessing.TableCellWidth { Type = WordProcessing.TableWidthUnitValues.Auto }));
+                                tCell.Append(new TableCellProperties(
+                                    new TableCellWidth { Type = TableWidthUnitValues.Auto }));
 
-                                tr.Append(tc);
+                                tRow.Append(tCell);
                             }
-                            table.Append(tr);
+                            table.Append(tRow);
                         }
                         run.Append(table);
 

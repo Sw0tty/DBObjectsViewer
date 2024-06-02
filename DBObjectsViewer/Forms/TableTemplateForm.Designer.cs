@@ -30,8 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TableTemplateForm));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.ScanIndexesCheckBox = new System.Windows.Forms.CheckBox();
+            this.ScanForeignsCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -41,9 +41,9 @@
             this.button4 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.FullDTypeCheckBox = new System.Windows.Forms.CheckBox();
+            this.SaveSettingsButton = new System.Windows.Forms.Button();
+            this.CloseWithoutSaveButton = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.button7 = new System.Windows.Forms.Button();
@@ -53,12 +53,20 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.ScanViewsCheckBox = new System.Windows.Forms.CheckBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.AddViewsCheckBox = new System.Windows.Forms.CheckBox();
+            this.AddIndexesCheckBox = new System.Windows.Forms.CheckBox();
+            this.AddTHeaderCheckBox = new System.Windows.Forms.CheckBox();
+            this.AddForeingsCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -69,40 +77,40 @@
             this.dataGridView1.Location = new System.Drawing.Point(3, 16);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(587, 245);
+            this.dataGridView1.Size = new System.Drawing.Size(587, 367);
             this.dataGridView1.TabIndex = 0;
             // 
-            // checkBox1
+            // ScanIndexesCheckBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(22, 19);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(210, 17);
-            this.checkBox1.TabIndex = 1;
-            this.checkBox1.Text = "Добавить информацию об индексах";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.ScanIndexesCheckBox.AutoSize = true;
+            this.ScanIndexesCheckBox.Location = new System.Drawing.Point(6, 42);
+            this.ScanIndexesCheckBox.Name = "ScanIndexesCheckBox";
+            this.ScanIndexesCheckBox.Size = new System.Drawing.Size(207, 17);
+            this.ScanIndexesCheckBox.TabIndex = 1;
+            this.ScanIndexesCheckBox.Text = "Получить информацию об индексах";
+            this.ScanIndexesCheckBox.UseVisualStyleBackColor = true;
+            this.ScanIndexesCheckBox.CheckedChanged += new System.EventHandler(this.ScanIndexesCheckBox_CheckedChanged);
             // 
-            // checkBox2
+            // ScanForeignsCheckBox
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(22, 42);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(249, 17);
-            this.checkBox2.TabIndex = 2;
-            this.checkBox2.Text = "Добавить информацию о вторичных ключах";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            this.ScanForeignsCheckBox.AutoSize = true;
+            this.ScanForeignsCheckBox.Location = new System.Drawing.Point(6, 19);
+            this.ScanForeignsCheckBox.Name = "ScanForeignsCheckBox";
+            this.ScanForeignsCheckBox.Size = new System.Drawing.Size(246, 17);
+            this.ScanForeignsCheckBox.TabIndex = 2;
+            this.ScanForeignsCheckBox.Text = "Получить информацию о вторичных ключах";
+            this.ScanForeignsCheckBox.UseVisualStyleBackColor = true;
+            this.ScanForeignsCheckBox.CheckedChanged += new System.EventHandler(this.ScanForeignsCheckBox_CheckedChanged);
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.dataGridView1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 134);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(593, 264);
+            this.groupBox1.Size = new System.Drawing.Size(593, 386);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Шаблон таблицы";
+            this.groupBox1.Text = "Шаблон таблицы в Word";
             // 
             // groupBox2
             // 
@@ -186,45 +194,45 @@
             this.comboBox2.Size = new System.Drawing.Size(279, 21);
             this.comboBox2.TabIndex = 3;
             // 
-            // checkBox3
+            // FullDTypeCheckBox
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(22, 66);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(204, 17);
-            this.checkBox3.TabIndex = 8;
-            this.checkBox3.Text = "Точная информация о типе данных";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            this.FullDTypeCheckBox.AutoSize = true;
+            this.FullDTypeCheckBox.Location = new System.Drawing.Point(6, 42);
+            this.FullDTypeCheckBox.Name = "FullDTypeCheckBox";
+            this.FullDTypeCheckBox.Size = new System.Drawing.Size(204, 17);
+            this.FullDTypeCheckBox.TabIndex = 8;
+            this.FullDTypeCheckBox.Text = "Точная информация о типе данных";
+            this.FullDTypeCheckBox.UseVisualStyleBackColor = true;
+            this.FullDTypeCheckBox.CheckedChanged += new System.EventHandler(this.FullDTypeCheckBox_CheckedChanged);
             // 
-            // button5
+            // SaveSettingsButton
             // 
-            this.button5.Location = new System.Drawing.Point(313, 485);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(140, 32);
-            this.button5.TabIndex = 9;
-            this.button5.Text = "Сохранить";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.SaveSettingsButton.Location = new System.Drawing.Point(599, 487);
+            this.SaveSettingsButton.Name = "SaveSettingsButton";
+            this.SaveSettingsButton.Size = new System.Drawing.Size(140, 32);
+            this.SaveSettingsButton.TabIndex = 9;
+            this.SaveSettingsButton.Text = "Сохранить";
+            this.SaveSettingsButton.UseVisualStyleBackColor = true;
+            this.SaveSettingsButton.Click += new System.EventHandler(this.SaveSettingsButton_Click);
             // 
-            // button6
+            // CloseWithoutSaveButton
             // 
-            this.button6.Location = new System.Drawing.Point(465, 485);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(140, 32);
-            this.button6.TabIndex = 10;
-            this.button6.Text = "Отменить изменения";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.CloseWithoutSaveButton.Location = new System.Drawing.Point(751, 487);
+            this.CloseWithoutSaveButton.Name = "CloseWithoutSaveButton";
+            this.CloseWithoutSaveButton.Size = new System.Drawing.Size(140, 32);
+            this.CloseWithoutSaveButton.TabIndex = 10;
+            this.CloseWithoutSaveButton.Text = "Отменить изменения";
+            this.CloseWithoutSaveButton.UseVisualStyleBackColor = true;
+            this.CloseWithoutSaveButton.Click += new System.EventHandler(this.button6_Click);
             // 
             // listBox1
             // 
             this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 32);
+            this.listBox1.Location = new System.Drawing.Point(9, 32);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(120, 82);
+            this.listBox1.Size = new System.Drawing.Size(104, 82);
             this.listBox1.TabIndex = 11;
             this.listBox1.SelectedValueChanged += new System.EventHandler(this.listBox1_SelectedValueChanged);
             // 
@@ -233,9 +241,9 @@
             this.listBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(177, 32);
+            this.listBox2.Location = new System.Drawing.Point(160, 32);
             this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(120, 82);
+            this.listBox2.Size = new System.Drawing.Size(114, 82);
             this.listBox2.TabIndex = 12;
             this.listBox2.SelectedValueChanged += new System.EventHandler(this.listBox2_SelectedValueChanged);
             // 
@@ -243,7 +251,7 @@
             // 
             this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button7.Enabled = false;
-            this.button7.Location = new System.Drawing.Point(139, 38);
+            this.button7.Location = new System.Drawing.Point(122, 38);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(32, 32);
             this.button7.TabIndex = 13;
@@ -255,7 +263,7 @@
             // 
             this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button8.Enabled = false;
-            this.button8.Location = new System.Drawing.Point(139, 76);
+            this.button8.Location = new System.Drawing.Point(122, 76);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(32, 32);
             this.button8.TabIndex = 14;
@@ -266,7 +274,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 16);
+            this.label1.Location = new System.Drawing.Point(6, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(82, 13);
             this.label1.TabIndex = 15;
@@ -275,7 +283,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(174, 16);
+            this.label2.Location = new System.Drawing.Point(157, 16);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(66, 13);
             this.label2.TabIndex = 16;
@@ -289,9 +297,9 @@
             this.groupBox3.Controls.Add(this.listBox2);
             this.groupBox3.Controls.Add(this.button8);
             this.groupBox3.Controls.Add(this.button7);
-            this.groupBox3.Location = new System.Drawing.Point(298, 7);
+            this.groupBox3.Location = new System.Drawing.Point(611, 267);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(307, 131);
+            this.groupBox3.Size = new System.Drawing.Size(280, 131);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Информация о колонках";
@@ -319,32 +327,100 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "groupBox4";
             // 
-            // checkBox4
+            // ScanViewsCheckBox
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Enabled = false;
-            this.checkBox4.Location = new System.Drawing.Point(22, 89);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(239, 17);
-            this.checkBox4.TabIndex = 20;
-            this.checkBox4.Text = "Добавить информацию о представлениях";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.ScanViewsCheckBox.AutoSize = true;
+            this.ScanViewsCheckBox.Enabled = false;
+            this.ScanViewsCheckBox.Location = new System.Drawing.Point(6, 65);
+            this.ScanViewsCheckBox.Name = "ScanViewsCheckBox";
+            this.ScanViewsCheckBox.Size = new System.Drawing.Size(236, 17);
+            this.ScanViewsCheckBox.TabIndex = 20;
+            this.ScanViewsCheckBox.Text = "Получить информацию о представлениях";
+            this.ScanViewsCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.ScanIndexesCheckBox);
+            this.groupBox5.Controls.Add(this.ScanForeignsCheckBox);
+            this.groupBox5.Controls.Add(this.ScanViewsCheckBox);
+            this.groupBox5.Location = new System.Drawing.Point(611, 152);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(280, 100);
+            this.groupBox5.TabIndex = 21;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Настройки сканера:";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.AddViewsCheckBox);
+            this.groupBox6.Controls.Add(this.AddIndexesCheckBox);
+            this.groupBox6.Controls.Add(this.AddTHeaderCheckBox);
+            this.groupBox6.Controls.Add(this.AddForeingsCheckBox);
+            this.groupBox6.Controls.Add(this.FullDTypeCheckBox);
+            this.groupBox6.Location = new System.Drawing.Point(611, 12);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(280, 134);
+            this.groupBox6.TabIndex = 22;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Настройки Word:";
+            // 
+            // AddViewsCheckBox
+            // 
+            this.AddViewsCheckBox.AutoSize = true;
+            this.AddViewsCheckBox.Enabled = false;
+            this.AddViewsCheckBox.Location = new System.Drawing.Point(6, 111);
+            this.AddViewsCheckBox.Name = "AddViewsCheckBox";
+            this.AddViewsCheckBox.Size = new System.Drawing.Size(239, 17);
+            this.AddViewsCheckBox.TabIndex = 21;
+            this.AddViewsCheckBox.Text = "Добавить информацию о представлениях";
+            this.AddViewsCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // AddIndexesCheckBox
+            // 
+            this.AddIndexesCheckBox.AutoSize = true;
+            this.AddIndexesCheckBox.Location = new System.Drawing.Point(6, 88);
+            this.AddIndexesCheckBox.Name = "AddIndexesCheckBox";
+            this.AddIndexesCheckBox.Size = new System.Drawing.Size(210, 17);
+            this.AddIndexesCheckBox.TabIndex = 21;
+            this.AddIndexesCheckBox.Text = "Добавить информацию об индексах";
+            this.AddIndexesCheckBox.UseVisualStyleBackColor = true;
+            this.AddIndexesCheckBox.CheckedChanged += new System.EventHandler(this.AddIndexesInfo_CheckedChanged);
+            // 
+            // AddTHeaderCheckBox
+            // 
+            this.AddTHeaderCheckBox.AutoSize = true;
+            this.AddTHeaderCheckBox.Enabled = false;
+            this.AddTHeaderCheckBox.Location = new System.Drawing.Point(6, 19);
+            this.AddTHeaderCheckBox.Name = "AddTHeaderCheckBox";
+            this.AddTHeaderCheckBox.Size = new System.Drawing.Size(198, 17);
+            this.AddTHeaderCheckBox.TabIndex = 23;
+            this.AddTHeaderCheckBox.Text = "Добавить наименования колонок";
+            this.AddTHeaderCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // AddForeingsCheckBox
+            // 
+            this.AddForeingsCheckBox.AutoSize = true;
+            this.AddForeingsCheckBox.Location = new System.Drawing.Point(6, 65);
+            this.AddForeingsCheckBox.Name = "AddForeingsCheckBox";
+            this.AddForeingsCheckBox.Size = new System.Drawing.Size(249, 17);
+            this.AddForeingsCheckBox.TabIndex = 22;
+            this.AddForeingsCheckBox.Text = "Добавить информацию о вторичных ключах";
+            this.AddForeingsCheckBox.UseVisualStyleBackColor = true;
+            this.AddForeingsCheckBox.CheckedChanged += new System.EventHandler(this.AddForeignsInfo_CheckedChanged);
             // 
             // TableTemplateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(615, 529);
-            this.Controls.Add(this.checkBox4);
+            this.ClientSize = new System.Drawing.Size(900, 529);
+            this.Controls.Add(this.groupBox6);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.checkBox3);
+            this.Controls.Add(this.CloseWithoutSaveButton);
+            this.Controls.Add(this.SaveSettingsButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.checkBox2);
-            this.Controls.Add(this.checkBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TableTemplateForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -357,16 +433,19 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox ScanIndexesCheckBox;
+        private System.Windows.Forms.CheckBox ScanForeignsCheckBox;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ComboBox comboBox1;
@@ -376,9 +455,9 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.CheckBox FullDTypeCheckBox;
+        private System.Windows.Forms.Button SaveSettingsButton;
+        private System.Windows.Forms.Button CloseWithoutSaveButton;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.ListBox listBox2;
         private System.Windows.Forms.Button button7;
@@ -388,6 +467,12 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox ScanViewsCheckBox;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.CheckBox AddTHeaderCheckBox;
+        private System.Windows.Forms.CheckBox AddIndexesCheckBox;
+        private System.Windows.Forms.CheckBox AddForeingsCheckBox;
+        private System.Windows.Forms.CheckBox AddViewsCheckBox;
     }
 }

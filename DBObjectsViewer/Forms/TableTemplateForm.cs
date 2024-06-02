@@ -21,23 +21,25 @@ namespace DBObjectsViewer.Forms
         {
             InitializeComponent();
             PageLoading = true;
-            checkBox1.Checked = JSONWorker.TableTemplateData.AddIndexesInfo;
-            checkBox2.Checked = JSONWorker.TableTemplateData.AddForeignInfo;
-            checkBox3.Checked = JSONWorker.TableTemplateData.AllAboutDataType;
+            ScanIndexesCheckBox.Checked = JSONWorker.AppSettings.ScanIndexesInfo;
+            ScanForeignsCheckBox.Checked = JSONWorker.AppSettings.ScanForeignsInfo;
+            FullDTypeCheckBox.Checked = JSONWorker.AppSettings.AllAboutDataType;
+            AddForeingsCheckBox.Checked = JSONWorker.AppSettings.AddForeignsInfo;
+            AddIndexesCheckBox.Checked = JSONWorker.AppSettings.AddIndexesInfo;
 
-            SettingsCopy.NotSelectedColumns = new Dictionary<string, string>(JSONWorker.TableTemplateData.NotSelectedColumns);
-            SettingsCopy.SelectedColumns = new Dictionary<string, string>(JSONWorker.TableTemplateData.SelectedColumns);
-            SettingsCopy.TableTitle = new List<Tuple<string, string>>(JSONWorker.TableTemplateData.TableTitle);
-            SettingsCopy.IndexParamsColumnsNum = new Dictionary<string, int>(JSONWorker.TableTemplateData.IndexParamsColumnsNum);
+            SettingsCopy.NotSelectedColumns = new Dictionary<string, string>(JSONWorker.AppSettings.NotSelectedColumns);
+            SettingsCopy.SelectedColumns = new Dictionary<string, string>(JSONWorker.AppSettings.SelectedColumns);
+            SettingsCopy.TableTitle = new List<Tuple<string, string>>(JSONWorker.AppSettings.TableTitle);
+            SettingsCopy.IndexParamsColumnsNum = new Dictionary<string, int>(JSONWorker.AppSettings.IndexParamsColumnsNum);
 
-            foreach (string key in JSONWorker.TableTemplateData.NotSelectedColumns.Keys)
+            foreach (string key in JSONWorker.AppSettings.NotSelectedColumns.Keys)
             {
-                listBox1.Items.Add(JSONWorker.TableTemplateData.NotSelectedColumns[key]);
+                listBox1.Items.Add(JSONWorker.AppSettings.NotSelectedColumns[key]);
             }
 
-            foreach (string key in JSONWorker.TableTemplateData.SelectedColumns.Keys)
+            foreach (string key in JSONWorker.AppSettings.SelectedColumns.Keys)
             {
-                listBox2.Items.Add(JSONWorker.TableTemplateData.SelectedColumns[key]);
+                listBox2.Items.Add(JSONWorker.AppSettings.SelectedColumns[key]);
             }
 
             foreach (string key in AppConsts.Types.Keys)
@@ -54,20 +56,22 @@ namespace DBObjectsViewer.Forms
             PageLoading = false;
         }
 
-        public static Deserializers.TableTemplate SettingsCopy { get; set; } = new Deserializers.TableTemplate();
+        public static Deserializers.ScannerSettings SettingsCopy { get; set; } = new Deserializers.ScannerSettings();
 
         private static bool SavePressed { get; set; }
         private static bool CancelPressed { get; set; }
         private static bool PageLoading { get; set; }
         private static Dictionary<int, string> TableColumns { get; set;} = new Dictionary<int, string>();
 
-        private Deserializers.TableTemplate CopySettings(Deserializers.TableTemplate settings)
+        private Deserializers.ScannerSettings CopySettings(Deserializers.ScannerSettings settings)
         {
-            Deserializers.TableTemplate settingsCopy = new Deserializers.TableTemplate();
+            Deserializers.ScannerSettings settingsCopy = new Deserializers.ScannerSettings();
 
-            settingsCopy.AddIndexesInfo = settings.AddIndexesInfo;
-            settingsCopy.AddForeignInfo = settings.AddForeignInfo;
+            settingsCopy.ScanIndexesInfo = settings.ScanIndexesInfo;
+            settingsCopy.ScanForeignsInfo = settings.ScanForeignsInfo;
             settingsCopy.AllAboutDataType = settings.AllAboutDataType;
+            settingsCopy.AddForeignsInfo = settings.AddForeignsInfo;
+            settingsCopy.AddIndexesInfo = settings.AddIndexesInfo;
             settingsCopy.SelectedColumns = new Dictionary<string, string>(settings.SelectedColumns);
             settingsCopy.NotSelectedColumns = new Dictionary<string, string>(settings.NotSelectedColumns);
             settingsCopy.TableTitle = new List<Tuple<string, string>>(settings.TableTitle);
@@ -157,7 +161,7 @@ namespace DBObjectsViewer.Forms
             }
             
             // Выгрузка инфы по вторичным ключам
-            if (SettingsCopy.AddForeignInfo)
+            if (SettingsCopy.AddForeignsInfo)
             {
                 dataGridView1.RowCount++;
                 dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[0].Value = "Внешние ключи";
@@ -182,7 +186,7 @@ namespace DBObjectsViewer.Forms
                 case "name":
                     return fieldData.AtributeName;
                 case "data_type":
-                    if (checkBox3.Checked)
+                    if (FullDTypeCheckBox.Checked)
                     {
                         if (fieldData.MaxLength == -1)
                             return fieldData.DataType + "(MAX)";
@@ -233,13 +237,13 @@ namespace DBObjectsViewer.Forms
             return null;
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void SaveSettingsButton_Click(object sender, EventArgs e)
         {
             SavePressed = true;
 
             if (CheckUnsavedSettings())
             {
-                JSONWorker.TableTemplateData = CopySettings(SettingsCopy);
+                JSONWorker.AppSettings = CopySettings(SettingsCopy);
                 this.DialogResult = DialogResult.Yes;
             }
             else
@@ -298,17 +302,21 @@ namespace DBObjectsViewer.Forms
 
         private bool CheckUnsavedSettings()
         {
-            if (JSONWorker.TableTemplateData.AddIndexesInfo != SettingsCopy.AddIndexesInfo)
+            if (JSONWorker.AppSettings.ScanIndexesInfo != SettingsCopy.ScanIndexesInfo)
                 return true;
-            else if (JSONWorker.TableTemplateData.AddForeignInfo != SettingsCopy.AddForeignInfo)
+            else if (JSONWorker.AppSettings.ScanForeignsInfo != SettingsCopy.ScanForeignsInfo)
                 return true;
-            else if (JSONWorker.TableTemplateData.AllAboutDataType != SettingsCopy.AllAboutDataType)
+            else if (JSONWorker.AppSettings.AllAboutDataType != SettingsCopy.AllAboutDataType)
                 return true;
-            else if (CheckDictionary(JSONWorker.TableTemplateData.NotSelectedColumns, SettingsCopy.NotSelectedColumns))
+            else if (JSONWorker.AppSettings.AddForeignsInfo != SettingsCopy.AddForeignsInfo)
                 return true;
-            else if (CheckDictionary(JSONWorker.TableTemplateData.SelectedColumns, SettingsCopy.SelectedColumns))
+            else if (JSONWorker.AppSettings.AddIndexesInfo != SettingsCopy.AddIndexesInfo)
                 return true;
-            else if (CheckListOfTuples(JSONWorker.TableTemplateData.TableTitle, SettingsCopy.TableTitle))
+            else if (CheckDictionary(JSONWorker.AppSettings.NotSelectedColumns, SettingsCopy.NotSelectedColumns))
+                return true;
+            else if (CheckDictionary(JSONWorker.AppSettings.SelectedColumns, SettingsCopy.SelectedColumns))
+                return true;
+            else if (CheckListOfTuples(JSONWorker.AppSettings.TableTitle, SettingsCopy.TableTitle))
                 return true;
             return false;
         }
@@ -323,7 +331,7 @@ namespace DBObjectsViewer.Forms
                     {
                         if (MessageBox.Show("Настройки не были сохранены. Сохранить?", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                         {
-                            JSONWorker.TableTemplateData = CopySettings(SettingsCopy);
+                            JSONWorker.AppSettings = CopySettings(SettingsCopy);
                             this.DialogResult = DialogResult.Yes;
                         }
                         else
@@ -335,25 +343,35 @@ namespace DBObjectsViewer.Forms
             }
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void AddIndexesInfo_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsCopy.AddIndexesInfo = checkBox1.Checked;
+            SettingsCopy.AddIndexesInfo = AddIndexesCheckBox.Checked;
             if (!PageLoading)
                 LoadTableTemplate();
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        private void AddForeignsInfo_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsCopy.AddForeignInfo = checkBox2.Checked;
+            SettingsCopy.AddForeignsInfo = AddForeingsCheckBox.Checked;
             if (!PageLoading)
                 LoadTableTemplate();
         }
 
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        private void FullDTypeCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsCopy.AllAboutDataType = checkBox3.Checked;
+            SettingsCopy.AllAboutDataType = FullDTypeCheckBox.Checked;
             if (!PageLoading)
                 LoadTableTemplate();
+        }
+
+        private void ScanForeignsCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            SettingsCopy.ScanForeignsInfo = ScanForeignsCheckBox.Checked;
+        }
+
+        private void ScanIndexesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            SettingsCopy.ScanIndexesInfo = ScanIndexesCheckBox.Checked;
         }
 
         private void button7_Click(object sender, EventArgs e)
