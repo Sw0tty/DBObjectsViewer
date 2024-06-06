@@ -501,5 +501,20 @@ namespace DBObjectsViewer.Forms
             LoadComboBox(comboBox1.SelectedIndex + 1);
             LoadTableTemplate();
         }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("");
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("");
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("");
+        }
     }
 }

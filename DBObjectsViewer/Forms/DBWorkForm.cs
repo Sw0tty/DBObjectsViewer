@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using WordProcessing = DocumentFormat.OpenXml.Wordprocessing;
+using System.Linq;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 
 namespace DBObjectsViewer.Forms
@@ -106,7 +108,7 @@ namespace DBObjectsViewer.Forms
                         }
                         if (JSONWorker.AppSettings.AddForeignsInfo && data[key].Foreigns != null)
                         {
-                            tableData[dIndex] = new List<string>() { "Table foreigns" };
+                            tableData[dIndex] = new List<string>() { AppConsts.FieldsInfo[2] };
                             dIndex++;
                             foreach (Dictionary<string, string> obj in data[key].Foreigns)
                             {
@@ -116,7 +118,7 @@ namespace DBObjectsViewer.Forms
                         }
                         if (JSONWorker.AppSettings.AddIndexesInfo && data[key].Indexes != null)
                         {
-                            tableData[dIndex] = new List<string>() { "Table indexes" };
+                            tableData[dIndex] = new List<string>() { AppConsts.FieldsInfo[1] };
                             dIndex++;
                             foreach (Dictionary<string, string> obj in data[key].Indexes)
                             {
@@ -130,43 +132,44 @@ namespace DBObjectsViewer.Forms
                         run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text("Краткое описание:"))));
                         run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(""))));
                         WordProcessing.Table table = new WordProcessing.Table();
+                        UInt32Value tBorderSize = 1;
                         TableProperties props = new TableProperties(
                              new TableBorders(
                                  new WordProcessing.TopBorder // верх таблицы (строки, если одна)
                                  {
                                      Val = new EnumValue<BorderValues>(BorderValues.Single),
-                                     Size = 12
+                                     Size = tBorderSize
                                  },
                                  new WordProcessing.BottomBorder
                                  {
                                      Val = new EnumValue<BorderValues>(BorderValues.Single),
-                                     Size = 12
+                                     Size = tBorderSize
                                  },
                                  new WordProcessing.LeftBorder
                                  {
                                      Val = new EnumValue<BorderValues>(BorderValues.Single),
-                                     Size = 12
+                                     Size = tBorderSize
                                  },
                                  new WordProcessing.RightBorder
                                  {
                                      Val = new EnumValue<BorderValues>(BorderValues.Single),
-                                     Size = 12
+                                     Size = tBorderSize
                                  },
                                  new InsideHorizontalBorder
                                  {
                                      Val = new EnumValue<BorderValues>(BorderValues.Single),
-                                     Size = 12
+                                     Size = tBorderSize
                                  },
                                  new InsideVerticalBorder
                                  {
                                      Val = new EnumValue<BorderValues>(BorderValues.Single),
-                                     Size = 12
+                                     Size = tBorderSize
                                  }
                              ),
 /*                             new WordProcessing.GrowAutofit { Val },*/
                              new TableLayout { Type = TableLayoutValues.Autofit },
                              new TableWidth { Type = TableWidthUnitValues.Auto }
-                             );;
+                             );
 
                         table.AppendChild<WordProcessing.TableProperties>(props);
 
@@ -216,11 +219,22 @@ namespace DBObjectsViewer.Forms
                             for (var j = 0; j < tableHeader.Count; j++)
                             {
                                 var tCell = new TableCell();
-
+                            
                                 if (addHeader && i == 0)
                                     tCell.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(tableHeader[j].Item1))));
                                 else // Добалвение данных в ячейку
                                 {
+                                    //Paragraph pp = new Paragraph(new ParagraphProperties(new Justification() { Val = JustificationValues.Center}), new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? tableData[i][j] : "")));
+                                    ParagraphProperties centerP = new ParagraphProperties(new Justification() { Val = JustificationValues.Center });
+
+                                    if (tableData[i][j] == AppConsts.FieldsInfo[1])
+                                    {
+                                        tCell.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? tableData[i][j] : ""))));
+                                    }
+                                    else if (tableData[i][j] == AppConsts.FieldsInfo[2])
+                                    {
+
+                                    }
                                     tCell.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? tableData[i][j] : ""/*j < objData.Count ? objData[j] : ""*/))));
                                     /*if (objData.Count > 0)
                                         tc.Append(new DocumentFormat.OpenXml.Wordprocessing.Paragraph(new WordProcessing.Run(new WordProcessing.Text(tableData[i][j]*//*j < objData.Count ? objData[j] : ""*//*))));
@@ -230,8 +244,10 @@ namespace DBObjectsViewer.Forms
 
 
                                 // Assume you want columns that are automatically sized.
+                                /*tCell.Append(new TableCellProperties(
+                                    new TableCellWidth { Type = TableWidthUnitValues.Auto }));*/
                                 tCell.Append(new TableCellProperties(
-                                    new TableCellWidth { Type = TableWidthUnitValues.Auto }));
+                                    new TableCellWidth() { Type = TableWidthUnitValues.Dxa, Width = "9999" }));
 
                                 tRow.Append(tCell);
                             }
