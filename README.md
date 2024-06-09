@@ -32,7 +32,8 @@
 #### Инструкция по использованию 
 > - необходимо выбрать один из json файлов, которые были созданы до этого и имеют наименование формата - < имя >_< типбазы >_< уникальный_номер >
 При верном выборе будет создан файл с отчёт по объектам базы данных с расширением docx.
-> [!NOTE] Версия
+
+> [!NOTE]
 > Версия 1.0
 <br />
 <br />
@@ -71,5 +72,6 @@
 #### Instructions for use 
 > - it is necessary to select one of the json files that were created before and have the name of the format - < name >_< database type >_< unique number >
 If selected correctly, a file with a report on database objects with the docx extension will be created.
-> [!NOTE] Version
+
+> [!NOTE]
 > Version 1.0
