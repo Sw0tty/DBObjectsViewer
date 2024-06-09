@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Reflection;
-using DBObjectsViewer.Properties;
-using System.Runtime;
+using System.Collections.Generic;
+
 
 namespace DBObjectsViewer.Forms
 {
@@ -20,13 +10,17 @@ namespace DBObjectsViewer.Forms
         public TableTemplateForm()
         {
             InitializeComponent();
+            SettingsCopy = new Deserializers.ScannerSettings();
             PageLoading = true;
+            AddTHeaderCheckBox.Checked = JSONWorker.AppSettings.AddTableHeader;
             ScanIndexesCheckBox.Checked = JSONWorker.AppSettings.ScanIndexesInfo;
             ScanForeignsCheckBox.Checked = JSONWorker.AppSettings.ScanForeignsInfo;
             FullDTypeCheckBox.Checked = JSONWorker.AppSettings.AllAboutDataType;
             AddForeingsCheckBox.Checked = JSONWorker.AppSettings.AddForeignsInfo;
             AddIndexesCheckBox.Checked = JSONWorker.AppSettings.AddIndexesInfo;
 
+            SettingsCopy.ForeignsHeader = JSONWorker.AppSettings.ForeignsHeader;
+            SettingsCopy.IndexesHeader = JSONWorker.AppSettings.IndexesHeader;
             SettingsCopy.NotSelectedColumns = new Dictionary<string, string>(JSONWorker.AppSettings.NotSelectedColumns);
             SettingsCopy.SelectedColumns = new Dictionary<string, string>(JSONWorker.AppSettings.SelectedColumns);
             SettingsCopy.TableTitle = new List<Tuple<string, string>>(JSONWorker.AppSettings.TableTitle);
@@ -67,11 +61,14 @@ namespace DBObjectsViewer.Forms
         {
             Deserializers.ScannerSettings settingsCopy = new Deserializers.ScannerSettings();
 
+            settingsCopy.AddTableHeader = settings.AddTableHeader;
             settingsCopy.ScanIndexesInfo = settings.ScanIndexesInfo;
             settingsCopy.ScanForeignsInfo = settings.ScanForeignsInfo;
             settingsCopy.AllAboutDataType = settings.AllAboutDataType;
             settingsCopy.AddForeignsInfo = settings.AddForeignsInfo;
             settingsCopy.AddIndexesInfo = settings.AddIndexesInfo;
+            settingsCopy.ForeignsHeader = settings.ForeignsHeader;
+            settingsCopy.IndexesHeader = settings.IndexesHeader;
             settingsCopy.SelectedColumns = new Dictionary<string, string>(settings.SelectedColumns);
             settingsCopy.NotSelectedColumns = new Dictionary<string, string>(settings.NotSelectedColumns);
             settingsCopy.TableTitle = new List<Tuple<string, string>>(settings.TableTitle);
@@ -128,12 +125,15 @@ namespace DBObjectsViewer.Forms
             dataGridView1.ColumnCount = list.Count;
 
             TableColumns.Clear();
+
+            dataGridView1.ColumnHeadersVisible = AddTHeaderCheckBox.Checked;
+
             for (int d = 0; d < list.Count; d++)
             {
                 dataGridView1.Columns[d].HeaderText = list[d].Item1;
                 TableColumns[d] = list[d].Item2;
             }
-            
+
             // Выгрузка инфы по полям
             for (int i = 0; i < testData.Count; ++i)
             {
@@ -145,10 +145,10 @@ namespace DBObjectsViewer.Forms
             }
 
             // Выгрузка инфы по индексам
-            if (SettingsCopy.AddIndexesInfo)
+            if (AddIndexesCheckBox.Checked)
             {
                 dataGridView1.RowCount++;
-                dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[0].Value = "Индексы";
+                dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[0].Value = SettingsCopy.IndexesHeader;
 
                 for (int i = 0; i < testDataIndexes.Count; ++i)
                 {
@@ -161,10 +161,10 @@ namespace DBObjectsViewer.Forms
             }
             
             // Выгрузка инфы по вторичным ключам
-            if (SettingsCopy.AddForeignsInfo)
+            if (AddForeingsCheckBox.Checked)
             {
                 dataGridView1.RowCount++;
-                dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[0].Value = "Внешние ключи";
+                dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[0].Value = SettingsCopy.ForeignsHeader;
 
                 for (int i = 0; i < testDataForeigns.Count; ++i)
                 {
@@ -181,11 +181,11 @@ namespace DBObjectsViewer.Forms
         {
             switch (typeOfInfo)
             {
-                case "required":
+                case "Info":
                     return fieldData.Required;
-                case "name":
+                case "Attribute":
                     return fieldData.AtributeName;
-                case "data_type":
+                case "DataType":
                     if (FullDTypeCheckBox.Checked)
                     {
                         if (fieldData.MaxLength == -1)
@@ -248,15 +248,12 @@ namespace DBObjectsViewer.Forms
             }
             else
                 this.DialogResult = DialogResult.No;
-
-            this.Close();
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
             CancelPressed = true;
             this.DialogResult = DialogResult.Cancel;
-            this.Close();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -302,7 +299,9 @@ namespace DBObjectsViewer.Forms
 
         private bool CheckUnsavedSettings()
         {
-            if (JSONWorker.AppSettings.ScanIndexesInfo != SettingsCopy.ScanIndexesInfo)
+            if (JSONWorker.AppSettings.AddTableHeader != SettingsCopy.AddTableHeader)
+                return true;
+            else if (JSONWorker.AppSettings.ScanIndexesInfo != SettingsCopy.ScanIndexesInfo)
                 return true;
             else if (JSONWorker.AppSettings.ScanForeignsInfo != SettingsCopy.ScanForeignsInfo)
                 return true;
@@ -311,6 +310,10 @@ namespace DBObjectsViewer.Forms
             else if (JSONWorker.AppSettings.AddForeignsInfo != SettingsCopy.AddForeignsInfo)
                 return true;
             else if (JSONWorker.AppSettings.AddIndexesInfo != SettingsCopy.AddIndexesInfo)
+                return true;
+            else if (JSONWorker.AppSettings.ForeignsHeader != SettingsCopy.ForeignsHeader)
+                return true;
+            else if (JSONWorker.AppSettings.IndexesHeader != SettingsCopy.IndexesHeader)
                 return true;
             else if (CheckDictionary(JSONWorker.AppSettings.NotSelectedColumns, SettingsCopy.NotSelectedColumns))
                 return true;
@@ -341,6 +344,13 @@ namespace DBObjectsViewer.Forms
                     }
                 }
             }
+        }
+
+        private void AddTHeaderCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            SettingsCopy.AddTableHeader = AddTHeaderCheckBox.Checked;
+            if (!PageLoading)
+                LoadTableTemplate();
         }
 
         private void AddIndexesInfo_CheckedChanged(object sender, EventArgs e)
@@ -504,17 +514,38 @@ namespace DBObjectsViewer.Forms
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("");
+            EditGridForm editForm = new EditGridForm(data: SettingsCopy.ForeignsHeader, editType: AppConsts.EditTypeConsts.RowHeaderEdit);
+            DialogResult result = editForm.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                SettingsCopy.ForeignsHeader = editForm.ReturnRowHeader();
+                LoadTableTemplate();
+            }
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("");
+            EditGridForm editForm = new EditGridForm(data: SettingsCopy.IndexesHeader, editType: AppConsts.EditTypeConsts.RowHeaderEdit);
+            DialogResult result = editForm.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                SettingsCopy.IndexesHeader = editForm.ReturnRowHeader();
+                LoadTableTemplate();
+            }
         }
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("");
+            EditGridForm editForm = new EditGridForm(data: SettingsCopy.TableTitle, editType: AppConsts.EditTypeConsts.TableHeaderEdit);
+            DialogResult result = editForm.ShowDialog();
+            
+            if (result == DialogResult.OK)
+            {
+                SettingsCopy.TableTitle = AppUsedFunctions.DeepClone(editForm.ReturnHeader());
+                LoadTableTemplate();
+            }
         }
     }
 }

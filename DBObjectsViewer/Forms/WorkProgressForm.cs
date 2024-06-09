@@ -220,5 +220,15 @@ namespace DBObjectsViewer.Forms
             groupBox1.Text = e.UserState.ToString();
             progressBar1.Value = e.ProgressPercentage;
         }
+
+        private void ConvertJsonToWordBGWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //
+        }
+
+        private void ConvertJsonToWordBGWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            //
+        }
     }
 }

@@ -44,6 +44,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(281, 57);
             this.button3.TabIndex = 1;
+            this.button3.TabStop = false;
             this.button3.Text = "Настроить шаблон таблицы";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -78,6 +79,7 @@
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(125, 48);
             this.button9.TabIndex = 2;
+            this.button9.TabStop = false;
             this.button9.Text = "Oracle";
             this.button9.UseVisualStyleBackColor = true;
             // 
@@ -87,6 +89,7 @@
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(125, 48);
             this.button8.TabIndex = 1;
+            this.button8.TabStop = false;
             this.button8.Text = "PostgreSQL";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
@@ -98,6 +101,7 @@
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(125, 48);
             this.button7.TabIndex = 0;
+            this.button7.TabStop = false;
             this.button7.Text = "MySQL";
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);

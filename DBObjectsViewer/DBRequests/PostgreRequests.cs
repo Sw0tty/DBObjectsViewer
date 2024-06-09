@@ -13,7 +13,10 @@ namespace DBObjectsViewer
         public static string ColumnsInfo(string tableName, List<string> columns)
         {
             // COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT, CHARACTER_MAXIMUM_LENGTH
-            return $"SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT, CAST(CHARACTER_MAXIMUM_LENGTH as text) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'";
+            string request = $"SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT, CAST(CHARACTER_MAXIMUM_LENGTH as text) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'";
+            if (request.Contains("IS_NULLABLE"))
+                request = request.Replace("IS_NULLABLE", $"CASE WHEN IS_NULLABLE = 'NO' THEN '{AppConsts.DBConsts.RequiredInfo}' ELSE '{AppConsts.DBConsts.NonRequiredInfo}' END");
+            return request;
         }
 
         public static string TablesRequest(string schema)
@@ -31,6 +34,11 @@ namespace DBObjectsViewer
                    "NULL " +
                    "FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name AND tc.table_schema = kcu.table_schema JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name " +
                    $"WHERE tc.constraint_type = 'FOREIGN KEY' AND tc.table_schema = '{schema}' AND tc.table_name = '{tableName}'";
+        }
+
+        public static string TableIndexesRequest(string tableName)
+        {
+            return $"SELECT indexname, NULL, indexdef, NULL, NULL FROM pg_indexes WHERE tablename = '{tableName}'";
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DocumentFormat.OpenXml.Office2016.Excel;
+using System.Collections.Generic;
 
 
 namespace DBObjectsViewer
@@ -9,7 +10,10 @@ namespace DBObjectsViewer
         {
             // COLUMN_NAME, COLUMN_DEFAULT, IS_NULLABLE, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH
             // CASE WHEN IS_NULLABLE = 'YES' THEN 'Required' ELSE 'Non-required' END
-            return $"SELECT {string.Join(", ", columns)} FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'";
+            string request = $"SELECT {string.Join(", ", columns)} FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'";
+            if (request.Contains("IS_NULLABLE"))
+                request = request.Replace("IS_NULLABLE", $"CASE WHEN IS_NULLABLE = 'NO' THEN '{AppConsts.DBConsts.RequiredInfo}' ELSE '{AppConsts.DBConsts.NonRequiredInfo}' END");
+            return request;
         }
 
         public static string PrimaryKeyRequest(string tableName)

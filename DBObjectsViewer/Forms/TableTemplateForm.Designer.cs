@@ -33,6 +33,8 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.gridContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.ScanIndexesCheckBox = new System.Windows.Forms.CheckBox();
             this.ScanForeignsCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -63,8 +65,6 @@
             this.AddIndexesCheckBox = new System.Windows.Forms.CheckBox();
             this.AddTHeaderCheckBox = new System.Windows.Forms.CheckBox();
             this.AddForeingsCheckBox = new System.Windows.Forms.CheckBox();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.gridContextMenu.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -94,14 +94,28 @@
             this.toolStripMenuItem2,
             this.toolStripMenuItem3});
             this.gridContextMenu.Name = "gridContextMenu";
-            this.gridContextMenu.Size = new System.Drawing.Size(181, 92);
+            this.gridContextMenu.Size = new System.Drawing.Size(159, 70);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(158, 22);
             this.toolStripMenuItem1.Text = "Foreigns header";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(158, 22);
+            this.toolStripMenuItem2.Text = "Indexes header";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(158, 22);
+            this.toolStripMenuItem3.Text = "Table header";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // ScanIndexesCheckBox
             // 
@@ -412,13 +426,13 @@
             // AddTHeaderCheckBox
             // 
             this.AddTHeaderCheckBox.AutoSize = true;
-            this.AddTHeaderCheckBox.Enabled = false;
             this.AddTHeaderCheckBox.Location = new System.Drawing.Point(6, 19);
             this.AddTHeaderCheckBox.Name = "AddTHeaderCheckBox";
             this.AddTHeaderCheckBox.Size = new System.Drawing.Size(198, 17);
             this.AddTHeaderCheckBox.TabIndex = 23;
             this.AddTHeaderCheckBox.Text = "Добавить наименования колонок";
             this.AddTHeaderCheckBox.UseVisualStyleBackColor = true;
+            this.AddTHeaderCheckBox.CheckedChanged += new System.EventHandler(this.AddTHeaderCheckBox_CheckedChanged);
             // 
             // AddForeingsCheckBox
             // 
@@ -430,20 +444,6 @@
             this.AddForeingsCheckBox.Text = "Добавить информацию о вторичных ключах";
             this.AddForeingsCheckBox.UseVisualStyleBackColor = true;
             this.AddForeingsCheckBox.CheckedChanged += new System.EventHandler(this.AddForeignsInfo_CheckedChanged);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem2.Text = "Indexes header";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem3.Text = "Table header";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // TableTemplateForm
             // 

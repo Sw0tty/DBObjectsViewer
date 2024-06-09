@@ -134,6 +134,12 @@
     <Compile Include="Forms\DBWorkForm.Designer.cs">
       <DependentUpon>DBWorkForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\EditGridForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditGridForm.Designer.cs">
+      <DependentUpon>EditGridForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,6 +185,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DBWorkForm.resx">
       <DependentUpon>DBWorkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditGridForm.resx">
+      <DependentUpon>EditGridForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

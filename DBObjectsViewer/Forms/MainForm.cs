@@ -1,16 +1,6 @@
-﻿using Microsoft.Office.Interop.Word;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Windows.Forms;
-using Word = Microsoft.Office.Interop.Word;
 using DBObjectsViewer.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.Reflection.Emit;
-using System.Threading.Channels;
-using System.Windows.Forms.VisualStyles;
-using System.Data.SqlClient;
-using System.Xml.Serialization;
 
 
 namespace DBObjectsViewer

@@ -7,7 +7,7 @@ namespace DBObjectsViewer
     public static class AppConsts
     {
         public const string NoneType = "Пустая";
-        public static Dictionary<string, string> Types = new Dictionary<string, string>() { { "data_type", "Тип данных" }, { "required", "Обязательное поле" }, { "name", "Наименование атрибута" } };
+        public static Dictionary<string, string> Types = new Dictionary<string, string>() { { "DataType", "Тип данных" }, { "Info", "Обязательное поле" }, { "Attribute", "Наименование атрибута" } };
         public static List<string> FieldsInfo = new List<string>() { "COLUMN_NAME", "DATA_TYPE", "IS_NULLABLE", "COLUMN_DEFAULT", "CHARACTER_MAXIMUM_LENGTH" };
         public static int CountOfTablesInRequest = 100;
 
@@ -17,10 +17,18 @@ namespace DBObjectsViewer
             public static List<string> ColumnsHeaders = new List<string>() { "Attribute", "DataType", "Info", "DefaultValue", "MaxLength" };
         }
 
+        public static class EditTypeConsts
+        {
+            public const string TableHeaderEdit = "TABLE_HEADER";
+            public const string RowHeaderEdit = "ROW_HEADER";
+        }
+
         public static class DBConsts
         {
             public const string Schema = "public";
             public const string UnionCommand = "\nUNION ALL\n";
+            public const string RequiredInfo = "Required";
+            public const string NonRequiredInfo = "Non-required";
         }
 
         public static class FileDialogSupportedFormats

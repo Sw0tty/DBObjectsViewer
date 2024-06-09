@@ -103,9 +103,64 @@ namespace DBObjectsViewer
             return compositeRequests;
         }*/
 
+        /*if (addHeader && i == 0)
+    tCell.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(JSONWorker.AppSettings.TableTitle[j].Item1))));
+else // Добалвение данных в ячейку
+{
+    //Paragraph pp = new Paragraph(new ParagraphProperties(new Justification() { Val = JustificationValues.Center}), new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? tableData[i][j] : "")));
+    ParagraphProperties centerP = new ParagraphProperties(new Justification() { Val = JustificationValues.Center });
+
+    if (tableData[i][j] == AppConsts.FieldsInfo[1])
+    {
+        tCell.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? tableData[i][j] : ""))));
+    }
+    else if (tableData[i][j] == AppConsts.FieldsInfo[2])
+    {
+
+    }
+    tCell.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? tableData[i][j] : ""*//*j < objData.Count ? objData[j] : ""*//*))));
+    *//*if (objData.Count > 0)
+        tc.Append(new DocumentFormat.OpenXml.Wordprocessing.Paragraph(new WordProcessing.Run(new WordProcessing.Text(tableData[i][j]*//*j < objData.Count ? objData[j] : ""*//*))));
+    else
+        tc.Append(new DocumentFormat.OpenXml.Wordprocessing.Paragraph(new WordProcessing.Run(new WordProcessing.Text("TEST"))));*//*
+}*/
 
 
 
+        /*run.AppendChild(new WordProcessing.Text("Create text in body - CreateWordprocessingDocument"));
+
+        run.AppendChild(new Paragraph(new WordProcessing.Run(new WordProcessing.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "))));
+
+        run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Break() { Type = BreakValues.Page })));
+
+        run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "))));
+*/
+
+        /*                            List<string> objData = new List<string>();
+
+                            if (addHeader && i == 0)
+                            {
+
+                            }
+                            else
+                            {
+
+
+                                if (i - (addHeader ? 1 : 0) < rowsForFieldsInfo)
+                                {
+                                    objData.Add(data[key].FieldsInfo[i - (addHeader ? 1 : 0)]["Info"] == "NO" ? "*" : "");
+                                    objData.Add(data[key].FieldsInfo[i - (addHeader ? 1 : 0)]["Attribute"]);
+                                    objData.Add(data[key].FieldsInfo[i - (addHeader ? 1 : 0)]["DataType"]);
+                                }
+*//*                                else if (rowsForForeigns != 0 && i - (addHeader ? 1 : 0) < rowsForFieldsInfo + rowsForForeigns)
+                                {
+                                    objData.Add(data[key].Foreigns[i - (addHeader ? 1 : 0)]["Info"]);
+                                    objData.Add(data[key].Foreigns[i - (addHeader ? 1 : 0)]["Attribute"]);
+                                    objData.Add(data[key].Foreigns[i - (addHeader ? 1 : 0)]["DataType"]);
+                                    objData.Add(data[key].Foreigns[i - (addHeader ? 1 : 0)]["Info"]);
+                                }*//*
+
+                            }*/
 
         // for one table
         /*       use main;

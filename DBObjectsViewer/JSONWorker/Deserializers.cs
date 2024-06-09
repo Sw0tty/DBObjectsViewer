@@ -27,11 +27,14 @@ namespace DBObjectsViewer
 
         public class ScannerSettings // ScannerSettings
         {
+            public bool AddTableHeader { get; set; }
             public bool ScanIndexesInfo { get; set; }
             public bool ScanForeignsInfo { get; set; }
             public bool AddForeignsInfo { get; set; }
             public bool AddIndexesInfo { get; set; }
             public bool AllAboutDataType { get; set; }
+            public string ForeignsHeader { get; set; }
+            public string IndexesHeader { get; set; }
             public Dictionary<string, int> IndexParamsColumnsNum { get; set; }
             public Dictionary<string, string> SelectedColumns { get; set; }
             public Dictionary<string, string> NotSelectedColumns { get; set; }

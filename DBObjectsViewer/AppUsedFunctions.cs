@@ -94,8 +94,8 @@ namespace DBObjectsViewer
 
                         if (databaseType == AppConsts.DatabaseType.MySQL)
                             compositeRequest += SQLRequests.TableIndexesRequest(tableName);
-                        /* else if (databaseType == AppConsts.DatabaseType.PostgreSQL)
-                             compositeRequest += PostgreRequests.TableIndexesRequest(tableName);*/
+                        else if (databaseType == AppConsts.DatabaseType.PostgreSQL)
+                            compositeRequest += PostgreRequests.TableIndexesRequest(tableName);
                     }
                     if (JSONWorker.AppSettings.ScanForeignsInfo)
                     {
