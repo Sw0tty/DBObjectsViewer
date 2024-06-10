@@ -113,6 +113,7 @@
   <ItemGroup>
     <Compile Include="AppConsts.cs" />
     <Compile Include="AppUsedFunctions.cs" />
+    <Compile Include="AppWordProps.cs" />
     <Compile Include="DBConnectors\OracleConnector\OracleAdapters.cs" />
     <Compile Include="DBConnectors\OracleConnector\OracleBaseConnector.cs" />
     <Compile Include="DBConnectors\OracleConnector\OracleDBConnector.cs" />

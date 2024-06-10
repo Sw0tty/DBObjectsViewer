@@ -105,3 +105,4 @@ C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.DBS
 C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.DBWorkForm.resources
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.EditGridForm.resources
 D:\SharpProjects\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.csproj.CopyComplete
+C:\CharpProj\DBObjectsViewer\DBObjectsViewer\obj\Debug\DBObjectsViewer.Forms.EditGridForm.resources

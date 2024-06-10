@@ -70,13 +70,8 @@ namespace DBObjectsViewer.Forms
             else if (AppUsedFunctions.CheckSupportFormat(filePath))
             {
                 Tuple<string, string> pathParts = AppUsedFunctions.SplitPath(filePath);
-                //JSONWorker.LoadJson(pathParts.Item1, pathToFile: pathParts.Item2, defAppPath: false);
-                dynamic data = JSONWorker.LoadAndReturnJSON(pathParts.Item1, pathToFile: pathParts.Item2, defAppPath: false);
 
-                /*if (pathParts.Item1.Contains(AppConsts.DatabaseType.MySQL))
-                    data = JSONWorker.MySQLDatabaseInfo;
-                else if (pathParts.Item1.Contains(AppConsts.DatabaseType.PostgreSQL))
-                    data = JSONWorker.PostgreSQLDatabaseInfo;*/
+                dynamic data = JSONWorker.LoadAndReturnJSON(pathParts.Item1, pathToFile: pathParts.Item2, defAppPath: false);
 
                 FilesManager.CheckPath(AppConsts.DirsConsts.DirectoryOfWordFormatDatabaseDataFiles);
 
@@ -123,7 +118,6 @@ namespace DBObjectsViewer.Forms
                                     else
                                         fieldData.Add(obj[headerCol.Item2]);
                                 }
-                                    
                             }
                             tableData[dIndex] = new List<string>(fieldData);
                             //tableData[dIndex] = new List<string>() { obj["Info"] == AppConsts.DBConsts.RequiredInfo ? "*" : "", obj["Attribute"], obj["DataType"], "" };
@@ -155,46 +149,8 @@ namespace DBObjectsViewer.Forms
                         run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text("Краткое описание:"))));
                         run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(""))));
                         WordProcessing.Table table = new WordProcessing.Table();
-                        UInt32Value tBorderSize = 1;
-                        TableProperties props = new TableProperties(
-                             new TableBorders(
-                                 new WordProcessing.TopBorder
-                                 {
-                                     Val = new EnumValue<BorderValues>(BorderValues.Single),
-                                     Size = tBorderSize
-                                 },
-                                 new WordProcessing.BottomBorder
-                                 {
-                                     Val = new EnumValue<BorderValues>(BorderValues.Single),
-                                     Size = tBorderSize
-                                 },
-                                 new WordProcessing.LeftBorder
-                                 {
-                                     Val = new EnumValue<BorderValues>(BorderValues.Single),
-                                     Size = tBorderSize
-                                 },
-                                 new WordProcessing.RightBorder
-                                 {
-                                     Val = new EnumValue<BorderValues>(BorderValues.Single),
-                                     Size = tBorderSize
-                                 },
-                                 new InsideHorizontalBorder
-                                 {
-                                     Val = new EnumValue<BorderValues>(BorderValues.Single),
-                                     Size = tBorderSize
-                                 },
-                                 new InsideVerticalBorder
-                                 {
-                                     Val = new EnumValue<BorderValues>(BorderValues.Single),
-                                     Size = tBorderSize
-                                 }
-                             ),
-/*                             new WordProcessing.GrowAutofit { Val },*/
-                             new TableLayout { Type = TableLayoutValues.Autofit },
-                             new TableWidth { Type = TableWidthUnitValues.Auto }
-                             );
 
-                        table.AppendChild<WordProcessing.TableProperties>(props);
+                        table.AppendChild<WordProcessing.TableProperties>(AppWordProps.StandartTableProps());
 
 
                         int rowsCount = tableData.Count;
@@ -202,7 +158,7 @@ namespace DBObjectsViewer.Forms
                         // Количество строк
                         for (var i = 0; i < rowsCount; i++)
                         {
-                            var tRow = new WordProcessing.TableRow();
+                            var tRow = new TableRow();
 
                                 
 
@@ -214,46 +170,36 @@ namespace DBObjectsViewer.Forms
 
                                 if (tableData[i][0] == AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys[1])
                                 {
-                                    CenterValue(tCell);
-                                    tCell.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? JSONWorker.AppSettings.IndexesHeader : ""))));
+                                    tCell.Append(AppWordProps.HorizontalCenterCellValue());
+                                    tCell.Append(new Paragraph(AppWordProps.TableHeaderSpacing(), new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? JSONWorker.AppSettings.IndexesHeader : "")) { RunProperties = AppWordProps.BoldText() }));
                                     MergeRow(tCell);
                                 }
                                 else if (tableData[i][0] == AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys[2])
                                 {
-                                    CenterValue(tCell);
-                                    tCell.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? JSONWorker.AppSettings.ForeignsHeader : ""))));
+                                    tCell.Append(AppWordProps.HorizontalCenterCellValue());
+                                    tCell.Append(new Paragraph(AppWordProps.TableHeaderSpacing(), new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? JSONWorker.AppSettings.ForeignsHeader : "")) { RunProperties = AppWordProps.BoldText() }));
                                     MergeRow(tCell);
                                 }
                                 else if (i == 0 && JSONWorker.AppSettings.AddTableHeader)
                                 {
-                                    CenterValue(tCell);
-                                    tCell.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? tableData[i][j] : ""))));
+                                    tCell.Append(AppWordProps.HorizontalCenterCellValue());
+                                    tCell.Append(new Paragraph(AppWordProps.TableHeaderSpacing(), new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? tableData[i][j] : "")) { RunProperties = AppWordProps.BoldText() }));
                                 }
                                 else
-                                    tCell.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? tableData[i][j] : ""/*j < objData.Count ? objData[j] : ""*/))));
+                                    tCell.Append(new Paragraph(AppWordProps.TableDataSpacing(), new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? tableData[i][j] : ""/*j < objData.Count ? objData[j] : ""*/))));
 
-                                // Assume you want columns that are automatically sized.
-                                /*tCell.Append(new TableCellProperties(
-                                    new TableCellWidth { Type = TableWidthUnitValues.Auto }));*/
-                                tCell.Append(new TableCellProperties(
-                                    new TableCellWidth() { Type = TableWidthUnitValues.Dxa, Width = "9999" }));
-
+                                tCell.Append(AppWordProps.VerticalCenterCellValue());
+                                tCell.Append(AppWordProps.TableWidthOnPage());
                                 tRow.Append(tCell);
                             }
                             table.Append(tRow);
                         }
                         run.Append(table);
 
-                        run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Break() { Type = BreakValues.Page })));
+                        run.Append(AppWordProps.PageBreak());
                     }
                 }
             }
-        }
-        
-        private void CenterValue(TableCell tCell)
-        {
-            ParagraphProperties centerP = new ParagraphProperties(new Justification() { Val = JustificationValues.Center });
-            tCell.Append(centerP);
         }
 
         private void MergeRow(TableCell tCell)
