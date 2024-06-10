@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using Microsoft.Office.Interop.Word;
+using System.Linq;
+using System.Windows.Forms;
+using System.ComponentModel;
+using DocumentFormat.OpenXml;
+using System.Collections.Generic;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
+using WordProcessing = DocumentFormat.OpenXml.Wordprocessing;
 
 
 namespace DBObjectsViewer.Forms
@@ -27,7 +23,7 @@ namespace DBObjectsViewer.Forms
         /// connection - make work with requests and converting data to json <br/>
         /// fileInfo - scan excel file with data and converting in json. Item1 filePath, Item2 DBType
         /// </summary>
-        public WorkProgressForm(dynamic connection = null, Tuple<string, string> fileInfo = null)
+        public WorkProgressForm(dynamic connection = null, Tuple<string, string> fileInfo = null, Tuple<string, dynamic> jsonInfo = null)
         {
             InitializeComponent();
 
@@ -38,9 +34,10 @@ namespace DBObjectsViewer.Forms
 
             if (connection != null)
                 ScanDatabaseBGWorker.RunWorkerAsync();
-
-            if (fileInfo != null)
+            else if (fileInfo != null)
                 ConvertExcelToJsonDBWorker.RunWorkerAsync(fileInfo);
+            else if (jsonInfo != null)
+                ConvertJsonToWordBGWorker.RunWorkerAsync(jsonInfo);
         }
 
         private void CancelValues()
@@ -222,8 +219,147 @@ namespace DBObjectsViewer.Forms
         }
 
         private void ConvertJsonToWordBGWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            //
+        {          
+            Tuple<string, dynamic> args = (Tuple<string, dynamic>)e.Argument;
+            string workPath = args.Item1;
+            dynamic data = args.Item2;
+
+            // Create a document by supplying the filepath. 
+            using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(workPath + ".docx", WordprocessingDocumentType.Document))
+            {
+                // Add a main document part. 
+                MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+
+                // Create the document structure and add some text.
+                mainPart.Document = new Document();
+                Body body = mainPart.Document.AppendChild(new Body());
+                Paragraph para = body.AppendChild(new Paragraph());
+                WordProcessing.Run run = para.AppendChild(new WordProcessing.Run());
+
+                foreach (string key in data.Keys)
+                {
+                    Dictionary<int, List<string>> tableData = new Dictionary<int, List<string>>();
+                    int dIndex = 0;
+
+                    if (JSONWorker.AppSettings.AddTableHeader)
+                    {
+                        List<string> tableHeader = new List<string>();
+                        foreach (Tuple<string, string> headerCol in JSONWorker.AppSettings.TableTitle)
+                            tableHeader.Add(headerCol.Item1);
+                        tableData[dIndex] = tableHeader;
+                        dIndex++;
+                    }
+
+                    foreach (Dictionary<string, string> obj in data[key].FieldsInfo)
+                    {
+                        List<string> fieldData = new List<string>();
+                        foreach (Tuple<string, string> headerCol in JSONWorker.AppSettings.TableTitle)
+                        {
+                            if (headerCol.Item2 == null)
+                                fieldData.Add("");
+                            else
+                            {
+                                if (headerCol.Item2 == "Info")
+                                    fieldData.Add(obj[headerCol.Item2] == AppConsts.DBConsts.RequiredInfo ? "*" : "");
+                                else if (headerCol.Item2 == "DataType" && JSONWorker.AppSettings.AllAboutDataType && obj["MaxLength"].ToUpper() != "NULL")
+                                {
+                                    fieldData.Add(obj[headerCol.Item2] + $"({obj["MaxLength"]})");
+                                }
+                                else
+                                    fieldData.Add(obj[headerCol.Item2]);
+                            }
+                        }
+                        tableData[dIndex] = new List<string>(fieldData);
+                        //tableData[dIndex] = new List<string>() { obj["Info"] == AppConsts.DBConsts.RequiredInfo ? "*" : "", obj["Attribute"], obj["DataType"], "" };
+                        dIndex++;
+                    }
+                    if (JSONWorker.AppSettings.AddForeignsInfo && data[key].Foreigns != null)
+                    {
+                        tableData[dIndex] = new List<string>() { AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys[2] };
+                        dIndex++;
+                        foreach (Dictionary<string, string> obj in data[key].Foreigns)
+                        {
+                            tableData[dIndex] = new List<string>() { "", obj["Attribute"], obj["DataType"], obj["Info"] };
+                            dIndex++;
+                        }
+                    }
+                    if (JSONWorker.AppSettings.AddIndexesInfo && data[key].Indexes != null)
+                    {
+                        tableData[dIndex] = new List<string>() { AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys[1] };
+                        dIndex++;
+                        foreach (Dictionary<string, string> obj in data[key].Indexes)
+                        {
+                            tableData[dIndex] = new List<string>() { "", obj["Attribute"], obj["Info"], obj["DataType"] };
+                            dIndex++;
+                        }
+                    }
+
+                    /*                    Style style = new Style()
+                                        {
+                                            Type = StyleValues.Paragraph,
+                                            StyleId = styleid,
+                                            CustomStyle = true
+                                        };
+                                        StyleName styleName1 = new StyleName() { Val = "Heading1" };*/
+
+/*                    run.AppendChild(new Paragraph());
+                    run.Append(new WordProcessing.Text("Executive Summary"));
+                    run.Append( new ParagraphProperties(new ParagraphStyleId() { Val = "Heading1" }));*/
+
+                    
+                    run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(key))));
+                    run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(""))));
+                    run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text("Краткое описание:"))));
+                    run.Append(new Paragraph(new WordProcessing.Run(new WordProcessing.Text(""))));
+                    WordProcessing.Table table = new WordProcessing.Table();
+
+                    table.AppendChild<WordProcessing.TableProperties>(AppWordProps.StandartTableProps());
+
+                    int rowsCount = tableData.Count;
+
+                    // Количество строк
+                    for (var i = 0; i < rowsCount; i++)
+                    {
+                        var tRow = new TableRow();
+
+                        // Количество столбцов
+                        for (var j = 0; j < JSONWorker.AppSettings.TableTitle.Count; j++)
+                        {
+                            var tCell = new TableCell();
+
+
+                            if (tableData[i][0] == AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys[1])
+                            {
+                                tCell.Append(AppWordProps.HorizontalCenterCellValue());
+                                tCell.Append(new Paragraph(AppWordProps.TableHeaderSpacing(), new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? JSONWorker.AppSettings.IndexesHeader : "")) { RunProperties = AppWordProps.BoldText() }));
+                                AppWordProps.MergeRow(tCell);
+                            }
+                            else if (tableData[i][0] == AppConsts.DataBaseDataDeserializerConsts.TableInfoKeys[2])
+                            {
+                                tCell.Append(AppWordProps.HorizontalCenterCellValue());
+                                tCell.Append(new Paragraph(AppWordProps.TableHeaderSpacing(), new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? JSONWorker.AppSettings.ForeignsHeader : "")) { RunProperties = AppWordProps.BoldText() }));
+                                AppWordProps.MergeRow(tCell);
+                            }
+                            else if (i == 0 && JSONWorker.AppSettings.AddTableHeader)
+                            {
+                                tCell.Append(AppWordProps.HorizontalCenterCellValue());
+                                tCell.Append(new Paragraph(AppWordProps.TableHeaderSpacing(), new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? tableData[i][j] : "")) { RunProperties = AppWordProps.BoldText() }));
+                            }
+                            else
+                                tCell.Append(new Paragraph(AppWordProps.TableDataSpacing(), new WordProcessing.Run(new WordProcessing.Text(j < tableData[i].Count ? tableData[i][j] : ""/*j < objData.Count ? objData[j] : ""*/))));
+
+                            tCell.Append(AppWordProps.VerticalCenterCellValue());
+                            tCell.Append(AppWordProps.TableWidthOnPage());
+                            tRow.Append(tCell);
+                        }
+                        table.Append(tRow);
+                    }
+                    run.Append(table);
+
+                    run.Append(AppWordProps.PageBreak());
+                }
+            }
+            this.DialogResult = DialogResult.OK;
         }
 
         private void ConvertJsonToWordBGWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)

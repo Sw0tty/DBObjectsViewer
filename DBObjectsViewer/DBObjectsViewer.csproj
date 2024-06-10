@@ -111,9 +111,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppConsts.cs" />
-    <Compile Include="AppUsedFunctions.cs" />
-    <Compile Include="AppWordProps.cs" />
+    <Compile Include="AllAppConsts\AppConsts.cs" />
+    <Compile Include="AllAppConsts\AppUsedFunctions.cs" />
+    <Compile Include="AllAppConsts\AppWordProps.cs" />
     <Compile Include="DBConnectors\OracleConnector\OracleAdapters.cs" />
     <Compile Include="DBConnectors\OracleConnector\OracleBaseConnector.cs" />
     <Compile Include="DBConnectors\OracleConnector\OracleDBConnector.cs" />

@@ -1,10 +1,5 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Wordprocessing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace DBObjectsViewer
@@ -44,6 +39,24 @@ namespace DBObjectsViewer
         public static StyleParagraphProperties TableDataSpacing()
         {
             return new StyleParagraphProperties(new SpacingBetweenLines() { Before = "50", After = "50", Line = "200", LineRule = LineSpacingRuleValues.Exact });
+        }
+
+        public static void MergeRow(TableCell tCell)
+        {
+            TableCellProperties cellOneProperties = new TableCellProperties();
+            cellOneProperties.Append(new HorizontalMerge()
+            {
+                Val = MergedCellValues.Restart
+            });
+
+            TableCellProperties cellTwoProperties = new TableCellProperties();
+            cellTwoProperties.Append(new HorizontalMerge()
+            {
+                Val = MergedCellValues.Continue
+            });
+
+            tCell.Append(cellOneProperties);
+            tCell.Append(cellTwoProperties);
         }
 
         public static TableProperties StandartTableProps()
